@@ -1,4 +1,10 @@
 
 .vs/
-target
-Cargo.lock
+
+raytracer/.vs/
+raytracer/target
+raytracer/Cargo.lock
+
+raytracer-lib/.vs/
+raytracer-lib/target
+raytracer-lib/Cargo.lock
