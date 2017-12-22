@@ -1,7 +1,5 @@
 
-use vec::*;
-use material::*;
-use ray::*;
+use tracer::*;
 
 pub trait Intersectable {
 	fn normal_at(&self, point : Vec3d) -> Vec3d;

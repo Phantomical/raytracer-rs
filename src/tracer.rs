@@ -1,6 +1,9 @@
 
-use vec;
+pub use ray::*;
+pub use vec::*;
+pub use intersection::*;
+pub use material::*;
 
-pub struct Tracer {
+//pub struct Tracer {
 
-}
+//}
