@@ -2,8 +2,8 @@
 use vec::*;
 
 pub struct Ray {
-	origin    : Vec3d,
-	direction : Vec3d,
+	pub origin    : Vec3d,
+	pub direction : Vec3d,
 }
 
 impl Ray {
