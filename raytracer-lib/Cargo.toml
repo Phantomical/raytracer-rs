@@ -5,3 +5,4 @@ authors = ["swlynch <swlynch@uwaterloo.ca>"]
 
 [dependencies]
 cgmath = "0.15.0"
+image = "0.18.0"
