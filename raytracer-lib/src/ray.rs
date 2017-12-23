@@ -7,14 +7,14 @@ pub struct Ray {
 }
 
 impl Ray {
-	fn new(orig : Vec3d, dir : Vec3d) -> Ray {
+	pub fn new(orig : Vec3d, dir : Vec3d) -> Ray {
 		return Ray {
 			origin    : orig,
 			direction : normalize(dir)
 		};
 	}
 
-	fn point_at(&self, distance : f64) -> Vec3d {
+	pub fn point_at(&self, distance : f64) -> Vec3d {
 		return self.origin + self.direction * distance;
 	}
 }

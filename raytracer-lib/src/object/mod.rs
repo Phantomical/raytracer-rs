@@ -1,4 +1,6 @@
 
 mod traits;
+mod sphere;
 
-use self::traits::*;
+pub use self::traits::*;
+pub use self::sphere::*;

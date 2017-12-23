@@ -11,5 +11,5 @@ pub trait Raymarchable: Intersectable {
 }
 
 pub trait Analytical: Intersectable {
-	fn intersect(&self, ray : Ray) -> Option<Vec3d>;
+	fn nearest_intersect(&self, ray : Ray) -> Option<Vec3d>;
 }
