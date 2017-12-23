@@ -1,3 +1,9 @@
+
+mod object;
+mod material;
+
+mod vec;
+
 #[cfg(test)]
 mod tests {
     #[test]
