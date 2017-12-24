@@ -6,11 +6,13 @@ mod vec;
 mod ray;
 mod intersection;
 mod raymarcher;
+mod scene;
 
 pub use vec::*;
 pub use ray::*;
 pub use intersection::*;
 pub use raymarcher::*;
+pub use scene::*;
 
 
 #[cfg(test)]
