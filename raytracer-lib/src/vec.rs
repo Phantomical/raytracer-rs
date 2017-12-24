@@ -1,6 +1,9 @@
 
 extern crate cgmath;
 
+use self::cgmath::Vector3;
+use self::cgmath::BaseFloat;
+
 pub type Vec2d = cgmath::Vector2<f64>;
 pub type Vec3d = cgmath::Vector3<f64>;
 pub type Colour = cgmath::Vector3<f32>;
@@ -8,11 +11,33 @@ pub type Colour = cgmath::Vector3<f32>;
 pub use self::cgmath::dot;
 pub use self::cgmath::InnerSpace;
 
-pub fn norm2<T: cgmath::BaseFloat>(v : cgmath::Vector3<T>) -> T {
+pub fn norm2<T: BaseFloat>(v : Vector3<T>) -> T {
 	return dot(v, v);
 }
-pub fn norm<T: cgmath::BaseFloat>(v : cgmath::Vector3<T>) -> T {
+pub fn norm<T: BaseFloat>(v : Vector3<T>) -> T {
 	return norm2(v).sqrt();
 }
 
+/// Calculates the projection of x onto y.
+/// In mathematical notation this would be
+/// written as proj_y (x).
+/// 
+/// The projection of x onto y is the component
+/// of x that is parallel to y.
+/// 
+/// # Example
+/// ```
+/// let x = Vec3d::new(1.0, 1.0, 0.0);
+/// let y = Vec3d::new(1.0, 0.0, 0.0);
+/// 
+/// assert_eq!(proj(x, y), y);
+/// ```
+///
+pub fn proj(x : Vec3d, y : Vec3d) -> Vec3d {
+	return (dot(x, y) / norm2(y)) * y;
+}
+
+pub fn perp(x : Vec3d, y : Vec3d) -> Vec3d {
+	return x - proj(x, y);
+}
 
