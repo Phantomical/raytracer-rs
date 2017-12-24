@@ -38,9 +38,6 @@ impl Intersection {
 	pub fn roughness(&self) -> f32 {
 		return self.material.roughness(self.point);
 	}
-	pub fn metallicity(&self) -> f32 {
-		return self.material.metallicity(self.point);
-	}
 	pub fn reflectivity(&self) -> f32 {
 		return self.material.reflectivity(self.point);
 	}	

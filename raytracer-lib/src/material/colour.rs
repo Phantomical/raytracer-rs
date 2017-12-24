@@ -23,9 +23,6 @@ impl Material for Colour {
 	fn roughness(&self, _point : Vec3d) -> f32 {
 		return 0.0;
 	}
-	fn metallicity(&self, _point : Vec3d) -> f32 {
-		return 0.0;
-	}
 	fn reflectivity(&self, _point : Vec3d) -> f32 {
 		return 0.0;
 	}
