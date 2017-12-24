@@ -24,4 +24,11 @@ impl Raymarchable for Sphere {
 	fn distance(&self, point : Vec3d) -> f64 {
 		return norm(point - self.centre) - self.radius;
 	}
+
+	//fn analytical(&self) -> bool {
+	//	return true;
+	//}
+	fn intersect(&self, _ray : Ray) -> Option<Vec3d> {
+		unimplemented!();
+	}
 }

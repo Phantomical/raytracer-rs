@@ -1,5 +1,4 @@
 
-use vec::*;
 use ray::*;
 use intersection::*;
 use material::Material;

@@ -1,5 +1,6 @@
 
 use vec::*;
+use ray::*;
 
 const EPS : Vec2d = Vec2d{ x: 0.0, y: 0.000001 };
 
@@ -22,8 +23,16 @@ pub trait Raymarchable {
 			y: self.distance(point + xyx(EPS)) - self.distance(point - xyx(EPS)),
 			z: self.distance(point + xxy(EPS)) - self.distance(point - xxy(EPS))
 		});
-
 	}
 
 	fn distance(&self, point : Vec3d) -> f64;
+
+	// Indicates that the object can find intersections analytically
+	fn analytical(&self) -> bool {
+		return false;
+	}
+	// Finds the intersection analytically
+	fn intersect(&self, _ray : Ray) -> Option<Vec3d> {
+		unimplemented!();
+	}
 }
