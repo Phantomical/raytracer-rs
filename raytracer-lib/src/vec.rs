@@ -1,6 +1,7 @@
 
 extern crate cgmath;
 
+pub type Vec2d = cgmath::Vector2<f64>;
 pub type Vec3d = cgmath::Vector3<f64>;
 pub type Colour = cgmath::Vector3<f32>;
 
