@@ -10,7 +10,7 @@ impl Ray {
 	pub fn new(orig : Vec3d, dir : Vec3d) -> Ray {
 		return Ray {
 			origin    : orig,
-			direction : normalize(dir)
+			direction : dir.normalize()
 		};
 	}
 

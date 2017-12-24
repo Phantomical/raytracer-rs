@@ -19,7 +19,7 @@ impl Sphere {
 
 impl Raymarchable for Sphere {
 	fn normal_at(&self, point : Vec3d, _dir : Vec3d) -> Vec3d {
-		return normalize(point - self.centre);
+		return (point - self.centre).normalize();
 	}
 	fn distance(&self, point : Vec3d) -> f64 {
 		return norm(point - self.centre) - self.radius;
