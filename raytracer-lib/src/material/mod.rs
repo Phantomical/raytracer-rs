@@ -1,4 +1,4 @@
 
 mod traits;
 
-use self::traits::*;
+pub use self::traits::*;

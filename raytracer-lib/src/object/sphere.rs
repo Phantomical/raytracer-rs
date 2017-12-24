@@ -12,6 +12,15 @@ fn sqr(x : f64) -> f64 {
 	return x * x;
 }
 
+impl Sphere {
+	pub fn new(centre : Vec3d, radius : f64) -> Sphere {
+		return Sphere {
+			centre: centre,
+			radius: radius
+		}
+	}
+}
+
 impl Intersectable for Sphere {
 	fn normal_at(&self, point : Vec3d) -> Vec3d {
 		return normalize(point - self.centre);
@@ -47,5 +56,12 @@ impl Analytical for Sphere {
 		}
 
 		return Some(ray.point_at(d));
+	}
+}
+
+impl Raymarchable for Sphere {
+	// Distance is 
+	fn distance(&self, point : Vec3d) -> f64 {
+		return norm(point - self.centre) - self.radius;
 	}
 }
