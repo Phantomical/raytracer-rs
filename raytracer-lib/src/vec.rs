@@ -41,3 +41,18 @@ pub fn perp(x : Vec3d, y : Vec3d) -> Vec3d {
 	return x - proj(x, y);
 }
 
+/// Rotates a vector around an axis by and angle (in radians)
+/// Source: https://math.stackexchange.com/questions/511370/how-to-rotate-one-vector-about-another
+pub fn rotate(v : Vec3d, angle : f64, axis : Vec3d) -> Vec3d {
+	let par = proj(v, axis);
+	let perp = v - par;
+
+	let w = Vec3d::cross(axis, perp).normalize();
+	let pmag = norm(perp);
+
+	let f = angle.sin_cos();	
+	let rot = f.1 * perp + pmag * f.0 * w;
+
+	return rot + par;
+}
+
