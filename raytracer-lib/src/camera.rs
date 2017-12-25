@@ -1,5 +1,6 @@
 
 use vec::*;
+use ray::*;
 
 pub struct Camera {
 	pub position : Vec3d,
@@ -57,5 +58,12 @@ impl Camera {
 	/// The aspect ratio of the camera
 	pub fn aspect(&self) -> f64 {
 		return self.fov_x / self.fov_y;
+	}
+
+	/// Calculate a ray direction given screen coordinates
+	pub fn screen_ray(&self, point : Vec2d) -> Ray {
+		return Ray::new(self.position, 
+			rotate(self.forward, self.right, point.y * self.fov_y - self.fov_y * 0.5) +
+			rotate(self.forward, self.up, point.x * self.fov_x - self.fov_x * 0.5));
 	}
 }
