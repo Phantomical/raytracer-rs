@@ -1,5 +1,6 @@
 
 use vec::*;
+use ray::*;
 use camera::*;
 use raymarcher::*;
 use intersection::*;
@@ -34,15 +35,19 @@ impl Scene {
 		return isect.material.base_colour(isect.point);
 	}
 
-	pub fn trace_point(&self, point : Vec2d) -> Colour {
+	pub fn trace_ray(&self, ray : Ray) -> Colour {
 		let isect = raymarch(
-			self.camera.screen_ray(point),
+			ray,
 			&self.objects,
 			&self.options);
 		
 		return match isect {
-			None => self.background,
+			None        => self.background,
 			Some(isect) => self.isect_colour(&isect)				
 		}
+	}
+
+	pub fn trace_point(&self, point : Vec2d) -> Colour {
+		return self.trace_ray(self.camera.screen_ray(point));
 	}
 }
