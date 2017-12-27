@@ -1,7 +1,11 @@
 [package]
-name = "raytracer-lib"
+name = "raytracer"
 version = "0.1.0"
 authors = ["swlynch <swlynch@uwaterloo.ca>"]
+
+[lib]
+name = "raytracer"
+path = "src/lib.rs"
 
 [dependencies]
 cgmath = "0.15.0"

@@ -31,6 +31,10 @@ impl Scene {
 		};
 	}
 
+	pub fn add_object(&mut self, obj : (Arc<Raymarchable>, Arc<Material>)) {
+		self.objects.push(obj);
+	}
+
 	fn isect_colour(&self, isect : &Intersection) -> Colour {
 		return isect.material.base_colour(isect.point);
 	}
