@@ -4,12 +4,13 @@ extern crate cgmath;
 use self::cgmath::Vector3;
 use self::cgmath::BaseFloat;
 
+pub type Vec2u = cgmath::Vector2<u32>;
 pub type Vec2d = cgmath::Vector2<f64>;
 pub type Vec3d = cgmath::Vector3<f64>;
 pub type Colour = cgmath::Vector3<f32>;
 
 pub use self::cgmath::dot;
-pub use self::cgmath::InnerSpace;
+pub use self::cgmath::prelude::*;
 
 pub fn norm2<T: BaseFloat>(v : Vector3<T>) -> T {
 	return dot(v, v);
