@@ -1,11 +1,13 @@
 
 extern crate rand;
+extern crate image;
 
 use vec::*;
 use scene::*;
 use std::vec::Vec;
 
 use self::rand::{random, Closed01};
+use self::image::{Rgb, ImageBuffer};
 
 pub struct ImageDesc {
 	pub width  : u32,
@@ -14,11 +16,6 @@ pub struct ImageDesc {
 
 pub struct ImageOptions {
 	pub samples : u32,
-}
-
-pub struct Image {
-	pub desc   : ImageDesc,
-	pub pixels : Vec<u8>,
 }
 
 impl Clone for ImageDesc {
@@ -73,31 +70,24 @@ pub fn render_pixel(
 pub fn trace_image(
 	desc  : ImageDesc,
 	opts  : ImageOptions,
-	scene : &Scene) -> Image 
+	scene : &Scene) -> ImageBuffer<Rgb<u8>, Vec<u8>>
 {
-	let mut pixels : Vec<u8> = Vec::new();
+	let mut imagebuf = ImageBuffer::new(desc.width, desc.height);
+	
+	for (x, y, pixel) in imagebuf.enumerate_pixels_mut() {
+		let colour = render_pixel(
+			&Vec2u{ x: x, y: y },
+			&desc,
+			&opts,
+			scene);
 
-	pixels.resize((desc.width * desc.height * 3) as usize, 0);
-
-	for y in 0..desc.height {
-		for x in 0..desc.width {
-			let colour = render_pixel(
-				&Vec2u{ x: x, y: y },
-				&desc,
-				&opts,
-				scene);
-
-			pixels[((y * desc.width + x) * 3 + 0) as usize] 
-				= (colour.x * 256.0) as u8;
-			pixels[((y * desc.width + x) * 3 + 1) as usize]
-				= (colour.y * 256.0) as u8;
-			pixels[((y * desc.width + x) * 3 + 2) as usize]
-				= (colour.z * 256.0) as u8;
-		}
+		*pixel = Rgb{ 
+			data: [
+				(colour.x * 255.0) as u8,
+				(colour.y * 255.0) as u8, 
+				(colour.z * 255.0) as u8] 
+		};
 	}
 
-	return Image {
-		desc   : desc,
-		pixels : pixels
-	};
+	return imagebuf;
 }
