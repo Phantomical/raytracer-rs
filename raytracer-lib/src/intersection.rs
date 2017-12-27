@@ -1,8 +1,7 @@
 
-use vec::*;
-use ray::*;
 use std::sync::Arc;
 
+use lib::*;
 use material::Material;
 use object::Raymarchable;
 

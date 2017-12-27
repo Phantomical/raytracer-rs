@@ -1,22 +1,22 @@
 
-use vec::*;
+use lib::Colour;
 
 macro_rules! hex {
 	($e:expr) => (Colour {
-		x: (((($e as u32) & 0xFF0000) >> 16) as f32) / 256.0,
-		y: (((($e as u32) & 0x00FF00) >> 08) as f32) / 256.0,
-		z: (((($e as u32) & 0x0000FF) >> 00) as f32) / 256.0,
+		x: (((($e as u32) & 0xFF0000) >> 16) as f32) / 255.0,
+		y: (((($e as u32) & 0x00FF00) >> 08) as f32) / 255.0,
+		z: (((($e as u32) & 0x0000FF) >> 00) as f32) / 255.0,
 	});
 }
 
 pub fn hex(colour : u32) -> Colour {
 	return Colour {
-		x: (((colour & 0xFF0000) >> 16) as f32) / 256.0,
-		y: (((colour & 0x00FF00) >> 08) as f32) / 256.0,
-		z: (((colour & 0x0000FF) >> 00) as f32) / 256.0,
+		x: (((colour & 0xFF0000) >> 16) as f32) / 255.0,
+		y: (((colour & 0x00FF00) >> 08) as f32) / 255.0,
+		z: (((colour & 0x0000FF) >> 00) as f32) / 255.0,
 	};
 }
-
+// Some predefined colours. Goal: Have all HTML colours
 pub const BLACK   : Colour = hex!(0x000000);
 pub const WHITE   : Colour = hex!(0xFFFFFF);
 pub const RED     : Colour = hex!(0xFF0000);

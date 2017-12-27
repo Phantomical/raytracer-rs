@@ -11,7 +11,6 @@ mod raymarcher;
 mod scene;
 mod camera;
 mod image;
-mod lib;
 
 pub use vec::*;
 pub use ray::*;
@@ -21,6 +20,9 @@ pub use scene::*;
 pub use camera::*;
 pub use image::*;
 
+mod lib {
+	pub use ::*;
+}
 
 #[cfg(test)]
 mod tests {

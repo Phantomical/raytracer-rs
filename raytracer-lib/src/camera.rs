@@ -1,6 +1,5 @@
 
-use vec::*;
-use ray::*;
+use lib::*;
 use std::f64::consts::PI;
 
 pub struct Camera {

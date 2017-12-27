@@ -2,8 +2,7 @@
 extern crate rand;
 extern crate image;
 
-use vec::*;
-use scene::*;
+use lib::*;
 use std::vec::Vec;
 
 use self::rand::{random, Closed01};

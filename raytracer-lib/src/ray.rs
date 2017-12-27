@@ -1,6 +1,5 @@
 
-use vec::Vec3d;
-use vec::InnerSpace;
+use lib::{InnerSpace, Vec3d};
 
 pub struct Ray {
 	pub origin    : Vec3d,

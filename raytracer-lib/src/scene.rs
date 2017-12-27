@@ -1,9 +1,5 @@
 
-use vec::*;
-use ray::*;
-use camera::*;
-use raymarcher::*;
-use intersection::*;
+use lib::*;
 use material::Material;
 use object::Raymarchable;
 

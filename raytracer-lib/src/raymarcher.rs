@@ -1,11 +1,10 @@
 
-use ray::*;
-use intersection::*;
+use lib::*;
 use material::Material;
 use object::Raymarchable;
 
-use std::sync::Arc;
 use std;
+use std::sync::Arc;
 
 pub struct RaymarchOptions {
 	// The maximum distance out to which a ray will be traced
