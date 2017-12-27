@@ -2,6 +2,7 @@
 pub mod object;
 pub mod material;
 pub mod colours;
+pub mod lights;
 
 mod vec;
 mod ray;
@@ -10,6 +11,7 @@ mod raymarcher;
 mod scene;
 mod camera;
 mod image;
+mod lib;
 
 pub use vec::*;
 pub use ray::*;
