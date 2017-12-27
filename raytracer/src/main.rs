@@ -7,8 +7,8 @@ use raytracer::colours;
 use raytracer::material::*;
 use raytracer::object::*;
 
-
-use image::*;
+use std::env;
+use std::fs::File;
 
 use std::sync::Arc;
 
@@ -38,14 +38,27 @@ fn create_scene() -> Scene {
 }
 
 fn main() {
+	let args : Vec<_> = env::args().collect();
+
+	if args.len() < 2 {
+		println!("Usage: raytracer <output-file>");
+		return;
+	}
+
 	let desc = ImageDesc {
-		width:  1080,
-		height: 720
+		width:  4,
+		height: 3
 	};
 	let opts = ImageOptions {
 		samples: 50
 	};
     let scene = create_scene();
 
-	let image = trace_image(desc, opts, &scene);
+	let image_val = trace_image(desc, opts, &scene);
+
+	let ref mut file = File::create(args[1].clone()).unwrap();
+
+	image::ImageRgb8(image_val)
+		.save(file, image::PNG)
+		.unwrap();
 }

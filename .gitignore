@@ -4,7 +4,9 @@
 raytracer/.vs/
 raytracer/target
 raytracer/Cargo.lock
+raytracer/.vscode
 
 raytracer-lib/.vs/
 raytracer-lib/target
 raytracer-lib/Cargo.lock
+raytracer-lib/.vscode
