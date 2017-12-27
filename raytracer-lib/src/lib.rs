@@ -1,6 +1,7 @@
 
 pub mod object;
 pub mod material;
+pub mod colours;
 
 mod vec;
 mod ray;

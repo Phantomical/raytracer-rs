@@ -15,6 +15,15 @@ pub struct RaymarchOptions {
 	pub intersect_distance : f64
 }
 
+impl Default for RaymarchOptions {
+	fn default() -> Self {
+		return Self {
+			max_distance: 1.0e6,
+			intersect_distance: 1.0e-4
+		};
+	}
+}
+
 pub fn raymarch(
 	ray : Ray, 
 	objects : &[(Arc<Raymarchable>, Arc<Material>)], 

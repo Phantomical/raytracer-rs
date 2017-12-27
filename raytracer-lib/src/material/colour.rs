@@ -1,22 +1,21 @@
 
-use vec;
-use vec::Vec3d;
+use vec::{Vec3d, Colour};
 use material::Material;
 
-pub struct Colour {
-	pub colour : vec::Colour
+pub struct SolidColour {
+	pub colour : Colour
 }
 
-impl Colour {
-	pub fn new(colour : vec::Colour) -> Colour {
-		return Colour {
+impl SolidColour {
+	pub fn new(colour : Colour) -> Self {
+		return Self {
 			colour: colour
 		};
 	}
 }
 
-impl Material for Colour {
-	fn base_colour(&self, _point : Vec3d) -> vec::Colour {
+impl Material for SolidColour {
+	fn base_colour(&self, _point : Vec3d) -> Colour {
 		return self.colour;
 	}
 
