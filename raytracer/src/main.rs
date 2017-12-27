@@ -28,7 +28,7 @@ fn create_scene() -> Scene {
 		max_distance: 1.0e8,
 		..Default::default()
 	};
-	let colour = colours::RED;
+	let colour = colours::BLACK;
 
 	let mut scene = Scene::new(camera, opts, colour);
 
@@ -46,8 +46,8 @@ fn main() {
 	}
 
 	let desc = ImageDesc {
-		width:  4,
-		height: 3
+		width:  400,
+		height: 300
 	};
 	let opts = ImageOptions {
 		samples: 50
