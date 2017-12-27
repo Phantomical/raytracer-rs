@@ -1,6 +1,10 @@
 [package]
-name = "raytracer"
+name = "raytracer-exe"
 version = "0.1.0"
 authors = ["swlynch <swlynch@uwaterloo.ca>"]
 
 [dependencies]
+image = "0.18.0"
+
+[dependencies.raytracer]
+path = "../raytracer-lib"
