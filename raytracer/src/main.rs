@@ -46,8 +46,8 @@ fn main() {
 	}
 
 	let desc = ImageDesc {
-		width:  400,
-		height: 300
+		width:  4000,
+		height: 3000
 	};
 	let opts = ImageOptions {
 		samples: 50
