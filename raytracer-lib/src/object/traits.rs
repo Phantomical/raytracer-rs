@@ -14,7 +14,7 @@ fn xxy(v : Vec2d) -> Vec3d {
 	return Vec3d { x: v.x, y: v.x, z: v.y };
 }
 
-pub trait Raymarchable {
+pub trait Raymarchable: Sync + Send {
 	fn normal_at(&self, point : Vec3d, _direction : Vec3d) -> Vec3d {
 		// Normal approximation using gradient method
 

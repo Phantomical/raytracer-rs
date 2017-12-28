@@ -72,7 +72,7 @@ pub fn trace_image(
 	scene : &Scene) -> ImageBuffer<Rgb<u8>, Vec<u8>>
 {
 	let mut imagebuf = ImageBuffer::new(desc.width, desc.height);
-	
+
 	for (x, y, pixel) in imagebuf.enumerate_pixels_mut() {
 		let colour = render_pixel(
 			&Vec2u{ x: x, y: y },
