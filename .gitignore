@@ -10,3 +10,8 @@ raytracer-lib/.vs/
 raytracer-lib/target
 raytracer-lib/Cargo.lock
 raytracer-lib/.vscode
+
+scheduler/.vs/
+scheduler/target
+scheduler/Cargo.lock
+scheduler/.vscode
