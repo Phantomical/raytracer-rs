@@ -2,7 +2,7 @@
 pub mod object;
 pub mod material;
 pub mod colours;
-pub mod lights;
+pub mod light;
 
 mod vec;
 mod ray;
