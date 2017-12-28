@@ -1,9 +1,18 @@
 
-use lib::{InnerSpace, Vec3d};
+use lib::*;
 
 pub struct Ray {
 	pub origin    : Vec3d,
 	pub direction : Vec3d,
+}
+
+impl Default for Ray {
+	fn default() -> Self {
+		return Self {
+			origin:    Vec3d::zero(),
+			direction: -Vec3d::unit_z()
+		};
+	}
 }
 
 impl Ray {
