@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["swlynch <swlynch@uwaterloo.ca>"]
 
 [dependencies]
-future = "0.1.14"
+multimap = "0.4.*"

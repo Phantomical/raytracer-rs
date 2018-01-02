@@ -1,10 +1,15 @@
 
-mod future;
+#![feature(generators, generator_trait)]
+#![feature(refcell_replace_swap)]
 
-pub use future::*;
+extern crate multimap;
+
+mod scheduler;
+
+pub use scheduler::*;
 
 mod lib {
-	pub use ::*;
+	//pub use ::*;
 }
 
 #[cfg(test)]

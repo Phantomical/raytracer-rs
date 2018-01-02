@@ -1,12 +1,17 @@
 
 extern crate rand;
 extern crate image;
+extern crate num_cpus;
+extern crate threadpool;
 
 use lib::*;
 use std::vec::Vec;
+use std::sync::{Mutex, Arc};
+use std::sync::mpsc::channel;
 
 use self::rand::{random, Closed01};
 use self::image::{Rgb, ImageBuffer};
+use self::threadpool::*;
 
 pub struct ImageDesc {
 	pub width  : u32,
@@ -69,24 +74,44 @@ pub fn render_pixel(
 pub fn trace_image(
 	desc  : ImageDesc,
 	opts  : ImageOptions,
-	scene : &Scene) -> ImageBuffer<Rgb<u8>, Vec<u8>>
+	scene : Arc<Scene>) -> ImageBuffer<Rgb<u8>, Vec<u8>>
 {
-	let mut imagebuf = ImageBuffer::new(desc.width, desc.height);
+	let imagebuf = Arc::new(Mutex::new(ImageBuffer::new(desc.width, desc.height)));
+	let (tx, rx) = channel();
+	let pool = ThreadPool::new(num_cpus::get());
 
-	for (x, y, pixel) in imagebuf.enumerate_pixels_mut() {
-		let colour = render_pixel(
-			&Vec2u{ x: x, y: y },
-			&desc,
-			&opts,
-			scene);
+	for y in 0..desc.height {
+		pool.execute({
+			let imagebuf = Arc::clone(&imagebuf);
+			let scene = Arc::clone(&scene);
+			let tx = tx.clone();
+			move || {
+				for x in 0..desc.width {
+					let colour = render_pixel(
+						&Vec2u{ x: x, y: y },
+						&desc,
+						&opts,
+						&*scene);
 
-		*pixel = Rgb{ 
-			data: [
-				(colour.x * 255.0) as u8,
-				(colour.y * 255.0) as u8, 
-				(colour.z * 255.0) as u8] 
-		};
+					let ref mut img = imagebuf.lock().unwrap();
+
+					(*img).put_pixel(x, y, Rgb{ 
+						data: [
+							(colour.x * 255.0) as u8,
+							(colour.y * 255.0) as u8, 
+							(colour.z * 255.0) as u8] 
+					});
+				}
+
+				tx.send(1).expect("Channel is present");
+			}
+		});
 	}
 
-	return imagebuf;
+	for _ in rx.iter().take(desc.height as usize) {}
+
+	return Arc::try_unwrap(imagebuf)
+		.expect("Lock stull has multiple owners")
+		.into_inner()
+		.expect("Mutex cannot be locked");
 }

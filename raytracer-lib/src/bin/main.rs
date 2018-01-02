@@ -52,9 +52,9 @@ fn main() {
 	let opts = ImageOptions {
 		samples: 50
 	};
-    let scene = create_scene();
+    let scene = Arc::new(create_scene());
 
-	let image_val = trace_image(desc, opts, &scene);
+	let image_val = trace_image(desc, opts, scene);
 
 	let ref mut file = File::create(args[1].clone()).unwrap();
 
