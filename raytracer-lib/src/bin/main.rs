@@ -6,17 +6,21 @@ use raytracer::*;
 use raytracer::colours;
 use raytracer::material::*;
 use raytracer::object::*;
+use raytracer::light::*;
 
 use std::env;
 use std::fs::File;
 
 use std::sync::Arc;
 
-fn make_red_sphere() -> (Arc<Raymarchable>, Arc<Material>) {
+fn make_sphere(colour : Colour, pos : Vec3d) -> (Arc<Raymarchable>, Arc<Material>) {
 	return (
-		Arc::new(Sphere::new(Vec3d::zero(), 1.0)),
-		Arc::new(SolidColour::new(colours::RED))
+		Arc::new(Sphere::new(pos, 1.0)),
+		Arc::new(SolidColour::new(colour))
 	);
+}
+fn make_directional_light() -> Arc<Light> {
+	return Arc::new(DirectionalLight::new(Vec3d::new(0.0, -1.0, 1.0)));
 }
 
 fn create_scene() -> Scene {
@@ -24,6 +28,7 @@ fn create_scene() -> Scene {
 		.position(Vec3d::new(0.0, 0.0, -10.0))
 		.orthonormalize()
 		.unwrap();
+
 	let opts = RaymarchOptions {
 		max_distance: 1.0e8,
 		..Default::default()
@@ -32,7 +37,11 @@ fn create_scene() -> Scene {
 
 	let mut scene = Scene::new(camera, opts, colour);
 
-	scene.add_object(make_red_sphere());
+	scene.add_object(make_sphere(colours::RED, Vec3d::zero()));
+	scene.add_object(make_sphere(colours::GREEN, Vec3d::new(0.0, 5.5, -5.0)));
+
+	scene.add_light(make_directional_light());
+	scene.add_light(Arc::new(AmbientLight::new(Colour::new(1.0, 1.0, 1.0) * 0.1)));
 
 	return scene;
 }
@@ -46,8 +55,8 @@ fn main() {
 	}
 
 	let desc = ImageDesc {
-		width:  4000,
-		height: 3000
+		width:  1000,
+		height: 750
 	};
 	let opts = ImageOptions {
 		samples: 50

@@ -15,3 +15,8 @@ scheduler/.vs/
 scheduler/target
 scheduler/Cargo.lock
 scheduler/.vscode
+
+vector/.vs/
+vector/target
+vector/Cargo.lock
+vector/.vscode
