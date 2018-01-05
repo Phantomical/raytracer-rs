@@ -28,12 +28,12 @@ macro_rules! implement_fixed_vector {
 			}
 
 			impl<T: Sized + Copy + Default> $name<T> {
-				pub fn new(dat : [T; $dims]) -> Self {
+				pub const fn new(dat : [T; $dims]) -> Self {
 					return Self {
 						data: dat
 					};
 				}
-				pub fn single_element(elem : T) -> Self {
+				pub const fn single_element(elem : T) -> Self {
 					return Self {
 						data: [elem; $dims]
 					};
@@ -165,12 +165,12 @@ macro_rules! implement_fixed_vector {
 implement_fixed_vector!(vec2, Vec2, 2);
 implement_fixed_vector!(vec3, Vec3, 3);
 implement_fixed_vector!(vec4, Vec4, 4);
-//implement_fixed_vector!(vec5, Vec5, 5);
-//implement_fixed_vector!(vec6, Vec6, 6);
-//implement_fixed_vector!(vec7, Vec7, 7);
-//implement_fixed_vector!(vec8, Vec8, 8);
-//implement_fixed_vector!(vec9, Vec9, 9);
-//implement_fixed_vector!(vec10, Vec10, 10);
+implement_fixed_vector!(vec5, Vec5, 5);
+implement_fixed_vector!(vec6, Vec6, 6);
+implement_fixed_vector!(vec7, Vec7, 7);
+implement_fixed_vector!(vec8, Vec8, 8);
+implement_fixed_vector!(vec9, Vec9, 9);
+implement_fixed_vector!(vec10, Vec10, 10);
 
 
 use prelude::{HasX, HasY, HasZ, HasW};

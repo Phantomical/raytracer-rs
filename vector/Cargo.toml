@@ -5,3 +5,6 @@ authors = ["swlynch <swlynch@uwaterloo.ca>"]
 
 [dependencies]
 num = "0.1"
+
+[features]
+colour = []

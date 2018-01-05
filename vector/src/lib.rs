@@ -1,5 +1,6 @@
 
 #![feature(specialization)]
+#![feature(const_fn)]
 
 extern crate num;
 
@@ -14,10 +15,10 @@ pub mod prelude {
 pub use functions::*;
 pub use vecmacro::*;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+#[cfg(feature = "colour")]
+mod colour;
+#[cfg(feature = "colour")]
+pub mod colours;
+
+#[cfg(feature = "colour")]
+pub use colour::Colour;
