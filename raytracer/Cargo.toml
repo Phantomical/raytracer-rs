@@ -1,0 +1,11 @@
+[package]
+name = "raytracer"
+version = "0.1.0"
+authors = ["swlynch <swlynch@uwaterloo.ca>"]
+
+[dependencies]
+rand = "^0.4"
+image = "^0.18"
+threadpool = "^1.7"
+num_cpus = "^1.0"
+vector = { path = "../vector" }
