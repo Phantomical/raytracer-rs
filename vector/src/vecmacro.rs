@@ -40,22 +40,39 @@ macro_rules! implement_fixed_vector {
 				}
 			}
 
-			impl<T: Ring> Add for $name<T> {
-				type Output = Self;
+			impl<T: Ring> Add for $name<T>
+				where <T as Add>::Output: Ring
+			{
+				type Output = $name<<T as Add>::Output>;
 
-				fn add(self, rhs: Self) -> Self {
-					let mut vec = $name::default();
+				fn add(self, rhs: Self) -> Self::Output {
+					let mut vec = Self::Output::default();
 					for i in 0..$dims{
 						vec.data[i] = self.data[i] + rhs.data[i];
 					}
 					return vec;
 				}
 			}
-			impl<T: Ring> Mul<T> for $name<T> {
-				type Output = Self;
+			impl<T: Field> Sub for $name<T>
+				where <T as Sub>::Output: Ring
+			{
+				type Output = $name<<T as Sub>::Output>;
+				
+				fn sub(self, rhs: Self) -> Self::Output {
+					let mut vec = Self::Output::default();
+					for i in 0..$dims{
+						vec.data[i] = self.data[i] - rhs.data[i];
+					}
+					return vec;
+				}
+			}
+			impl<T: Ring> Mul<T> for $name<T> 
+				where <T as Mul>::Output: Ring
+			{
+				type Output = $name<<T as Mul>::Output>;
 
-				fn mul(self, rhs: T) -> Self {
-					let mut vec = $name::default();
+				fn mul(self, rhs: T) -> Self::Output {
+					let mut vec = Self::Output::default();
 					for i in 0..$dims{
 						vec.data[i] = self.data[i] * rhs;
 					}
@@ -71,6 +88,8 @@ macro_rules! implement_fixed_vector {
 			impl<T: Eq + Sized + Copy + Default> Eq for $name<T> {}
 
 			impl<T: Ring> VectorSpace<T> for $name<T> {}
+			impl<T: Field> VectorField<T> for $name<T>
+				where <T as Sub>::Output: Ring {}
 
 			impl<T: Ring> Zero for $name<T> {
 				fn zero() -> Self {
@@ -87,14 +106,41 @@ macro_rules! implement_fixed_vector {
 				}
 			}
 
-			impl<T: Field> Dottable for $name<T> {
-				type Result = T;
+			impl<T: Ring> Dottable for $name<T> {
+				type Output = T;
 
-				fn dot(&self, rhs: &Self) -> Self::Result {
+				fn dot(&self, rhs: &Self) -> Self::Output {
 					return self.data.iter()
 						.zip(rhs.data.iter())
 						.map(|(x,y)| *x * *y)
 						.fold(T::zero(), |a, x : T| a + x);
+				}
+			}
+
+			impl<T: Field> Div<T> for $name<T>
+				where <T as Div>::Output: Ring
+			{
+				type Output = $name<<T as Div>::Output>;
+
+				fn div(self, rhs: T) -> Self::Output {
+					let mut vec = Self::Output::default();
+					for i in 0..$dims {
+						vec.data[i] = self.data[i] / rhs;
+					}
+					return vec;
+				}
+			}
+
+			impl<T: Field + Sqrt> Normalizable for $name<T> 
+				where $name<T>: Div<T, Output = $name<T>>
+			{
+				type Output = <$name<T> as Dottable>::Output;
+
+				fn magnitude(&self) -> T {
+					return self.dot(self).sqrt();
+				}
+				fn normalized(&self) -> $name<T> {
+					return *self / self.magnitude();
 				}
 			}
 		}
@@ -119,12 +165,12 @@ macro_rules! implement_fixed_vector {
 implement_fixed_vector!(vec2, Vec2, 2);
 implement_fixed_vector!(vec3, Vec3, 3);
 implement_fixed_vector!(vec4, Vec4, 4);
-implement_fixed_vector!(vec5, Vec5, 5);
-implement_fixed_vector!(vec6, Vec6, 6);
-implement_fixed_vector!(vec7, Vec7, 7);
-implement_fixed_vector!(vec8, Vec8, 8);
-implement_fixed_vector!(vec9, Vec9, 9);
-implement_fixed_vector!(vec10, Vec10, 10);
+//implement_fixed_vector!(vec5, Vec5, 5);
+//implement_fixed_vector!(vec6, Vec6, 6);
+//implement_fixed_vector!(vec7, Vec7, 7);
+//implement_fixed_vector!(vec8, Vec8, 8);
+//implement_fixed_vector!(vec9, Vec9, 9);
+//implement_fixed_vector!(vec10, Vec10, 10);
 
 
 use prelude::{HasX, HasY, HasZ, HasW};
