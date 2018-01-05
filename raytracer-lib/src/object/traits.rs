@@ -14,7 +14,18 @@ fn xxy(v : Vec2d) -> Vec3d {
 	return Vec3d { x: v.x, y: v.x, z: v.y };
 }
 
-pub trait Raymarchable: Sync + Send {
+pub trait Analytical: Sync + Send {
+	// Indicates that the object can find intersections analytically
+	fn analytical(&self) -> bool {
+		return false;
+	}
+	// Finds the intersection analytically
+	fn intersect(&self, _ray : &Ray) -> Option<Vec3d> {
+		unimplemented!();
+	}
+}
+
+pub trait Raymarchable: Analytical {
 	fn normal_at(&self, point : Vec3d, _direction : Vec3d) -> Vec3d {
 		// Normal approximation using gradient method
 
@@ -27,12 +38,4 @@ pub trait Raymarchable: Sync + Send {
 
 	fn distance(&self, point : Vec3d) -> f64;
 
-	// Indicates that the object can find intersections analytically
-	fn analytical(&self) -> bool {
-		return false;
-	}
-	// Finds the intersection analytically
-	fn intersect(&self, _ray : Ray) -> Option<Vec3d> {
-		unimplemented!();
-	}
 }

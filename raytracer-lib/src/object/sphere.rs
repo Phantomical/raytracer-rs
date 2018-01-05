@@ -17,18 +17,17 @@ impl Sphere {
 	}
 }
 
+impl Analytical for Sphere {
+	fn intersect(&self, _ : &Ray) -> Option<Vec3d> {
+		unimplemented!();
+	}
+}
+
 impl Raymarchable for Sphere {
 	fn normal_at(&self, point : Vec3d, _dir : Vec3d) -> Vec3d {
 		return (point - self.centre).normalize();
 	}
 	fn distance(&self, point : Vec3d) -> f64 {
 		return norm(point - self.centre) - self.radius;
-	}
-
-	//fn analytical(&self) -> bool {
-	//	return true;
-	//}
-	fn intersect(&self, _ray : Ray) -> Option<Vec3d> {
-		unimplemented!();
 	}
 }
