@@ -87,7 +87,10 @@ macro_rules! implement_fixed_vector {
 			}
 			impl<T: Eq + Sized + Copy + Default> Eq for $name<T> {}
 
-			impl<T: Ring> VectorSpace<T> for $name<T> {}
+			impl<T: Ring> VectorSpace<T> for $name<T>
+				where <T as Add>::Output: Ring,
+				      <T as Mul>::Output: Ring 
+			{}
 			impl<T: Field> VectorField<T> for $name<T>
 				where <T as Sub>::Output: Ring {}
 
@@ -96,13 +99,8 @@ macro_rules! implement_fixed_vector {
 					return Self::single_element(T::zero());
 				}
 				default fn is_zero(&self) -> bool {
-					unimplemented!();
-				}
-			}
-			impl<T: Ring + PartialEq> Zero for $name<T> {
-				fn is_zero(&self) -> bool {
 					return self.data.iter()
-						.all(|x| *x == T::zero());
+						.all(|x| x.is_zero());
 				}
 			}
 
