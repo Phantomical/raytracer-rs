@@ -1,0 +1,7 @@
+[package]
+name = "vector"
+version = "0.1.0"
+authors = ["swlynch <swlynch@uwaterloo.ca>"]
+
+[dependencies]
+num = "0.1"
