@@ -12,6 +12,13 @@ pub type Colour = cgmath::Vector3<f32>;
 pub use self::cgmath::dot;
 pub use self::cgmath::prelude::*;
 
+pub fn abs(v : Vec3d) -> Vec3d {
+	return Vec3d::new(v.x.abs(), v.y.abs(), v.z.abs());
+}
+pub fn max(a : Vec3d, b : Vec3d) -> Vec3d {
+	return Vec3d::new(a.x.max(b.x), a.y.max(b.y), a.z.max(b.z));
+}
+
 pub fn norm2<T: BaseFloat>(v : Vector3<T>) -> T {
 	return dot(v, v);
 }
