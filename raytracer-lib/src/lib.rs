@@ -11,6 +11,7 @@ mod raymarcher;
 mod scene;
 mod camera;
 mod image;
+mod scenedata;
 
 pub use vec::*;
 pub use ray::*;
@@ -19,6 +20,7 @@ pub use raymarcher::*;
 pub use scene::*;
 pub use camera::*;
 pub use image::*;
+pub use scenedata::*;
 
 mod lib {
 	pub use ::*;

@@ -20,7 +20,7 @@ impl Plane {
 	}
 }
 
-impl Analytical for Plane {}
+impl Analytical for Plane {}     
 
 impl Raymarchable for Plane {
 	fn distance(&self, point : Vec3d) -> f64 {

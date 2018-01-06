@@ -1,15 +1,15 @@
 
 use lib::*;
+use std::sync::Arc;
+use lib::object::Raymarchable;
 use material::Material;
-use object::Raymarchable;
 use light::Light;
 
-use std::sync::Arc;
 use std::vec::Vec;
 
 pub struct Scene {
-	pub objects : Vec<(Arc<Raymarchable>, Arc<Material>)>,
-	pub lights  : Vec<Arc<Light>>,
+	pub data    : SceneData,
+	pub objects : Vec<ObjectData>,
 	pub camera  : Camera,
 	pub options : RaymarchOptions,
 	pub background : Colour
@@ -31,24 +31,17 @@ impl Scene {
 		return Scene {
 			camera  : cam,
 			options : opt,
+			background : bg,
 			objects : Vec::new(),
-			lights  : Vec::new(),
-			background : bg
+			data    : SceneData::default()
 		};
 	}
 
-	pub fn add_object(&mut self, obj : (Arc<Raymarchable>, Arc<Material>)) {
-		self.objects.push(obj);
-	}
-	pub fn add_light(&mut self, light : Arc<Light>) {
-		self.lights.push(light);
-	}
-
 	fn isect_colour(&self, isect : &Intersection) -> Colour {
-		let base_colour = isect.material.base_colour(isect.point);
+		let base_colour = isect.object.material.base_colour(isect.point);
 		let mut illum = Colour::zero();
 
-		for ref light in self.lights.iter() {
+		for ref light in self.data.lights.iter() {
 			let (ray, maxdist) = light.shadow_ray(isect);
 
 			// Conserve any additional options
@@ -84,5 +77,16 @@ impl Scene {
 
 	pub fn trace_point(&self, point : Vec2d) -> Colour {
 		return self.trace_ray(self.camera.screen_ray(point));
+	}
+
+	pub fn add_object(&mut self, obj : (Arc<Raymarchable>, Arc<Material>)) {
+		self.objects.push(ObjectData{ 
+			object:   obj.0, 
+			material: obj.1,
+			bound:    None,
+		});
+	}
+	pub fn add_light(&mut self, light : Arc<Light>) {
+		self.data.lights.push(light);
 	}
 }

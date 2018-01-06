@@ -1,12 +1,8 @@
 
 use lib::*;
-use material::Material;
-use object::Raymarchable;
-
 use std;
-use std::sync::Arc;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct RaymarchOptions {
 	// The maximum distance out to which a ray will be traced
 	pub max_distance : f64,
@@ -29,7 +25,7 @@ impl Default for RaymarchOptions {
 
 pub fn raymarch(
 	ray : Ray, 
-	objects : &[(Arc<Raymarchable>, Arc<Material>)], 
+	objects : &Vec<ObjectData>,
 	options : &RaymarchOptions) -> Option<Intersection>
 {
 	let mut dist : f64 = options.min_distance;
@@ -39,14 +35,16 @@ pub fn raymarch(
 		let point = ray.point_at(dist);
 
 		for obj in objects {
-			let objdist = obj.0.distance(point);
+			let ref raymarchable = obj.object;
+			let objdist = raymarchable.distance(point);
 
-			if objdist < options.intersect_distance {
-				return Some(Intersection::new(
-					point,
-					ray,
-					Arc::clone(&obj.1),
-					Arc::clone(&obj.0)));
+			if objdist < options.intersect_distance	{
+				return Some(Intersection {
+					point: point,
+					normal: raymarchable.normal_at(point, ray.direction),
+					ray: ray,
+					object: obj.clone()
+				});
 			}
 
 			if objdist < step {
