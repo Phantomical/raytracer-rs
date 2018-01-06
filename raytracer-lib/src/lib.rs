@@ -1,4 +1,10 @@
 
+#![feature(generators, generator_trait, conservative_impl_trait)]
+
+extern crate rand;
+extern crate num_cpus;
+extern crate threadpool;
+
 pub mod object;
 pub mod material;
 pub mod colours;

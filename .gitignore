@@ -20,3 +20,5 @@ vector/.vs/
 vector/target
 vector/Cargo.lock
 vector/.vscode
+/raytracer-lib/output.png
+/raytracer-lib/output.txt

@@ -1,6 +1,7 @@
 
 use lib::*;
 use lib::light::*;
+use std::iter::empty;
 
 pub struct AmbientLight {
 	colour : Colour
@@ -19,7 +20,7 @@ impl Light for AmbientLight {
 		return self.colour;
 	}
 
-	fn shadow_ray(&self, _isect : &Intersection) -> (Ray, f64) {
-		return (Ray{..Default::default()}, 0.0);
+	fn shadow_rays(&self, _isect : &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
+		return Box::new(empty());
 	}
 }

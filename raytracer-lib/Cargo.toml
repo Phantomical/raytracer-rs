@@ -8,8 +8,11 @@ name = "raytracer"
 path = "src/lib.rs"
 
 [dependencies]
-cgmath = "0.15.0"
 rand = "0.4.1"
 image = "0.18.0"
 threadpool = "1.7.*"
 num_cpus = "1.*"
+
+[dependencies.cgmath]
+version = "0.16"
+features = ["swizzle"]

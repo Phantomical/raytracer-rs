@@ -1,17 +1,14 @@
 
-extern crate rand;
 extern crate image;
-extern crate num_cpus;
-extern crate threadpool;
 
 use lib::*;
 use std::vec::Vec;
 use std::sync::{Mutex, Arc};
 use std::sync::mpsc::channel;
 
-use self::rand::{random, Closed01};
+use threadpool::*;
+use rand::{random, Closed01};
 use self::image::{Rgb, ImageBuffer};
-use self::threadpool::*;
 
 pub struct ImageDesc {
 	pub width  : u32,
@@ -93,22 +90,28 @@ pub fn trace_image(
 						&opts,
 						&*scene);
 
-					let ref mut img = imagebuf.lock().unwrap();
-
-					(*img).put_pixel(x, y, Rgb{ 
-						data: [
-							(colour.x * 255.0) as u8,
-							(colour.y * 255.0) as u8, 
-							(colour.z * 255.0) as u8] 
-					});
+					imagebuf.lock()
+						.unwrap()
+						.put_pixel(x, y, Rgb{ 
+							data: [
+								(colour.x * 255.0) as u8,
+								(colour.y * 255.0) as u8, 
+								(colour.z * 255.0) as u8] 
+						});
 				}
 
-				tx.send(1).expect("Channel is present");
+				tx.send(y).expect("Channel is present");
 			}
 		});
 	}
 
-	for _ in rx.iter().take(desc.height as usize) {}
+	for _ in 0..desc.height {
+		let v = rx.recv();
+		println!("Line {} complete.", 
+			v.expect("Error occurred while tracing image"));
+	}
+
+	{ let _ = imagebuf.lock(); }
 
 	return Arc::try_unwrap(imagebuf)
 		.expect("Lock stull has multiple owners")

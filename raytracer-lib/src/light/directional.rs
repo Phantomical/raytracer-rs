@@ -1,6 +1,7 @@
 
 use lib::*;
 use light::*;
+use std::iter::once;
 
 const DIRECTIONAL_DISTANCE : f64 = 1.0e10;
 
@@ -14,11 +15,11 @@ impl Light for DirectionalLight {
 		return Colour::new(mult, mult, mult);
 	}
 
-	fn shadow_ray(&self, isect : &Intersection) -> (Ray, f64) {
-		return (
+	fn shadow_rays(&self, isect : &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
+		return Box::new(once((
 			Ray::new(isect.point + isect.normal * 0.0001, -self.direction), 
 			DIRECTIONAL_DISTANCE
-		);
+		)));
 	}
 }
 
