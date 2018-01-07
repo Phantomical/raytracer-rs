@@ -13,8 +13,9 @@ impl HexagonalPrism {
 }
 
 impl Raymarchable for HexagonalPrism {
-	pub fn distance(&self, p : Vec3d) -> f64 {
+	fn distance(&self, p : Vec3d) -> f64 {
 		let q = abs(p);
-		return (q.z-h.y).max((q.x*0.866025+q.y*0.5).max(q.y) - h.x)
+		return (q.z-self.h.y)
+			.max((q.x*0.866025+q.y*0.5).max(q.y) - self.h.x)
 	}
 }
