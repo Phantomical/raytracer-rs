@@ -3,7 +3,6 @@ use vec::*;
 use ray::*;
 use object::*;
 
-#[derive(Deserialize)]
 pub struct Sphere {
 	pub centre : Vec3d,
 	pub radius : f64

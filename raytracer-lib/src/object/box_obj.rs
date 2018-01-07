@@ -2,7 +2,6 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Deserialize)]
 pub struct Box {
 	bounds   : Vec3d
 }

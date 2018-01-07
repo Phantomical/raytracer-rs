@@ -2,7 +2,6 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Deserialize)]
 pub struct Cone {
 	c : Vec2d
 }

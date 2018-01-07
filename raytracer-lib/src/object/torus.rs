@@ -2,7 +2,6 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Deserialize)]
 pub struct Torus {
 	inner_radius : f64,
 	outer_radius : f64

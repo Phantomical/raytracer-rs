@@ -47,22 +47,19 @@ pub fn derive_deserialize(input: TokenStream) -> TokenStream {
 	let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 	
 	let tokens = quote! {
-		use serialization;
-		use serde_json;
-
-		impl #impl_generics serialization::Deserialize for #name #ty_generics #where_clause {
-			fn deserialize<'de>(val : &'de serde_json::Value) -> Result<Self, serialization::DeserializeError> {
+		impl #impl_generics ::serialization::Deserialize for #name #ty_generics #where_clause {
+			fn deserialize<'de>(val : &'de ::serde_json::Value) -> Result<Self, ::serialization::DeserializeError> {
 				match *val {
-					serde_json::Value::Object(ref _map) => Ok(Self {
+					::serde_json::Value::Object(ref _map) => Ok(Self {
 						#(
 						#idents: {
-							let value = <#types as serialization::Deserializer<#types2>>::deserialize(&_map[#keys]);
+							let value = <#types as ::serialization::Deserializer<#types2>>::deserialize(&_map[#keys]);
 							if let Err(e) = value { return Err(e) }
 							value.ok().unwrap()
 						},
 						)*
 					}),
-					_ => Err(serialization::DeserializeError::WrongType(val))
+					_ => Err(::serialization::DeserializeError::WrongType(val))
 				}
 			}
 		}

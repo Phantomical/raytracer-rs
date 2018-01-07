@@ -6,11 +6,6 @@ extern crate rand;
 extern crate num_cpus;
 extern crate threadpool;
 
-extern crate serde_json;
-
-#[macro_use]
-extern crate deserializer_derive;
-
 pub mod object;
 pub mod material;
 pub mod colours;
@@ -24,7 +19,6 @@ mod scene;
 mod camera;
 mod image;
 mod scenedata;
-mod serialization;
 
 pub use vec::*;
 pub use ray::*;

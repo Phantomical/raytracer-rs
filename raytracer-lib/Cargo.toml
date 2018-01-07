@@ -13,8 +13,8 @@ image = "0.18.0"
 threadpool = "1.7.0"
 num_cpus = "1.0"
 
-serde_json = "1.0"
-deserializer_derive = { path = "../deserializer-derive" }
+#serde_json = "1.0"
+#deserializer_derive = { path = "../deserializer-derive" }
 
 [dependencies.cgmath]
 version = "0.16" 

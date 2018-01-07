@@ -2,7 +2,6 @@
 use lib::*;
 use std::f64::consts::PI;
 
-#[derive(Deserialize)]
 pub struct Camera {
 	pub position : Vec3d,
 

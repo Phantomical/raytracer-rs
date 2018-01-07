@@ -10,33 +10,16 @@ use threadpool::*;
 use rand::{random, Closed01};
 use self::image::{Rgb, ImageBuffer};
 
+#[derive(Clone, Copy)]
 pub struct ImageDesc {
 	pub width  : u32,
 	pub height : u32
 }
 
+#[derive(Clone, Copy)]
 pub struct ImageOptions {
 	pub samples : u32,
 }
-
-impl Clone for ImageDesc {
-	fn clone(&self) -> Self {
-		return ImageDesc {
-			width  : self.width,
-			height : self.height,
-		};
-	} 
-}
-impl Clone for ImageOptions {
-	fn clone(&self) -> Self {
-		return ImageOptions {
-			samples : self.samples,
-		};
-	}
-}
-
-impl Copy for ImageDesc {} 
-impl Copy for ImageOptions {}
 
 fn randval() -> f64 {
 	let Closed01(val) = random::<Closed01<f64>>();

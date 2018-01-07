@@ -29,7 +29,7 @@ fn generator_to_iterator<G>(g: G) -> GenIter<G>
 
 const DIRECTIONAL_DISTANCE : f64 = 1.0e10;
 
-#[derive(Clone, Copy, Deserialize)]
+#[derive(Clone, Copy)]
 pub struct FuzzyDirectionalLight {
 	/// The main direction that the light is pointing in
 	pub direction : Vec3d,
