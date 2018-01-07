@@ -22,3 +22,5 @@ vector/Cargo.lock
 vector/.vscode
 /raytracer-lib/output.png
 /raytracer-lib/output.txt
+/deserializer-derive/target
+/deserializer-derive/Cargo.lock

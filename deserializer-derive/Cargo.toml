@@ -1,0 +1,13 @@
+[package]
+name = "deserializer-derive"
+version = "0.1.0"
+authors = ["swlynch <swlynch@uwaterloo.ca>"]
+
+[dependencies]
+syn = "0.11.11"
+quote = "0.3.15"
+
+[lib]
+name = "deserializer_derive"
+path = "src/lib.rs"
+proc-macro = true

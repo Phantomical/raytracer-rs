@@ -1,9 +1,12 @@
 
 #![feature(generators, generator_trait, conservative_impl_trait)]
+#![feature(specialization)]
 
 extern crate rand;
 extern crate num_cpus;
 extern crate threadpool;
+
+extern crate serde_json;
 
 pub mod object;
 pub mod material;
@@ -18,6 +21,7 @@ mod scene;
 mod camera;
 mod image;
 mod scenedata;
+mod serialization;
 
 pub use vec::*;
 pub use ray::*;

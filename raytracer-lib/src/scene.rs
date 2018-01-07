@@ -26,7 +26,7 @@ impl Scene {
 	pub fn new(
 		cam : Camera, 
 		opt : RaymarchOptions, 
-		bg : Colour) -> Scene 
+		bg  : Colour) -> Scene 
 	{
 		return Scene {
 			camera  : cam,
