@@ -40,6 +40,10 @@ fn create_scene() -> Scene {
 	scene.add_object(make_sphere(colours::BLUE,  Vec3d::new(1.0, 0.0, 0.0), 1.0));
 	scene.add_object(make_sphere(colours::GREEN, Vec3d::new(-1.0, 0.0, 0.0), 0.7));
 	scene.add_object(make_sphere(colours::WHITE, Vec3d::new(0.0, -10001.5, 0.0), 10000.0));
+	scene.add_object((
+		Arc::new(translate(Torus::new(1.0, 0.5), Vec3d::unit_y())),
+		Arc::new(SolidColour::new(colours::ORANGE))
+	));
 
 	scene.add_light(make_directional_light());
 	scene.add_light(Arc::new(AmbientLight::new(Colour::new(1.0, 1.0, 1.0) * 0.1)));

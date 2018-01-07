@@ -28,7 +28,7 @@ impl<T> Raymarchable for Translate<T>
 	}
 }
 
-pub fn translate<T>(pos : Vec3d, obj : T) -> Translate<T> 
+pub fn translate<T>(obj : T, pos : Vec3d) -> Translate<T> 
 	where T: Raymarchable + Sized
 {
 	return Translate::new(pos, obj);

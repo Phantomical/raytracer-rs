@@ -15,7 +15,7 @@ impl Torus {
 
 impl Raymarchable for Torus {
 	fn distance(&self, point : Vec3d) -> f64 {
-		let q = Vec2d::new(point.xz().magnitude() - inner_radius, point.y);
-		return norm(q) - outer_radius;
+		let q = Vec2d::new(point.xz().magnitude() - self.inner_radius, point.y);
+		return q.magnitude() - self.outer_radius;
 	}
 }
