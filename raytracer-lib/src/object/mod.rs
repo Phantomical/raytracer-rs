@@ -7,6 +7,7 @@ mod box_obj;
 mod torus;
 mod cylinder;
 mod cone;
+mod hexagonal_prism;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -16,3 +17,4 @@ pub use self::box_obj::*;
 pub use self::torus::*;
 pub use self::cylinder::*;
 pub use self::cone::*;
+pub use self::hexagonal_prism::*;
