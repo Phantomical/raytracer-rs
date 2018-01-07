@@ -2,6 +2,7 @@
 use vec::*;
 use material::Material;
 
+#[derive(Deserialize)]
 pub struct Mirror {
 
 }

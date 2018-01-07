@@ -5,13 +5,13 @@ use ray::*;
 const EPS : Vec2d = Vec2d{ x: 0.0, y: 0.000001 };
 
 fn yxx(v : Vec2d) -> Vec3d {
-	return Vec3d { x: v.y, y: v.x, z: v.x };
+	return v.yxx();
 }
 fn xyx(v : Vec2d) -> Vec3d {
-	return Vec3d { x: v.x, y: v.y, z: v.x };
+	return v.xyx();
 }
 fn xxy(v : Vec2d) -> Vec3d {
-	return Vec3d { x: v.x, y: v.x, z: v.y };
+	return v.xxy();
 }
 
 

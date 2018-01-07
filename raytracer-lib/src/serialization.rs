@@ -6,7 +6,7 @@ use std::result::Result;
 use serde_json::*;
 
 pub enum DeserializeError<'de> {
-	VectorWrongSize (&'de Value),
+	VectorWrongSize (&'de Value), 
 	WrongType       (&'de Value),
 	NumberOutOfRange(&'de Value)
 }
@@ -25,7 +25,7 @@ impl<T> Deserializer<T> for T
 	fn deserialize<'de>(val : &'de Value) -> Result<T, DeserializeError> {
 		T::deserialize(val)
 	}
-}
+} 
 
 impl Deserializer<f64> for f64 {
 	fn deserialize<'de>(val : &'de Value) -> Result<f64, DeserializeError> {
@@ -78,6 +78,59 @@ impl Deserializer<Vec3d> for Vec3d {
 							x.ok().unwrap(),
 							y.ok().unwrap(),
 							z.ok().unwrap()
+						))
+					}
+				}
+			}
+			_ => Err(DeserializeError::WrongType(val))
+		}
+	}
+}
+impl Deserializer<Colour> for Colour {
+	fn deserialize<'de>(val : &'de Value) -> Result<Self, DeserializeError> {
+		match *val {
+			Value::Array(ref vec) => {
+				if vec.len() != 3 {
+					Err(DeserializeError::VectorWrongSize(val))
+				}
+				else {
+					let x = f32::deserialize(&vec[0]);
+					let y = f32::deserialize(&vec[1]);
+					let z = f32::deserialize(&vec[2]);
+					
+					if x.is_err()      { Err(x.err().unwrap()) }
+					else if y.is_err() { Err(y.err().unwrap()) }
+					else if z.is_err() { Err(z.err().unwrap()) }
+					else {
+						Ok(Colour::new(
+							x.ok().unwrap(),
+							y.ok().unwrap(),
+							z.ok().unwrap()
+						))
+					}
+				}
+			}
+			_ => Err(DeserializeError::WrongType(val))
+		}
+	}
+}
+impl Deserializer<Vec2d> for Vec2d {
+	fn deserialize<'de>(val : &'de Value) -> Result<Self, DeserializeError> {
+		match *val {
+			Value::Array(ref vec) => {
+				if vec.len() != 2 {
+					Err(DeserializeError::VectorWrongSize(val))
+				}
+				else {
+					let x = f64::deserialize(&vec[0]);
+					let y = f64::deserialize(&vec[1]);
+					
+					if x.is_err()      { Err(x.err().unwrap()) }
+					else if y.is_err() { Err(y.err().unwrap()) }
+					else {
+						Ok(Self::new(
+							x.ok().unwrap(),
+							y.ok().unwrap()
 						))
 					}
 				}

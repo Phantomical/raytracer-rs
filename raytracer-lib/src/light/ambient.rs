@@ -3,6 +3,7 @@ use lib::*;
 use lib::light::*;
 use std::iter::empty;
 
+#[derive(Deserialize)]
 pub struct AmbientLight {
 	colour : Colour
 }

@@ -29,12 +29,12 @@ fn generator_to_iterator<G>(g: G) -> GenIter<G>
 
 const DIRECTIONAL_DISTANCE : f64 = 1.0e10;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Deserialize)]
 pub struct FuzzyDirectionalLight {
 	/// The main direction that the light is pointing in
 	pub direction : Vec3d,
 	/// Angular radius of the cone (radians)
-	pub fuzzy_rad : f64
+	pub fuzziness : f64
 }
 
 fn orthagonal(a : Vec3d) -> Vec3d {
@@ -47,7 +47,7 @@ impl FuzzyDirectionalLight {
 	pub fn new(dir : Vec3d, fuzziness : f64) -> FuzzyDirectionalLight {
 		return FuzzyDirectionalLight {
 			direction: dir.normalize(),
-			fuzzy_rad: fuzziness
+			fuzziness: fuzziness
 		};
 	}
 
@@ -55,7 +55,7 @@ impl FuzzyDirectionalLight {
 		let u = Vec3d::cross(self.direction, orthagonal(self.direction));
 		let v = Vec3d::cross(self.direction, u);
 
-		let theta = Range::new(self.fuzzy_rad.cos(), 1.0)
+		let theta = Range::new(self.fuzziness.cos(), 1.0)
 			.ind_sample(&mut rng).acos();
 		let phi = Range::new(0.0f64, 2.0 * PI).ind_sample(&mut rng);
 

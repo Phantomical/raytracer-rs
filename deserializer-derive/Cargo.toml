@@ -1,5 +1,5 @@
 [package]
-name = "deserializer-derive"
+name = "deserializer_derive"
 version = "0.1.0"
 authors = ["swlynch <swlynch@uwaterloo.ca>"]
 

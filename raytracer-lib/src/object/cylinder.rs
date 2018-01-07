@@ -2,6 +2,7 @@
 use lib::*;
 use lib::object::*;
 
+#[derive(Deserialize)]
 pub struct Cylinder {
 	c : Vec3d
 }

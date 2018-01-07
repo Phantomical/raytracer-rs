@@ -2,6 +2,7 @@
 use lib::*;
 use std::f64::consts::PI;
 
+#[derive(Deserialize)]
 pub struct Camera {
 	pub position : Vec3d,
 
@@ -12,7 +13,6 @@ pub struct Camera {
 	pub fov_y    : f64,
 	pub fov_x    : f64
 }
-
 
 impl Camera {
 	/// The aspect ratio of the camera

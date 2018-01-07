@@ -8,6 +8,9 @@ extern crate threadpool;
 
 extern crate serde_json;
 
+#[macro_use]
+extern crate deserializer_derive;
+
 pub mod object;
 pub mod material;
 pub mod colours;

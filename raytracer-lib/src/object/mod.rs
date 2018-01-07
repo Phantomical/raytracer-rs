@@ -8,6 +8,7 @@ mod torus;
 mod cylinder;
 mod cone;
 mod hexagonal_prism;
+mod triagonal_prism;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -18,3 +19,4 @@ pub use self::torus::*;
 pub use self::cylinder::*;
 pub use self::cone::*;
 pub use self::hexagonal_prism::*;
+pub use self::triagonal_prism::*;

@@ -2,6 +2,7 @@
 use vec::{Vec3d, Colour};
 use material::Material;
 
+#[derive(Deserialize)]
 pub struct SolidColour {
 	pub colour : Colour
 }
