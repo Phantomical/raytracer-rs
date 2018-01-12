@@ -2,11 +2,17 @@
 use lib::*;
 use lib::object::*;
 
-pub struct Box {
+pub struct BoxObj {
 	pub bounds   : Vec3d
 }
 
-impl Raymarchable for Box {
+impl BoxObj {
+	pub fn new(bounds : Vec3d) -> Self {
+		Self { bounds }
+	}
+}
+
+impl Raymarchable for BoxObj {
 	fn distance(&self, point : Vec3d) -> f64 {
 		let d = abs(point) - self.bounds;
 

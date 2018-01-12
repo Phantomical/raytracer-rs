@@ -7,16 +7,17 @@ use raytracer::colours;
 use raytracer::material::*;
 use raytracer::object::*;
 use raytracer::light::*;
+use raytracer::builder;
 
 use std::env;
 use std::fs::File;
 
 use std::sync::Arc;
 
-fn make_sphere(colour : Colour, pos : Vec3d, radius : f64) -> (Arc<Raymarchable>, Arc<Material>) {
+fn make_sphere(colour : [f32; 3], pos : [f64; 3], radius : f64) -> (Arc<Raymarchable>, Arc<Material>) {
 	return (
-		Arc::new(Sphere::new(pos, radius)),
-		Arc::new(SolidColour::new(colour))
+		builder::sphere(pos, radius),
+		builder::solid_colour(colour)
 	);
 }
 fn make_directional_light() -> Arc<Light> {
@@ -35,14 +36,14 @@ fn create_scene() -> Scene {
 	};
 	let colour = colours::BLACK;
 
-	let mut scene = Scene::new(camera, opts, colour);
+	let mut scene = Scene::new(camera, opts, builder::colour(colour));
 
-	scene.add_object(make_sphere(colours::BLUE,  Vec3d::new(1.0, 0.0, 0.0), 1.0));
-	scene.add_object(make_sphere(colours::GREEN, Vec3d::new(-1.0, 0.0, 0.0), 0.7));
-	scene.add_object(make_sphere(colours::WHITE, Vec3d::new(0.0, -10001.5, 0.0), 10000.0));
+	scene.add_object(make_sphere(colours::BLUE,  [1.0, 0.0, 0.0], 1.0));
+	scene.add_object(make_sphere(colours::GREEN, [-1.0, 0.0, 0.0], 0.7));
+	scene.add_object(make_sphere(colours::WHITE, [0.0, -10001.5, 0.0], 10000.0));
 	scene.add_object((
-		Arc::new(translate(Torus::new(1.0, 0.5), Vec3d::unit_y())),
-		Arc::new(SolidColour::new(colours::ORANGE))
+		builder::translate(builder::torus(1.0, 0.5), [0.0, 1.0, 0.0]),
+		builder::solid_colour(colours::ORANGE)
 	));
 
 	scene.add_light(make_directional_light());

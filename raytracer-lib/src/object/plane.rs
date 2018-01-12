@@ -6,9 +6,9 @@ pub struct Plane {
 	/// The normal vector of the plane.
 	/// All vectors laying on the plane
 	/// are perpendicular to this vector.
-	pub normal : Vec3d,
+	normal : Vec3d,
 	// A point on the plane
-	pub point  : Vec3d
+	point  : Vec3d
 }
 
 impl Plane {

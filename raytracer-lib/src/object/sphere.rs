@@ -4,8 +4,8 @@ use ray::*;
 use object::*;
 
 pub struct Sphere {
-	pub centre : Vec3d,
-	pub radius : f64
+	centre : Vec3d,
+	radius : f64
 }
 
 impl Sphere {

@@ -6,13 +6,14 @@ extern crate rand;
 extern crate num_cpus;
 extern crate threadpool;
 
-#[macro_use]
-extern crate pest;
+//#[macro_use]
+//extern crate pest;
 
 pub mod object;
 pub mod material;
 pub mod colours;
 pub mod light;
+pub mod builder;
 
 mod vec;
 mod ray;
@@ -22,7 +23,7 @@ mod scene;
 mod camera;
 mod image;
 mod scenedata;
-mod parser;
+//mod parser;
 
 pub use vec::*;
 pub use ray::*;
