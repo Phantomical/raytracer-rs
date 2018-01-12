@@ -3,7 +3,7 @@ use lib::*;
 use lib::object::*;
 
 pub struct Box {
-	bounds   : Vec3d
+	pub bounds   : Vec3d
 }
 
 impl Raymarchable for Box {
