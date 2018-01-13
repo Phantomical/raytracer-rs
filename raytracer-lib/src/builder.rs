@@ -78,7 +78,10 @@ pub fn directional(dir : [f64; 3]) -> Arc<Light> {
 	Arc::new(DirectionalLight::new(vec3d(dir)))
 }
 pub fn fuzzy_directional(dir : [f64; 3], fuzziness : f64) -> Arc<Light> {
-	return Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness))
+	Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness))
+}
+pub fn tint(light : Arc<Light>, col : [f32; 3]) -> Arc<Light> {
+	Arc::new(Tint::new(light, colour(col)))
 }
 
 /* Adapter Methods */
