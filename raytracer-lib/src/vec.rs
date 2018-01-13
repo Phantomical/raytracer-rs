@@ -8,6 +8,7 @@ pub type Vec2u = cgmath::Vector2<u32>;
 pub type Vec2d = cgmath::Vector2<f64>;
 pub type Vec3d = cgmath::Vector3<f64>;
 pub type Colour = cgmath::Vector3<f32>;
+pub type Mat3d = cgmath::Matrix3<f64>;
 
 pub use self::cgmath::dot;
 pub use self::cgmath::prelude::*;

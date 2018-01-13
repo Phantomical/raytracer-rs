@@ -8,7 +8,7 @@ use light::Light;
 use std::vec::Vec;
 
 pub struct Scene {
-	pub data    : SceneData,
+	pub lights  : Vec<Arc<Light>>,
 	pub objects : Vec<ObjectData>,
 	pub camera  : Camera,
 	pub options : RaymarchOptions,
@@ -33,7 +33,7 @@ impl Scene {
 			options : opt,
 			background : bg,
 			objects : Vec::new(),
-			data    : SceneData::default()
+			lights  : Vec::new()
 		};
 	}
 
@@ -70,7 +70,7 @@ impl Scene {
 		let base_colour = isect.object.material.base_colour(isect.point);
 		let mut illum = Colour::zero();
 
-		for ref light in self.data.lights.iter() {
+		for ref light in self.lights.iter() {
 			illum = vec_max(
 				self.isect_illumination(isect, light),
 				illum);			
@@ -98,14 +98,14 @@ impl Scene {
 		return self.trace_ray(self.camera.screen_ray(point));
 	}
 
-	pub fn add_object(&mut self, obj : (Arc<Raymarchable>, Arc<Material>)) {
+	pub fn add_object(&mut self, obj : Arc<Raymarchable>, mat : Arc<Material>) {
 		self.objects.push(ObjectData{ 
-			object:   obj.0, 
-			material: obj.1,
+			object:   obj, 
+			material: mat,
 			bound:    None,
 		});
 	}
 	pub fn add_light(&mut self, light : Arc<Light>) {
-		self.data.lights.push(light);
+		self.lights.push(light);
 	}
 }
