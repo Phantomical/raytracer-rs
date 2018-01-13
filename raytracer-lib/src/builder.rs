@@ -1,11 +1,12 @@
 
-use lib::*;
+use lib::{Vec3d, Colour, Vec2d, Mat3d};
 use lib::light::*;
 use lib::object::*;
 use lib::material::*;
 
 use std::sync::Arc;
 use std::ops::Deref;
+use std::f64::consts::PI;
 
 impl Raymarchable for Arc<Raymarchable> {
 	fn normal_at(&self, point : Vec3d, dir : Vec3d) -> Vec3d {
@@ -48,11 +49,14 @@ pub fn plane(normal : [f64; 3], point : [f64; 3]) -> Arc<Raymarchable> {
 pub fn torus(inner : f64, outer : f64) -> Arc<Raymarchable> {
 	Arc::new(Torus::new(inner, outer))
 }
-pub fn translate(obj : Arc<Raymarchable>, trans : [f64; 3]) -> Arc<Raymarchable> {
-	Arc::new(Translate::new(vec3d(trans), Arc::clone(&obj)))
-}
 pub fn triangular_prism(height : f64, radius : f64) -> Arc<Raymarchable> {
 	Arc::new(TriangularPrism::new(height, radius))
+}
+pub fn translate(obj : Arc<Raymarchable>, trans : [f64; 3]) -> Arc<Raymarchable> {
+	Arc::new(Translate::new(vec3d(trans), obj))
+}
+pub fn transform(obj : Arc<Raymarchable>, trans : Mat3d) -> Arc<Raymarchable> {
+	Arc::new(Transform::new(trans, obj))
 }
 
 /* Materials */
@@ -61,6 +65,9 @@ pub fn solid_colour(col : [f32; 3]) -> Arc<Material> {
 }
 pub fn mirror() -> Arc<Material> {
 	Arc::new(Mirror{})
+}
+pub fn normal(obj : Arc<Raymarchable>) -> Arc<Material> {
+	Arc::new(NormalColour::new(obj))
 }
 
 /* Lights */
@@ -72,4 +79,29 @@ pub fn directional(dir : [f64; 3]) -> Arc<Light> {
 }
 pub fn fuzzy_directional(dir : [f64; 3], fuzziness : f64) -> Arc<Light> {
 	return Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness))
+}
+
+/* Adapter Methods */
+pub fn deg2rad(deg : f64) -> f64 {
+	deg * (PI / 180.0)
+}
+pub fn rotate_xyz(angle_x : f64, angle_y : f64, angle_z : f64) -> Mat3d {
+	let (sinx, cosx) = angle_x.sin_cos();
+	let (siny, cosy) = angle_y.sin_cos();
+	let (sinz, cosz) = angle_z.sin_cos();
+	
+	let x = Mat3d::new(
+		1.0, 0.0, 0.0,
+		0.0, cosx, -sinx,
+		0.0, sinx, cosx);
+	let y = Mat3d::new(
+		cosy, 0.0, siny,
+		0.0, 1.0, 0.0,
+		-siny, 0.0, cosy);
+	let z = Mat3d::new(
+		cosz, -sinz, 0.0,
+		sinz, cosz, 0.0,
+		0.0, 0.0, 1.0);
+
+	return x * y * z;
 }

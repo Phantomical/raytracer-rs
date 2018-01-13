@@ -17,7 +17,7 @@ impl Light for DirectionalLight {
 
 	fn shadow_rays(&self, isect : &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
 		return Box::new(once((
-			Ray::new(isect.point + isect.normal * 0.0001, -self.direction), 
+			Ray::new(isect.point, -self.direction), 
 			DIRECTIONAL_DISTANCE
 		)));
 	}

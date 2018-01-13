@@ -5,7 +5,10 @@ use lib::*;
 use std::vec::Vec;
 use std::sync::{Mutex, Arc};
 use std::sync::mpsc::channel;
+use std::io;
+use std::io::Write;
 
+use termsize;
 use threadpool::*;
 use rand::{random, Closed01};
 use self::image::{Rgb, ImageBuffer};
@@ -51,6 +54,10 @@ pub fn render_pixel(
 	return result / (opts.samples as f32);
 }
 
+fn term_cols() -> u16 {
+	termsize::get().unwrap_or(termsize::Size{rows:1, cols:40}).cols
+}
+
 pub fn trace_image(
 	desc  : ImageDesc,
 	opts  : ImageOptions,
@@ -82,17 +89,24 @@ pub fn trace_image(
 								(colour.z * 255.0) as u8] 
 						});
 				}
-
 				tx.send(y).expect("Channel is present");
 			}
 		});
 	}
 
+	let mult : f64 = (term_cols() as f64) / (desc.height as f64);
+	let mut sum = 0.0;
 	for _ in 0..desc.height {
-		let v = rx.recv();
-		println!("Line {} complete.", 
-			v.expect("Error occurred while tracing image"));
+		let _ = rx.recv();
+		sum += mult;
+
+		if sum >= 1.0 {
+			print!("#");
+			io::stdout().flush().unwrap();
+			sum -= 1.0;
+		}
 	}
+	println!();
 
 	{ let _ = imagebuf.lock(); }
 

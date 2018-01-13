@@ -17,7 +17,7 @@ mod add_objects {
 
 	pub fn add_objects(scene : &mut Scene) {
 		scene.add_object(
-			plane([0.0, 1.0, 0.0], [0.0, -1.0, 0.0]),
+			sphere([0.0, -100001.0, 0.0], 100000.0),
 			solid_colour(colours::WHITE));
 
 		scene.add_object(
@@ -25,7 +25,12 @@ mod add_objects {
 			solid_colour(colours::RED));
 
 		scene.add_object(
-			translate(torus(1.0, 0.5), [0.0, 1.0, 0.0]),
+			translate(transform(torus(1.0, 0.5), 
+				rotate_xyz(deg2rad(-45.0), 0.0, 0.0)), [1.0, 0.0, 0.0]),
+			solid_colour(colours::ORANGE));
+		scene.add_object(
+			translate(transform(torus(1.0, 0.5), 
+				rotate_xyz(deg2rad(45.0), 0.0, 0.0)), [-1.0, 0.0, 0.0]),
 			solid_colour(colours::ORANGE));
 	}
 

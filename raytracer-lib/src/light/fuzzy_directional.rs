@@ -74,13 +74,12 @@ impl Light for FuzzyDirectionalLight {
 		return Box::new(generator_to_iterator( { 
 			let me = self.clone();
 			let point = isect.point;
-			let normal= isect.normal;
 			move || {
 				for _ in 0..20 {
 					let mut rng = thread_rng();
 					let vec = me.rand_vec::<ThreadRng>(&mut rng);
 					yield (
-						Ray::new(point + normal * 0.0001, vec), 
+						Ray::new(point, vec), 
 						DIRECTIONAL_DISTANCE
 					);
 				}
