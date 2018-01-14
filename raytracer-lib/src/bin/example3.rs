@@ -21,20 +21,20 @@ mod add_objects {
         );
 
         scene.add_object(
-            repeat(sphere([0.0, 0.0, 0.0], 1.0), [5.0, 0.0, 5.0]),
+            repeat(sphere([0.0, 0.0, 0.0], 1.0), [8.0, 8.0, 8.0]),
             solid_colour(colours::RED),
         );
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665));
+        scene.add_light(directional([0.0, -1.0, 1.0])); //, 0.0872665));
     }
 }
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
         .position(Vec3d::new(0.0, 5.0, -10.0))
-        .forward(Vec3d::new(1.0, 0.0, 1.0))
+        .forward(Vec3d::new(1.0, 1.0, 1.0))
         .orthonormalize()
         .unwrap();
 
@@ -60,8 +60,8 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 10000,
-        height: 7500,
+        width: 100,
+        height: 75,
     };
     let opts = ImageOptions { samples: 5 };
     let scene = Arc::new(create_scene());
