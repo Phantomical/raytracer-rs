@@ -10,6 +10,8 @@ mod cylinder;
 mod cone;
 mod hexagonal_prism;
 mod triangular_prism;
+mod repeat;
+mod hollow;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -22,3 +24,5 @@ pub use self::cylinder::*;
 pub use self::cone::*;
 pub use self::hexagonal_prism::*;
 pub use self::triangular_prism::*;
+pub use self::repeat::*;
+pub use self::hollow::*;

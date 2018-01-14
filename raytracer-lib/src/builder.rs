@@ -58,6 +58,12 @@ pub fn translate(obj : Arc<Raymarchable>, trans : [f64; 3]) -> Arc<Raymarchable>
 pub fn transform(obj : Arc<Raymarchable>, trans : Mat3d) -> Arc<Raymarchable> {
 	Arc::new(Transform::new(trans, obj))
 }
+pub fn repeat(obj : Arc<Raymarchable>, modulus : [f64; 3]) -> Arc<Raymarchable> {
+	Arc::new(Repeat::new(obj, vec3d(modulus)))
+}
+pub fn hollow(obj : Arc<Raymarchable>) -> Arc<Raymarchable> {
+	Arc::new(Hollow::new(obj))
+}
 
 /* Materials */
 pub fn solid_colour(col : [f32; 3]) -> Arc<Material> {
@@ -82,6 +88,9 @@ pub fn fuzzy_directional(dir : [f64; 3], fuzziness : f64) -> Arc<Light> {
 }
 pub fn tint(light : Arc<Light>, col : [f32; 3]) -> Arc<Light> {
 	Arc::new(Tint::new(light, colour(col)))
+}
+pub fn point_light(pos : [f64; 3], power : f32) -> Arc<Light> {
+	Arc::new(PointLight::new(vec3d(pos), power))
 }
 
 /* Adapter Methods */
