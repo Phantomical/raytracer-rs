@@ -1,31 +1,30 @@
-
 use lib::*;
 use lib::light::Light;
 
 use std::iter::once;
 
 pub struct PointLight {
-	power    : f32,
-	position : Vec3d
+    power: f32,
+    position: Vec3d,
 }
 
 impl PointLight {
-	pub fn new(position : Vec3d, power : f32) -> Self {
-		Self { position, power }
-	}
+    pub fn new(position: Vec3d, power: f32) -> Self {
+        Self { position, power }
+    }
 }
 
 impl Light for PointLight {
-	fn illumination(&self, isect : &Intersection) -> Colour {
-		let val = self.power / ((self.position - isect.point).magnitude2() as f32);
+    fn illumination(&self, isect: &Intersection) -> Colour {
+        let val = self.power / ((self.position - isect.point).magnitude2() as f32);
 
-		Colour::new(val, val, val)
-	}
+        Colour::new(val, val, val)
+    }
 
-	fn shadow_rays(&self, isect : &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
-		Box::new(once((
-			Ray::new(self.position, (self.position - isect.point).normalize()),
-			(self.position - isect.point).magnitude()
-		)))
-	}
+    fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
+        Box::new(once((
+            Ray::new(self.position, (self.position - isect.point).normalize()),
+            (self.position - isect.point).magnitude(),
+        )))
+    }
 }

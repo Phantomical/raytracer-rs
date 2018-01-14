@@ -1,11 +1,10 @@
-
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
-extern crate rand;
 extern crate num_cpus;
-extern crate threadpool;
+extern crate rand;
 extern crate termsize;
+extern crate threadpool;
 
 //#[macro_use]
 //extern crate pest;
@@ -36,7 +35,7 @@ pub use image::*;
 pub use scenedata::*;
 
 mod lib {
-	pub use ::*;
+    pub use ::*;
 }
 
 #[cfg(test)]

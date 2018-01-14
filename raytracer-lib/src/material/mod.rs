@@ -1,4 +1,3 @@
-
 mod traits;
 mod colour;
 mod mirror;

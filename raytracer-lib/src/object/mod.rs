@@ -1,4 +1,3 @@
-
 mod traits;
 mod sphere;
 mod plane;

@@ -1,4 +1,3 @@
-
 mod traits;
 mod ambient;
 mod directional;
