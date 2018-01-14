@@ -64,7 +64,7 @@ impl FuzzyDirectionalLight {
     }
 }
 
-const NUM_LIGHT_RAYS = 20;
+const NUM_LIGHT_RAYS : u32 = 20;
 
 impl Light for FuzzyDirectionalLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
