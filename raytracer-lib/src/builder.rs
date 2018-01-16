@@ -63,6 +63,9 @@ pub fn repeat(obj: Arc<Raymarchable>, modulus: [f64; 3]) -> Arc<Raymarchable> {
 pub fn hollow(obj: Arc<Raymarchable>) -> Arc<Raymarchable> {
     Arc::new(Hollow::new(obj))
 }
+pub fn sierpinski(iterations: u32, scale: f64) -> Arc<Raymarchable> {
+    Arc::new(Sierpinski::new(iterations, scale))
+}
 
 /* Materials */
 pub fn solid_colour(col: [f32; 3]) -> Arc<Material> {

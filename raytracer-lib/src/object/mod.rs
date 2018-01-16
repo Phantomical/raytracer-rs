@@ -11,6 +11,7 @@ mod hexagonal_prism;
 mod triangular_prism;
 mod repeat;
 mod hollow;
+mod sierpinski;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -25,3 +26,4 @@ pub use self::hexagonal_prism::*;
 pub use self::triangular_prism::*;
 pub use self::repeat::*;
 pub use self::hollow::*;
+pub use self::sierpinski::*;

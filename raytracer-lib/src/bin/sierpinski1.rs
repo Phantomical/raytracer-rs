@@ -16,18 +16,15 @@ mod add_objects {
 
     pub fn add_objects(scene: &mut Scene) {
         scene.add_object(
-            plane([0.0, 1.0, 0.0], [0.0, -1.0, 0.0]),
+            sphere([0.0, -10001.0, 0.0], 10000.0),
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(
-            repeat(sphere([0.0, 0.0, 0.0], 1.0), [8.0, 0.0, 8.0]),
-            solid_colour(colours::RED),
-        );
+        scene.add_object(sierpinski(5, 0.5), solid_colour(colours::RED));
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 1.0])); //, 0.0872665));
+        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665));
     }
 }
 
