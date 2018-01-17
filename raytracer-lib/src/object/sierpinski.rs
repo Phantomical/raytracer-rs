@@ -62,6 +62,6 @@ impl Raymarchable for Sierpinski {
             z = z * self.scale - c * (self.scale - 1.0);
         }
 
-        return z.magnitude() / self.scale.powi(self.iterations as i32);
+        return z.magnitude() / self.scale.powi(self.iterations as i32) * 0.01;
     }
 }
