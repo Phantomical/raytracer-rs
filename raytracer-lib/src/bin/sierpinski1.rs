@@ -20,7 +20,7 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(sierpinski(5, 0.5), solid_colour(colours::RED));
+        scene.add_object(sierpinski(5, 2.0), solid_colour(colours::RED));
     }
 
     pub fn add_lights(scene: &mut Scene) {
@@ -57,8 +57,8 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 1080,
-        height: 720,
+        width: 108,
+        height: 72,
     };
     let opts = ImageOptions { samples: 5 };
     let scene = Arc::new(create_scene());
