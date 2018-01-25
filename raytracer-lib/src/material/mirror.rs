@@ -1,16 +1,17 @@
 use vec::*;
 use material::Material;
+use lib::Intersection;
 
 pub struct Mirror {}
 
 impl Material for Mirror {
-    fn base_colour(&self, _point: Vec3d) -> Colour {
+    fn base_colour(&self, _isect: &Intersection) -> Colour {
         return Colour::new(0.0, 0.0, 0.0);
     }
-    fn roughness(&self, _point: Vec3d) -> f32 {
+    fn roughness(&self, _isect: &Intersection) -> f32 {
         return 0.0;
     }
-    fn reflectivity(&self, _point: Vec3d) -> f32 {
+    fn reflectivity(&self, _isect: &Intersection) -> f32 {
         return 1.0;
     }
 }

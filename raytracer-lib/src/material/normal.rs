@@ -1,26 +1,22 @@
 use lib::*;
 use lib::material::Material;
-use lib::object::Raymarchable;
-
-use std::sync::Arc;
 
 pub struct NormalColour {
-    obj: Arc<Raymarchable>,
 }
 
 impl NormalColour {
-    pub fn new(obj: Arc<Raymarchable>) -> Self {
-        Self { obj }
+    pub fn new() -> Self {
+        Self { }
     }
 }
 
 impl Material for NormalColour {
-    fn base_colour(&self, point: Vec3d) -> Colour {
-        let normal = self.obj.normal_at(point, Vec3d::zero());
+    fn base_colour(&self, isect: &Intersection) -> Colour {
+        let normal = isect.normal;
         Colour::new(
-            normal.x.max(0.0) as f32,
-            normal.y.max(0.0) as f32,
-            normal.z.max(0.0) as f32,
+            normal.x.abs() as f32,
+            normal.y.abs() as f32,
+            normal.z.abs() as f32,
         )
     }
 }

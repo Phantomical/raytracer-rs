@@ -21,19 +21,19 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(mandelbulb(32, 8), normal(mandelbulb(32, 8)));
+        scene.add_object(mandelbulb(3, 8), normal());
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 1.0])); //, 0.0872665, 10));
-        scene.add_light(ambient([0.1, 0.1, 0.1]));
+        scene.add_light(directional([0.0, -1.0, 300.0])); //, 0.0872665, 10));
+        scene.add_light(ambient([0.2; 3]));
     }
 }
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(2.0, 0.0, -10.0))
-        .forward(Vec3d::new(-0.2, 0.0, 1.0))
+        .position(Vec3d::new(2.0, 0.0, -4.0))
+        .forward(Vec3d::new(-0.5, 0.0, 1.0))
         .orthonormalize()
         .unwrap();
 
@@ -59,10 +59,10 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 4000,
-        height: 3000,
+        width: 1200,
+        height: 800,
     };
-    let opts = ImageOptions { samples: 10 };
+    let opts = ImageOptions { samples: 2 };
     let scene = Arc::new(create_scene());
 
     let image_val = trace_image(desc, opts, scene);

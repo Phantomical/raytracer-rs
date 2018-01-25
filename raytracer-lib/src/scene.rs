@@ -61,7 +61,7 @@ impl Scene {
     }
 
     fn isect_colour(&self, isect: &Intersection) -> Colour {
-        let base_colour = isect.object.material.base_colour(isect.point);
+        let base_colour = isect.object.material.base_colour(&isect);
         let mut illum = Colour::zero();
 
         for ref light in self.lights.iter() {

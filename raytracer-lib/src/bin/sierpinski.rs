@@ -68,10 +68,10 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 2000,
-        height: 1500,
+        width: 1200,
+        height: 800,
     };
-    let opts = ImageOptions { samples: 5 };
+    let opts = ImageOptions { samples: 2 };
     let scene = Arc::new(create_scene());
 
     let image_val = trace_image(desc, opts, scene);

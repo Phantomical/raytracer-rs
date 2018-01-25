@@ -1,5 +1,6 @@
-use vec::{Colour, Vec3d};
+use vec::Colour;
 use material::Material;
+use lib::Intersection;
 
 pub struct SolidColour {
     pub colour: Colour,
@@ -12,14 +13,14 @@ impl SolidColour {
 }
 
 impl Material for SolidColour {
-    fn base_colour(&self, _point: Vec3d) -> Colour {
+    fn base_colour(&self, _isect: &Intersection) -> Colour {
         return self.colour;
     }
 
-    fn roughness(&self, _point: Vec3d) -> f32 {
+    fn roughness(&self, _isect: &Intersection) -> f32 {
         return 0.0;
     }
-    fn reflectivity(&self, _point: Vec3d) -> f32 {
+    fn reflectivity(&self, _isect: &Intersection) -> f32 {
         return 0.0;
     }
 }

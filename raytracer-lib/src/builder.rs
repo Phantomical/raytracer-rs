@@ -82,8 +82,8 @@ pub fn solid_colour(col: [f32; 3]) -> Arc<Material> {
 pub fn mirror() -> Arc<Material> {
     Arc::new(Mirror {})
 }
-pub fn normal(obj: Arc<Raymarchable>) -> Arc<Material> {
-    Arc::new(NormalColour::new(obj))
+pub fn normal() -> Arc<Material> {
+    Arc::new(NormalColour::new())
 }
 
 /* Lights */
