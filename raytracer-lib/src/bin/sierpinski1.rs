@@ -20,18 +20,19 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(sierpinski(5, 2.0), solid_colour(colours::RED));
+        scene.add_object(sierpinski(10, 2.0), solid_colour(colours::RED));
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665));
+        scene.add_light(directional([0.0, -1.0, 1.0]));//, 0.0872665));
+		scene.add_light(ambient([0.1, 0.1, 0.1]));
     }
 }
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(0.0, 10.0, -10.0))
-        .forward(Vec3d::new(1.0, 0.0, 1.0))
+        .position(Vec3d::new(2.0, 0.0, -5.0))
+        .forward(Vec3d::new(-0.4, 0.0, 1.0))
         .orthonormalize()
         .unwrap();
 
@@ -57,10 +58,10 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 108,
-        height: 72,
+        width: 2000,
+        height: 1500,
     };
-    let opts = ImageOptions { samples: 5 };
+    let opts = ImageOptions { samples: 1 };
     let scene = Arc::new(create_scene());
 
     let image_val = trace_image(desc, opts, scene);

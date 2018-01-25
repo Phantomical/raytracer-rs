@@ -9,7 +9,7 @@ path = "src/lib.rs"
 
 [profile.release]
 #debug = true
-lto = true
+#lto = true
 
 [dependencies]
 rand = "0.4.1"

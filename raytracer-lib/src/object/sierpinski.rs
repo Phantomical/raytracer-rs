@@ -12,43 +12,31 @@ impl Sierpinski {
     }
 }
 
-const BAILOUT: f64 = 1000.0;
+const A1 : Vec3d = Vec3d{ x: 1.0, y: 1.0, z: 1.0 };
+const A2 : Vec3d = Vec3d{ x: -1.0, y: -1.0, z: 1.0 };
+const A3 : Vec3d = Vec3d{ x: 1.0, y: -1.0, z:  -1.0 };
+const A4 : Vec3d = Vec3d{ x: -1.0, y: 1.0, z: -1.0 };
 
 impl Raymarchable for Sierpinski {
     fn distance(&self, point: Vec3d) -> f64 {
-        let mut x = point.x;
-        let mut y = point.y;
-        let mut z = point.z;
-        let mut r = x * x + y * y + z * z;
+		let mut z = point;
 
-        for _ in 0..self.iterations {
-            if x + y < 0.0 {
-                let x1 = -y;
-                y = -x;
-                x = x1;
-            }
-            if x + z < 0.0 {
-                let x1 = -z;
-                z = -x;
-                x = x1;
-            }
-            if y + z < 0.0 {
-                let y1 = -z;
-                z = -y;
-                y = y1;
-            }
+		for _ in 0..self.iterations {
+			let mut c = A1;
+			let mut dist = (z - A1).magnitude();
 
-            x = self.scale * x - (self.scale - 1.0);
-            y = self.scale * y - (self.scale - 1.0);
-            z = self.scale * z - (self.scale - 1.0);
+			let mut d = (z-A2).magnitude();
+			if d < dist { c = A2; dist = d; }
 
-            r = x * x + y * y + z * z;
+			d = (z-A3).magnitude();
+			if d < dist { c = A3; dist = d; }
 
-            if r > BAILOUT {
-                break;
-            }
-        }
+			d = (z-A4).magnitude();
+			if d < dist { c = A4; }
 
-        return (r.sqrt() - 2.0) / self.scale.powi(self.iterations as i32);
+			z = self.scale * z - c * (self.scale - 1.0);
+		}
+
+        return (z.magnitude() - 2.0) / self.scale.powi(self.iterations as i32);
     }
 }
