@@ -7,6 +7,8 @@ use std::sync::Arc;
 use std::ops::Deref;
 use std::f64::consts::PI;
 
+use cgmath::Basis3;
+
 impl Raymarchable for Arc<Raymarchable> {
     fn normal_at(&self, point: Vec3d, dir: Vec3d) -> Vec3d {
         return self.deref().normal_at(point, dir);
@@ -66,6 +68,9 @@ pub fn hollow(obj: Arc<Raymarchable>) -> Arc<Raymarchable> {
 pub fn sierpinski(iterations: u32, scale: f64) -> Arc<Raymarchable> {
     Arc::new(Sierpinski::new(iterations, scale))
 }
+pub fn rotate(obj : Arc<Raymarchable>, xyz: Basis3<f64>) -> Arc<Raymarchable> {
+	Arc::new(Rotate::new(obj, xyz))
+}
 
 /* Materials */
 pub fn solid_colour(col: [f32; 3]) -> Arc<Material> {
@@ -85,8 +90,8 @@ pub fn ambient(col: [f32; 3]) -> Arc<Light> {
 pub fn directional(dir: [f64; 3]) -> Arc<Light> {
     Arc::new(DirectionalLight::new(vec3d(dir)))
 }
-pub fn fuzzy_directional(dir: [f64; 3], fuzziness: f64) -> Arc<Light> {
-    Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness))
+pub fn fuzzy_directional(dir: [f64; 3], fuzziness: f64, rays: usize) -> Arc<Light> {
+    Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness, rays))
 }
 pub fn tint(light: Arc<Light>, col: [f32; 3]) -> Arc<Light> {
     Arc::new(Tint::new(light, colour(col)))

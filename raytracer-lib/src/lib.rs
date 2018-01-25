@@ -5,6 +5,7 @@ extern crate num_cpus;
 extern crate rand;
 extern crate termsize;
 extern crate threadpool;
+extern crate cgmath;
 
 //#[macro_use]
 //extern crate pest;

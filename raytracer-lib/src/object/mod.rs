@@ -12,6 +12,7 @@ mod triangular_prism;
 mod repeat;
 mod hollow;
 mod sierpinski;
+mod rotate;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -27,3 +28,4 @@ pub use self::triangular_prism::*;
 pub use self::repeat::*;
 pub use self::hollow::*;
 pub use self::sierpinski::*;
+pub use self::rotate::*;

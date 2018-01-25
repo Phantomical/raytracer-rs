@@ -35,6 +35,7 @@ pub struct FuzzyDirectionalLight {
     pub direction: Vec3d,
     /// Angular radius of the cone (radians)
     pub fuzziness: f64,
+	pub rays: usize
 }
 
 fn orthagonal(a: Vec3d) -> Vec3d {
@@ -44,10 +45,11 @@ fn orthagonal(a: Vec3d) -> Vec3d {
 }
 
 impl FuzzyDirectionalLight {
-    pub fn new(dir: Vec3d, fuzziness: f64) -> FuzzyDirectionalLight {
+    pub fn new(dir: Vec3d, fuzziness: f64, rays: usize) -> FuzzyDirectionalLight {
         return FuzzyDirectionalLight {
             direction: dir.normalize(),
-            fuzziness: fuzziness,
+            fuzziness,
+			rays
         };
     }
 
@@ -64,8 +66,6 @@ impl FuzzyDirectionalLight {
     }
 }
 
-const NUM_LIGHT_RAYS: u32 = 20;
-
 impl Light for FuzzyDirectionalLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
         let mult = (dot(isect.normal, -self.direction) as f32).abs();
@@ -77,7 +77,7 @@ impl Light for FuzzyDirectionalLight {
             let me = self.clone();
             let point = isect.point;
             move || {
-                for _ in 0..NUM_LIGHT_RAYS {
+                for _ in 0..me.rays {
                     let mut rng = thread_rng();
                     let vec = me.rand_vec::<ThreadRng>(&mut rng);
                     yield (Ray::new(point, vec), DIRECTIONAL_DISTANCE);

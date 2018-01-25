@@ -1,7 +1,8 @@
-extern crate cgmath;
 
-use self::cgmath::Vector3;
-use self::cgmath::BaseFloat;
+use cgmath;
+
+use cgmath::Vector3;
+use cgmath::BaseFloat;
 
 pub type Vec2u = cgmath::Vector2<u32>;
 pub type Vec2d = cgmath::Vector2<f64>;
@@ -9,9 +10,9 @@ pub type Vec3d = cgmath::Vector3<f64>;
 pub type Colour = cgmath::Vector3<f32>;
 pub type Mat3d = cgmath::Matrix3<f64>;
 
-pub use self::cgmath::Rad;
-pub use self::cgmath::dot;
-pub use self::cgmath::prelude::*;
+pub use cgmath::Rad;
+pub use cgmath::dot;
+pub use cgmath::prelude::*;
 
 pub fn abs(v: Vec3d) -> Vec3d {
     return Vec3d::new(v.x.abs(), v.y.abs(), v.z.abs());
@@ -25,6 +26,14 @@ pub fn norm2<T: BaseFloat>(v: Vector3<T>) -> T {
 }
 pub fn norm<T: BaseFloat>(v: Vector3<T>) -> T {
     return norm2(v).sqrt();
+}
+
+pub fn length<T: BaseFloat>(v: Vector3<T>) -> T {
+	return norm(v);
+}
+
+pub fn normalize<T: BaseFloat>(v: Vector3<T>) -> Vector3<T> {
+	return v / length(v);
 }
 
 /// Calculates the projection of x onto y.
