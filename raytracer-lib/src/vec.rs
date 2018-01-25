@@ -1,4 +1,3 @@
-
 use cgmath;
 
 use cgmath::Vector3;
@@ -29,11 +28,11 @@ pub fn norm<T: BaseFloat>(v: Vector3<T>) -> T {
 }
 
 pub fn length<T: BaseFloat>(v: Vector3<T>) -> T {
-	return norm(v);
+    return norm(v);
 }
 
 pub fn normalize<T: BaseFloat>(v: Vector3<T>) -> Vector3<T> {
-	return v / length(v);
+    return v / length(v);
 }
 
 /// Calculates the projection of x onto y.

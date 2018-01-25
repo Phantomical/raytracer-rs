@@ -68,8 +68,11 @@ pub fn hollow(obj: Arc<Raymarchable>) -> Arc<Raymarchable> {
 pub fn sierpinski(iterations: u32, scale: f64) -> Arc<Raymarchable> {
     Arc::new(Sierpinski::new(iterations, scale))
 }
-pub fn rotate(obj : Arc<Raymarchable>, xyz: Basis3<f64>) -> Arc<Raymarchable> {
-	Arc::new(Rotate::new(obj, xyz))
+pub fn rotate(obj: Arc<Raymarchable>, xyz: Basis3<f64>) -> Arc<Raymarchable> {
+    Arc::new(Rotate::new(obj, xyz))
+}
+pub fn mandelbulb(iterations: usize, power: i32) -> Arc<Raymarchable> {
+    Arc::new(Mandelbulb::new(iterations, power))
 }
 
 /* Materials */

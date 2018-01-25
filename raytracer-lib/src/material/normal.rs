@@ -17,6 +17,10 @@ impl NormalColour {
 impl Material for NormalColour {
     fn base_colour(&self, point: Vec3d) -> Colour {
         let normal = self.obj.normal_at(point, Vec3d::zero());
-        Colour::new(normal.x as f32, normal.y as f32, normal.z as f32)
+        Colour::new(
+            normal.x.max(0.0) as f32,
+            normal.y.max(0.0) as f32,
+            normal.z.max(0.0) as f32,
+        )
     }
 }

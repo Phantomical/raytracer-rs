@@ -1,6 +1,6 @@
+extern crate cgmath;
 extern crate image;
 extern crate raytracer;
-extern crate cgmath;
 
 use raytracer::*;
 use raytracer::colours;
@@ -15,34 +15,25 @@ mod add_objects {
     use raytracer::builder::*;
     use raytracer::colours;
 
-	use raytracer::{normalize};
-	use cgmath::{Basis3, Rotation3, Rad};
-
     pub fn add_objects(scene: &mut Scene) {
         scene.add_object(
             sphere([0.0, -10001.0, 0.0], 10000.0),
             solid_colour(colours::WHITE),
         );
 
-		let rotation = Basis3::from_axis_angle(
-				normalize(vec3d([-1.0, 0.0, 1.0])),
-				Rad(deg2rad(52.5))));
-
-        scene.add_object(
-			rotate(sierpinski(10, 2.0), rotation), 
-			solid_colour(colours::RED));
+        scene.add_object(mandelbulb(32, 8), normal(mandelbulb(32, 8)));
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 10));
-		scene.add_light(ambient([0.1, 0.1, 0.1]));
+        scene.add_light(directional([0.0, -1.0, 1.0])); //, 0.0872665, 10));
+        scene.add_light(ambient([0.1, 0.1, 0.1]));
     }
 }
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(2.0, 0.5, -5.0))
-        .forward(Vec3d::new(-0.4, 0.0, 1.0))
+        .position(Vec3d::new(2.0, 0.0, -10.0))
+        .forward(Vec3d::new(-0.2, 0.0, 1.0))
         .orthonormalize()
         .unwrap();
 
@@ -68,10 +59,10 @@ fn main() {
     }
 
     let desc = ImageDesc {
-        width: 2000,
-        height: 1500,
+        width: 4000,
+        height: 3000,
     };
-    let opts = ImageOptions { samples: 5 };
+    let opts = ImageOptions { samples: 10 };
     let scene = Arc::new(create_scene());
 
     let image_val = trace_image(desc, opts, scene);

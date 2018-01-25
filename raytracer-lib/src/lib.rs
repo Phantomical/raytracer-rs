@@ -1,11 +1,11 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
+extern crate cgmath;
 extern crate num_cpus;
 extern crate rand;
 extern crate termsize;
 extern crate threadpool;
-extern crate cgmath;
 
 //#[macro_use]
 //extern crate pest;

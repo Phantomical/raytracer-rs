@@ -35,7 +35,7 @@ pub struct FuzzyDirectionalLight {
     pub direction: Vec3d,
     /// Angular radius of the cone (radians)
     pub fuzziness: f64,
-	pub rays: usize
+    pub rays: usize,
 }
 
 fn orthagonal(a: Vec3d) -> Vec3d {
@@ -49,7 +49,7 @@ impl FuzzyDirectionalLight {
         return FuzzyDirectionalLight {
             direction: dir.normalize(),
             fuzziness,
-			rays
+            rays,
         };
     }
 
@@ -76,11 +76,12 @@ impl Light for FuzzyDirectionalLight {
         return Box::new(generator_to_iterator({
             let me = self.clone();
             let point = isect.point;
+            let normal = isect.normal;
             move || {
                 for _ in 0..me.rays {
                     let mut rng = thread_rng();
                     let vec = me.rand_vec::<ThreadRng>(&mut rng);
-                    yield (Ray::new(point, vec), DIRECTIONAL_DISTANCE);
+                    yield (Ray::new(point + normal * 0.001, vec), DIRECTIONAL_DISTANCE);
                 }
             }
         }));

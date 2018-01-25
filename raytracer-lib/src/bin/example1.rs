@@ -39,7 +39,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665));
+        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 20));
     }
 }
 

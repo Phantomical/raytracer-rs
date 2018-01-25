@@ -13,6 +13,7 @@ mod repeat;
 mod hollow;
 mod sierpinski;
 mod rotate;
+mod mandelbulb;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -29,3 +30,4 @@ pub use self::repeat::*;
 pub use self::hollow::*;
 pub use self::sierpinski::*;
 pub use self::rotate::*;
+pub use self::mandelbulb::*;
