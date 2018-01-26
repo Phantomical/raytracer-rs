@@ -1,0 +1,7 @@
+[package]
+name = "gradient"
+version = "0.0.1"
+authors = ["Sean Lynch <swlynch@uwaterloo.ca>"]
+
+[dependencies]
+num = "0.1"
