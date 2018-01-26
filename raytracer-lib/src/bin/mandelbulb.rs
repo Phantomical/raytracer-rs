@@ -21,11 +21,11 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(mandelbulb(3, 8), normal());
+        scene.add_object(mandelbulb(3, 8), mandelbulb_orbit_trap(3, 8));
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 300.0])); //, 0.0872665, 10));
+        scene.add_light(directional([0.0, -1.0, 5.0])); //, 0.0872665, 10));
         scene.add_light(ambient([0.2; 3]));
     }
 }

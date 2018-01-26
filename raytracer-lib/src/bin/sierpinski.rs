@@ -34,7 +34,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 10));
+        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 40));
         scene.add_light(ambient([0.1, 0.1, 0.1]));
     }
 }
@@ -71,7 +71,7 @@ fn main() {
         width: 1200,
         height: 800,
     };
-    let opts = ImageOptions { samples: 2 };
+    let opts = ImageOptions { samples: 5 };
     let scene = Arc::new(create_scene());
 
     let image_val = trace_image(desc, opts, scene);

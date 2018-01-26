@@ -85,6 +85,9 @@ pub fn mirror() -> Arc<Material> {
 pub fn normal() -> Arc<Material> {
     Arc::new(NormalColour::new())
 }
+pub fn mandelbulb_orbit_trap(iterations : usize, power : i32) -> Arc<Material> {
+	Arc::new(MandelbulbOrbitTrap::new(iterations, power))
+}
 
 /* Lights */
 pub fn ambient(col: [f32; 3]) -> Arc<Light> {

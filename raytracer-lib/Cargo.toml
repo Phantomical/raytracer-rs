@@ -8,7 +8,6 @@ name = "raytracer"
 path = "src/lib.rs"
 
 [profile.release]
-#debug = true
 #lto = true
 
 [dependencies]
@@ -17,8 +16,7 @@ image = "0.18.0"
 threadpool = "1.7.0"
 num_cpus = "1.0"
 termsize = "0.1"
-pest = "0.4"
-
+gradient = { path = "../gradient" }
 
 [dependencies.cgmath]
 version = "0.16" 
