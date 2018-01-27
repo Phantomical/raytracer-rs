@@ -1,7 +1,0 @@
-[package]
-name = "scheduler"
-version = "0.1.0"
-authors = ["swlynch <swlynch@uwaterloo.ca>"]
-
-[dependencies]
-multimap = "0.4.*"
