@@ -2,11 +2,11 @@
 #![feature(specialization)]
 
 extern crate cgmath;
+extern crate gradient;
 extern crate num_cpus;
 extern crate rand;
 extern crate termsize;
 extern crate threadpool;
-extern crate gradient;
 
 pub mod object;
 pub mod material;

@@ -10,56 +10,67 @@ use std::fs::File;
 
 use std::sync::Arc;
 
-mod custom
-{
-	use raytracer::Vec3d;
-	use raytracer::object::Raymarchable;
-	use builder::deg2rad;
+mod custom {
+    use raytracer::Vec3d;
+    use raytracer::object::Raymarchable;
+    use builder::deg2rad;
 
-	pub struct IFSElement {}	
+    pub struct IFSElement {}
 
-	fn rotate1(_angle : &mut f64, x: &mut f64, y: &mut f64) {
-		let (im, re) = deg2rad(45.0).sin_cos();
+    fn rotate1(_angle: &mut f64, x: &mut f64, y: &mut f64) {
+        let (im, re) = deg2rad(45.0).sin_cos();
 
-		let a = re * *x - im * *y;
-		*y = re * *y + im * *x;
-		*x = a;
-	}
-	fn rotate2(mut x: &mut f64, mut angle: &mut f64, mut y: &mut f64) {
-		rotate1(&mut angle, &mut x, &mut y);
-	}
-	
-	impl Raymarchable for IFSElement {
-		fn distance(&self, point : Vec3d) -> f64 {
-			let mut x = point.x;
-			let mut y = point.y;
-			let mut z = point.z;
-			let scale: f64 = 2.0;
+        let a = re * *x - im * *y;
+        *y = re * *y + im * *x;
+        *x = a;
+    }
+    fn rotate2(mut x: &mut f64, mut angle: &mut f64, mut y: &mut f64) {
+        rotate1(&mut angle, &mut x, &mut y);
+    }
 
-			let mut r=x*x+y*y+z*z;
-			for _ in 0..10 {
-				rotate1(&mut x, &mut y, &mut z);
-			   //Folding... These are some of the symmetry planes of the tetrahedron
-			   if x+y<0.0 {let x1=-y;y=-x;x=x1;}
-			   if x+z<0.0 {let x1=-z;z=-x;x=x1;}
-			   if y+z<0.0 {let y1=-z;z=-y;y=y1;}
+    impl Raymarchable for IFSElement {
+        fn distance(&self, point: Vec3d) -> f64 {
+            let mut x = point.x;
+            let mut y = point.y;
+            let mut z = point.z;
+            let scale: f64 = 2.0;
 
-			   rotate2(&mut x, &mut y, &mut z);
-			   
-			   //Stretche about the point [1,1,1]*(scale-1)/scale; The "(scale-1)/scale" is here in order to keep the size of the fractal constant wrt scale
-			   x=scale*x-(scale-1.0);//equivalent to: x=scale*(x-cx); where cx=(scale-1)/scale;
-			   y=scale*y-(scale-1.0);
-			   z=scale*z-(scale-1.0);
-			   r=x*x+y*y+z*z;
-			}
-			return (r.sqrt()-2.0)*scale.powi(-10);//the estimated distance
-		}
-	}
+            let mut r = x * x + y * y + z * z;
+            for _ in 0..10 {
+                rotate1(&mut x, &mut y, &mut z);
+                //Folding... These are some of the symmetry planes of the tetrahedron
+                if x + y < 0.0 {
+                    let x1 = -y;
+                    y = -x;
+                    x = x1;
+                }
+                if x + z < 0.0 {
+                    let x1 = -z;
+                    z = -x;
+                    x = x1;
+                }
+                if y + z < 0.0 {
+                    let y1 = -z;
+                    z = -y;
+                    y = y1;
+                }
+
+                rotate2(&mut x, &mut y, &mut z);
+
+                //Stretche about the point [1,1,1]*(scale-1)/scale; The "(scale-1)/scale" is here in order to keep the size of the fractal constant wrt scale
+                x = scale * x - (scale - 1.0); //equivalent to: x=scale*(x-cx); where cx=(scale-1)/scale;
+                y = scale * y - (scale - 1.0);
+                z = scale * z - (scale - 1.0);
+                r = x * x + y * y + z * z;
+            }
+            return (r.sqrt() - 2.0) * scale.powi(-10); //the estimated distance
+        }
+    }
 }
 
 mod add_objects {
-	use custom;
-	use std::sync::Arc;
+    use custom;
+    use std::sync::Arc;
     use raytracer::Scene;
     use raytracer::builder::*;
     use raytracer::colours;
@@ -70,7 +81,7 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(Arc::new(custom::IFSElement{}), normal());
+        scene.add_object(Arc::new(custom::IFSElement {}), normal());
     }
 
     pub fn add_lights(scene: &mut Scene) {

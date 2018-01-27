@@ -21,10 +21,13 @@ scheduler/target
 scheduler/Cargo.lock
 scheduler/.vscode
 
+images/
+
 vector/.vs/
 vector/target
 vector/Cargo.lock
 vector/.vscode
+
 /raytracer-lib/output.png
 /raytracer-lib/output.txt
 /deserializer-derive/target

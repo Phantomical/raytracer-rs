@@ -71,5 +71,3 @@ pub fn rotate(v: Vec3d, axis: Vec3d, angle: f64) -> Vec3d {
 
     return rot + par;
 }
-
-

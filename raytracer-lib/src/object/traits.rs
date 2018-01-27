@@ -43,5 +43,5 @@ pub trait Analytical: Raymarchable {
 }
 
 pub trait IFS: Raymarchable {
-	fn points(&self, point : Vec3d) -> Box<Iterator<Item = Vec3d>>;
+    fn points(&self, point: Vec3d) -> Box<Iterator<Item = Vec3d>>;
 }

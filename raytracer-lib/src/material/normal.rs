@@ -1,12 +1,11 @@
 use lib::*;
 use lib::material::Material;
 
-pub struct NormalColour {
-}
+pub struct NormalColour {}
 
 impl NormalColour {
     pub fn new() -> Self {
-        Self { }
+        Self {}
     }
 }
 

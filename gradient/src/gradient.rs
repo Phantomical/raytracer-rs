@@ -40,7 +40,7 @@ impl<T, C> Gradient<T, C>
 		}
 
 		for i in 0..(self.samples.len() - 1) {
-			if self.samples[i].1 < value {
+			if self.samples[i + 1].1 > value {
 				let t1 = self.samples[i].1.clone();
 				let t2 = self.samples[i + 1].1.clone();
 
