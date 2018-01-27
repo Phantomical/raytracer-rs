@@ -7,9 +7,14 @@ raytracer/Cargo.lock
 raytracer/.vscode
 
 raytracer-lib/.vs/
-raytracer-lib/target
+raytracer-lib/target/
 raytracer-lib/Cargo.lock
 raytracer-lib/.vscode
+
+gradient/.vs/
+gradient/target/
+gradient/Cargo.lock
+gradient/.vscode
 
 scheduler/.vs/
 scheduler/target
@@ -27,3 +32,5 @@ vector/.vscode
 /raytracer-lib/graph.dot
 /raytracer-lib/out.dot
 /raytracer-lib/graph.png
+/raytracer-lib/tttracer_output_01.out
+/raytracer-lib/tttracer_output_02.out

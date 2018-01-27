@@ -1,5 +1,6 @@
 use vec::*;
 use ray::*;
+use std::iter::Iterator;
 
 fn yxx(v: Vec2d) -> Vec3d {
     return v.yxx();
@@ -39,4 +40,8 @@ pub trait Analytical: Raymarchable {
     fn intersect(&self, _ray: &Ray) -> Option<Vec3d> {
         unimplemented!();
     }
+}
+
+pub trait IFS: Raymarchable {
+	fn points(&self, point : Vec3d) -> Box<Iterator<Item = Vec3d>>;
 }
