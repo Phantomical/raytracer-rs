@@ -12,7 +12,7 @@ raytracer-lib/Cargo.lock
 raytracer-lib/.vscode
 
 gradient/.vs/
-gradient/target/
+gradient/target
 gradient/Cargo.lock
 gradient/.vscode
 
