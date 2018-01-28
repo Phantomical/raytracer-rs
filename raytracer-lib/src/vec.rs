@@ -5,7 +5,7 @@ pub type Vec2d = glslvec::Vec2<f64>;
 pub type Vec3d = glslvec::Vec3<f64>;
 pub type Vec4d = glslvec::Vec4<f64>;
 pub type Colour = glslvec::Vec3<f32>;
-pub type Mat3d = cgmath::Matrix3<f64>;
+pub type Mat3d = glslvec::Mat3<f64>;
 
 use cgmath;
 pub use cgmath::{Rotation, SquareMatrix};

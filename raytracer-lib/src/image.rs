@@ -4,10 +4,8 @@ use lib::*;
 use std::vec::Vec;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::channel;
-use std::io;
-use std::io::Write;
 
-use termsize;
+use pbr;
 use threadpool::*;
 use rand::{random, Closed01};
 use self::image::{ImageBuffer, Rgb};
@@ -48,12 +46,6 @@ pub fn render_pixel(pixel: &Vec2u, desc: &ImageDesc, opts: &ImageOptions, scene:
     return result / (opts.samples as f32);
 }
 
-fn term_cols() -> u16 {
-    termsize::get()
-        .unwrap_or(termsize::Size { rows: 1, cols: 40 })
-        .cols
-}
-
 pub fn trace_image(
     desc: ImageDesc,
     opts: ImageOptions,
@@ -89,26 +81,19 @@ pub fn trace_image(
         });
     }
 
-    let mult: f64 = (term_cols() as f64) / (desc.height as f64);
-    let mut sum = 0.0;
+    let mut pb = pbr::ProgressBar::new(desc.height as u64);
     for _ in 0..desc.height {
         let _ = rx.recv();
-        sum += mult;
-
-        if sum >= 1.0 {
-            print!("#");
-            io::stdout().flush().unwrap();
-            sum -= 1.0;
-        }
+        
+		pb.inc();
     }
-    println!();
 
     {
         let _ = imagebuf.lock();
     }
 
     return Arc::try_unwrap(imagebuf)
-        .expect("Lock stull has multiple owners")
+        .expect("Lock still has multiple owners")
         .into_inner()
         .expect("Mutex cannot be locked");
 }

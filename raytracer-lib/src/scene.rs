@@ -64,7 +64,7 @@ impl Scene {
             illum = max(self.isect_illumination(isect, light), illum);
         }
 
-        return clamp(base_colour, 0.0, 1.0);
+        return base_colour * clamp(illum, 0.0, 1.0);
     }
 
     pub fn trace_ray(&self, ray: Ray) -> Colour {

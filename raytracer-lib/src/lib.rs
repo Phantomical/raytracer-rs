@@ -1,11 +1,11 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
+extern crate pbr;
 extern crate cgmath;
 extern crate gradient;
 extern crate num_cpus;
 extern crate rand;
-extern crate termsize;
 extern crate threadpool;
 extern crate glslvec;
 
