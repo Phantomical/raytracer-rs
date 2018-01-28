@@ -19,12 +19,13 @@ impl<T: Raymarchable + Sized> Transform<T> {
 
 impl<T: Raymarchable + Sized> Raymarchable for Transform<T> {
     fn distance(&self, point: Vec3d) -> f64 {
-        self.obj.distance(self.inv * point)
+        self.obj.distance(glslvec_vec(self.inv * cgmath_vec(point)))
     }
     fn normal_at(&self, point: Vec3d, dir: Vec3d) -> Vec3d {
         //self.obj.normal_at(self.mat * point, dir)
-        self.mat
-            * self.obj
-                .normal_at(self.inv * point, (self.inv * dir).normalize())
+        glslvec_vec(self.mat * cgmath_vec(self.obj
+                .normal_at(
+					glslvec_vec(self.inv * cgmath_vec(point)), 
+					glslvec_vec(self.inv * cgmath_vec(dir)).normalize())))
     }
 }

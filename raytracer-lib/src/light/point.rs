@@ -16,15 +16,15 @@ impl PointLight {
 
 impl Light for PointLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
-        let val = self.power / ((self.position - isect.point).magnitude2() as f32);
+        let val = self.power / (distance2(self.position, isect.point) as f32);
 
-        Colour::new(val, val, val)
+        Colour::new([val, val, val])
     }
 
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
         Box::new(once((
             Ray::new(self.position, (self.position - isect.point).normalize()),
-            (self.position - isect.point).magnitude(),
+            distance(self.position, isect.point),
         )))
     }
 }

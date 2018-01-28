@@ -14,10 +14,6 @@ pub struct Scene {
     pub background: Colour,
 }
 
-fn vec_max(a: Colour, b: Colour) -> Colour {
-    return Colour::new(a.x.max(b.x), a.y.max(b.y), a.z.max(b.z));
-}
-
 impl Scene {
     pub fn new(cam: Camera, opt: RaymarchOptions, bg: Colour) -> Scene {
         return Scene {
@@ -65,14 +61,10 @@ impl Scene {
         let mut illum = Colour::zero();
 
         for ref light in self.lights.iter() {
-            illum = vec_max(self.isect_illumination(isect, light), illum);
+            illum = max(self.isect_illumination(isect, light), illum);
         }
 
-        return Colour::new(
-            base_colour.x * illum.x.min(1.0).max(0.0),
-            base_colour.y * illum.y.min(1.0).max(0.0),
-            base_colour.z * illum.z.min(1.0).max(0.0),
-        );
+        return clamp(base_colour, 0.0, 1.0);
     }
 
     pub fn trace_ray(&self, ray: Ray) -> Colour {

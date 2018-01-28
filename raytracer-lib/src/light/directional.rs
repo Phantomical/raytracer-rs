@@ -10,8 +10,7 @@ pub struct DirectionalLight {
 
 impl Light for DirectionalLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
-        let mult = (dot(isect.normal, -self.direction) as f32).abs();
-        return Colour::new(mult, mult, mult);
+        Colour::new([(dot(isect.normal, -self.direction) as f32).abs(); 3])
     }
 
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {

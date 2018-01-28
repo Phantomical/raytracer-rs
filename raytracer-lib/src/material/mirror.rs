@@ -6,7 +6,7 @@ pub struct Mirror {}
 
 impl Material for Mirror {
     fn base_colour(&self, _isect: &Intersection) -> Colour {
-        return Colour::new(0.0, 0.0, 0.0);
+        return Colour::zero();
     }
     fn roughness(&self, _isect: &Intersection) -> f32 {
         return 0.0;

@@ -7,6 +7,7 @@ extern crate num_cpus;
 extern crate rand;
 extern crate termsize;
 extern crate threadpool;
+extern crate glslvec;
 
 pub mod object;
 pub mod material;

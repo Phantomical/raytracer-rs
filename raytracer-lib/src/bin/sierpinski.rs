@@ -15,7 +15,7 @@ mod add_objects {
     use raytracer::builder::*;
     use raytracer::colours;
 
-    use raytracer::normalize;
+    use raytracer::{normalize, cgmath_vec};
     use cgmath::{Basis3, Rad, Rotation3};
 
     pub fn add_objects(scene: &mut Scene) {
@@ -25,7 +25,7 @@ mod add_objects {
         );
 
         let rotation =
-            Basis3::from_axis_angle(normalize(vec3d([-1.0, 0.0, 1.0])), Rad(deg2rad(52.5)));
+            Basis3::from_axis_angle(cgmath_vec(normalize(vec3d([-1.0, 0.0, 1.0]))), Rad(deg2rad(52.5)));
 
         scene.add_object(
             rotate(sierpinski(10, 2.0), rotation),
@@ -41,8 +41,8 @@ mod add_objects {
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(2.0, 0.5, -5.0))
-        .forward(Vec3d::new(-0.4, 0.0, 1.0))
+        .position(vec3(2.0, 0.5, -5.0))
+        .forward(vec3(-0.4, 0.0, 1.0))
         .orthonormalize()
         .unwrap();
 

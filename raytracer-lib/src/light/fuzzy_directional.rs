@@ -39,9 +39,10 @@ pub struct FuzzyDirectionalLight {
 }
 
 fn orthagonal(a: Vec3d) -> Vec3d {
-    assert!(a != Vec3d::zero());
+	//TODO: Implement this
+    //assert!(a != Vec3d::zero());
 
-    return Vec3d::new(1.0, 1.0, -(a.x + a.y) / a.z).normalize();
+    return vec3(1.0, 1.0, -(a.x + a.y) / a.z).normalize();
 }
 
 impl FuzzyDirectionalLight {
@@ -54,8 +55,8 @@ impl FuzzyDirectionalLight {
     }
 
     fn rand_vec<R: Rng>(&self, mut rng: &mut Rng) -> Vec3d {
-        let u = Vec3d::cross(self.direction, orthagonal(self.direction));
-        let v = Vec3d::cross(self.direction, u);
+        let u = cross(self.direction, orthagonal(self.direction));
+        let v = cross(self.direction, u);
 
         let theta = Range::new(self.fuzziness.cos(), 1.0)
             .ind_sample(&mut rng)
@@ -68,8 +69,7 @@ impl FuzzyDirectionalLight {
 
 impl Light for FuzzyDirectionalLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
-        let mult = (dot(isect.normal, -self.direction) as f32).abs();
-        return Colour::new(mult, mult, mult);
+        Colour::new([(dot(isect.normal, -self.direction) as f32).abs(); 3])
     }
 
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {

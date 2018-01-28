@@ -19,13 +19,13 @@ impl Raymarchable for Arc<Raymarchable> {
 }
 
 pub fn vec2d(vals: [f64; 2]) -> Vec2d {
-    return Vec2d::new(vals[0], vals[1]);
+    return Vec2d::new(vals);
 }
 pub fn vec3d(vals: [f64; 3]) -> Vec3d {
-    return Vec3d::new(vals[0], vals[1], vals[2]);
+    return Vec3d::new(vals);
 }
 pub fn colour(vals: [f32; 3]) -> Colour {
-    return Colour::new(vals[0], vals[1], vals[2]);
+    return Colour::new(vals);
 }
 
 /* Objects */

@@ -18,6 +18,9 @@ num_cpus = "1.0"
 termsize = "0.1"
 gradient = { path = "../gradient" }
 
+[dependencies.glslvec]
+git = "http://github.com/phantomical/glslvec" 
+
 [dependencies.cgmath]
 version = "0.16" 
 features = ["swizzle"]

@@ -18,11 +18,7 @@ impl Light for Tint {
     fn illumination(&self, isect: &Intersection) -> Colour {
         let illum = self.light.illumination(isect);
 
-        Colour::new(
-            illum.x * self.tint.x,
-            illum.y * self.tint.y,
-            illum.z * self.tint.z,
-        )
+        illum.x * self.tint
     }
 
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
