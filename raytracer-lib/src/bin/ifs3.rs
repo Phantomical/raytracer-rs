@@ -12,11 +12,7 @@ use std::fs::File;
 use std::sync::Arc;
 
 mod custom {
-<<<<<<< HEAD
-    use raytracer::Vec3d;
-=======
     use raytracer::{Vec3d, vec3};
->>>>>>> change-to-glslvec
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
@@ -104,11 +100,7 @@ mod custom {
                 y = scale * y - (scale - 1.0);
                 z = scale * z - (scale - 1.0);
 
-<<<<<<< HEAD
-                points.push(Vec3d::new(x, y, z));
-=======
                 points.push(vec3(x, y, z));
->>>>>>> change-to-glslvec
             }
 
             return Box::new(points.into_iter());
@@ -185,13 +177,8 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let desc = ImageDesc {
-<<<<<<< HEAD
-       width: 3840,
-       height: 2160,
-=======
 		width: 3840,
 		height: 2160,
->>>>>>> change-to-glslvec
 
 		//width: 1200,
 		//height: 800
