@@ -177,11 +177,11 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let desc = ImageDesc {
-       width: 3840,
-       height: 2160,
+       //width: 3840,
+       //height: 2160,
 
-		//width: 1200,
-		//height: 800
+		width: 12,
+		height: 8
     };
     let opts = ImageOptions { samples: 2 };
     let scene = Arc::new(create_scene(angle, &desc));
