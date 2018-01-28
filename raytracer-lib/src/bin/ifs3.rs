@@ -138,7 +138,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 5.0])); //, 0.0872665, 10));
+        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10));
         scene.add_light(ambient([0.2; 3]));
     }
 }
@@ -147,8 +147,8 @@ use raytracer::builder::deg2rad;
 
 fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
     let camera = CameraBuilder::new()
-        .position(vec3(2.0, 0.0, -4.0))
-        .forward(vec3(-0.5, 0.0, 1.0))
+        .position(vec3(0.0, 1.0, -6.0))
+        .forward(vec3(0.0, -1.0, 6.0))
 		.aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
         .orthonormalize()
         .unwrap();
