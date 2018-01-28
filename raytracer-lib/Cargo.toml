@@ -15,8 +15,11 @@ rand = "0.4.1"
 image = "0.18.0"
 threadpool = "1.7.0"
 num_cpus = "1.0"
-termsize = "0.1"
 gradient = { path = "../gradient" }
+pbr = "1.0"
+
+[dependencies.glslvec]
+git = "http://github.com/phantomical/glslvec" 
 
 [dependencies.cgmath]
 version = "0.16" 

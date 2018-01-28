@@ -13,10 +13,10 @@ impl<T: Raymarchable> Repeat<T> {
 }
 
 fn modulus(v: Vec3d, m: Vec3d) -> Vec3d {
-    Vec3d::new(
-        if m.x.is_zero() { v.x } else { v.x % m.x },
-        if m.y.is_zero() { v.y } else { v.y % m.y },
-        if m.z.is_zero() { v.z } else { v.z % m.z },
+    vec3(
+        if m.x == 0.0 { v.x } else { v.x % m.x },
+        if m.y == 0.0 { v.y } else { v.y % m.y },
+        if m.z == 0.0 { v.z } else { v.z % m.z },
     )
 }
 

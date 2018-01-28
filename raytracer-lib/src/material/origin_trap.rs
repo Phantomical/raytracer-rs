@@ -21,7 +21,7 @@ impl<T: IFS> Material for OriginTrap<T> {
     fn base_colour(&self, isect: &Intersection) -> Colour {
         let min = self.object
             .points(isect.point)
-            .map(|v| v.magnitude())
+            .map(|v| v.length())
             .min_by(|a, b| a.partial_cmp(b).unwrap())
             .unwrap_or(0.0);
 

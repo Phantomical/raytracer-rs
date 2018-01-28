@@ -21,6 +21,6 @@ impl<T: Raymarchable> Rotate<T> {
 
 impl<T: Raymarchable> Raymarchable for Rotate<T> {
     fn distance(&self, point: Vec3d) -> f64 {
-        self.obj.distance(self.mat.rotate_vector(point))
+        self.obj.distance(glslvec_vec(self.mat.rotate_vector(cgmath_vec(point))))
     }
 }

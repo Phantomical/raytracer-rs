@@ -146,8 +146,8 @@ impl CameraBuilder {
     /// creating the camera as otherwise pixel determination
     /// will not be as expected.
     pub fn orthonormalize(mut self) -> Self {
-        self.cam.right = Vec3d::cross(self.cam.up, self.cam.forward);
-        self.cam.up = Vec3d::cross(self.cam.forward, self.cam.right);
+        self.cam.right = cross(self.cam.up, self.cam.forward);
+        self.cam.up = cross(self.cam.forward, self.cam.right);
         return self;
     }
 

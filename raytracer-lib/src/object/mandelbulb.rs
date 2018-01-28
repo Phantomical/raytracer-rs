@@ -27,7 +27,7 @@ impl Raymarchable for Mandelbulb {
             let a = power * w.x.atan2(w.z);
 
             w = point
-                + r.powi(self.power) * Vec3d::new(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
+                + r.powi(self.power) * vec3(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
 
             m = dot(w, w);
         }

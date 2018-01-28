@@ -12,7 +12,11 @@ use std::fs::File;
 use std::sync::Arc;
 
 mod custom {
+<<<<<<< HEAD
     use raytracer::Vec3d;
+=======
+    use raytracer::{Vec3d, vec3};
+>>>>>>> change-to-glslvec
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
@@ -100,7 +104,11 @@ mod custom {
                 y = scale * y - (scale - 1.0);
                 z = scale * z - (scale - 1.0);
 
+<<<<<<< HEAD
                 points.push(Vec3d::new(x, y, z));
+=======
+                points.push(vec3(x, y, z));
+>>>>>>> change-to-glslvec
             }
 
             return Box::new(points.into_iter());
@@ -138,7 +146,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 5.0])); //, 0.0872665, 10));
+        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10));
         scene.add_light(ambient([0.2; 3]));
     }
 }
@@ -147,8 +155,8 @@ use raytracer::builder::deg2rad;
 
 fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(2.0, 0.0, -4.0))
-        .forward(Vec3d::new(-0.5, 0.0, 1.0))
+        .position(vec3(0.0, 1.0, -6.0))
+        .forward(vec3(0.0, -1.0, 6.0))
 		.aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
         .orthonormalize()
         .unwrap();
@@ -177,8 +185,13 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let desc = ImageDesc {
+<<<<<<< HEAD
        width: 3840,
        height: 2160,
+=======
+		width: 3840,
+		height: 2160,
+>>>>>>> change-to-glslvec
 
 		//width: 1200,
 		//height: 800

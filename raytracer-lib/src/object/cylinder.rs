@@ -13,6 +13,6 @@ impl Cylinder {
 
 impl Raymarchable for Cylinder {
     fn distance(&self, p: Vec3d) -> f64 {
-        return (p.xz() - self.c.xy()).magnitude() - self.c.z;
+        return (p.xz() - self.c.xy()).length() - self.c.z;
     }
 }

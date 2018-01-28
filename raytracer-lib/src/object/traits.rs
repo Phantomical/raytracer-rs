@@ -18,14 +18,14 @@ pub trait Raymarchable: Sync + Send {
     }
 
     fn normal_at(&self, point: Vec3d, _direction: Vec3d) -> Vec3d {
-        let eps = Vec2d::new(0.0, self.epsilon(point));
+        let eps = vec2(0.0, self.epsilon(point));
         // Normal approximation using gradient method
 
-        return Vec3d {
-            x: self.distance(point + yxx(eps)) - self.distance(point - yxx(eps)),
-            y: self.distance(point + xyx(eps)) - self.distance(point - xyx(eps)),
-            z: self.distance(point + xxy(eps)) - self.distance(point - xxy(eps)),
-        }.normalize();
+        return vec3(
+            self.distance(point + yxx(eps)) - self.distance(point - yxx(eps)),
+            self.distance(point + xyx(eps)) - self.distance(point - xyx(eps)),
+            self.distance(point + xxy(eps)) - self.distance(point - xxy(eps)),
+        ).normalize();
     }
 
     fn distance(&self, point: Vec3d) -> f64;

@@ -12,7 +12,7 @@ impl<T: Raymarchable + Sized> Transform<T> {
         Self {
             obj: obj,
             mat: mat,
-            inv: mat.invert().unwrap(),
+            inv: mat.inverse(),
         }
     }
 }
@@ -23,8 +23,8 @@ impl<T: Raymarchable + Sized> Raymarchable for Transform<T> {
     }
     fn normal_at(&self, point: Vec3d, dir: Vec3d) -> Vec3d {
         //self.obj.normal_at(self.mat * point, dir)
-        self.mat
-            * self.obj
-                .normal_at(self.inv * point, (self.inv * dir).normalize())
+        self.mat * self.obj
+			.normal_at(self.inv * point, self.inv * dir)
+			.normalize()
     }
 }

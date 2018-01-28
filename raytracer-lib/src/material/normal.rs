@@ -12,7 +12,7 @@ impl NormalColour {
 impl Material for NormalColour {
     fn base_colour(&self, isect: &Intersection) -> Colour {
         let normal = isect.normal;
-        Colour::new(
+        vec3(
             normal.x.abs() as f32,
             normal.y.abs() as f32,
             normal.z.abs() as f32,

@@ -33,8 +33,8 @@ mod add_objects {
 
 fn create_scene() -> Scene {
     let camera = CameraBuilder::new()
-        .position(Vec3d::new(0.0, 10.0, -10.0))
-        .forward(Vec3d::new(1.0, 0.0, 1.0))
+        .position(vec3(0.0, 10.0, -10.0))
+        .forward(vec3(1.0, 0.0, 1.0))
         .orthonormalize()
         .unwrap();
 

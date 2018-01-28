@@ -15,6 +15,6 @@ impl Raymarchable for BoxObj {
     fn distance(&self, point: Vec3d) -> f64 {
         let d = abs(point) - self.bounds;
 
-        return d.x.max(d.y.max(d.z)).min(0.0) + norm(max(d, Vec3d::zero()));
+        return d.x.max(d.y.max(d.z)).min(0.0) + length(max(d, Vec3d::zero()));
     }
 }
