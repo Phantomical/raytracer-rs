@@ -1,6 +1,7 @@
 extern crate cgmath;
 extern crate image;
 extern crate raytracer;
+extern crate gradient;
 
 use raytracer::*;
 use raytracer::colours;
@@ -14,6 +15,11 @@ mod add_objects {
     use raytracer::Scene;
     use raytracer::builder::*;
     use raytracer::colours;
+	use raytracer::object::Mandelbulb;
+	use raytracer::material::OriginTrap;
+
+	use std::sync::Arc;
+	use gradient::Gradient;
 
     pub fn add_objects(scene: &mut Scene) {
         scene.add_object(
@@ -21,7 +27,15 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(mandelbulb(3, 8), mandelbulb_orbit_trap(3, 8));
+		let mandelbulb = Mandelbulb::new(3, 8);
+        scene.add_object(
+			Arc::new(mandelbulb), 
+			Arc::new(OriginTrap::new(
+                Gradient::new(&[
+                    (colour(colours::ORANGE) * 0.8, 1.0),
+					(colour(colours::GREEN) * 0.4, 0.85),
+                    (colour(colours::BLUE), 0.7),
+                ]),	mandelbulb)));
     }
 
     pub fn add_lights(scene: &mut Scene) {
