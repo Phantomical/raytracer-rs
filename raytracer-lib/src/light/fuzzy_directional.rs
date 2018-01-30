@@ -39,7 +39,7 @@ pub struct FuzzyDirectionalLight {
 }
 
 fn orthagonal(a: Vec3d) -> Vec3d {
-	//TODO: Implement this
+    //TODO: Implement this
     //assert!(a != Vec3d::zero());
 
     return vec3(1.0, 1.0, -(a.x + a.y) / a.z).normalize();

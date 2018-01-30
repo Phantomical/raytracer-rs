@@ -12,15 +12,15 @@ use std::fs::File;
 use std::sync::Arc;
 
 mod custom {
-    use raytracer::{Vec3d, vec3, abs};
+    use raytracer::{abs, Vec3d, vec3};
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
-	#[derive(Copy, Clone)]
+    #[derive(Copy, Clone)]
     pub struct IFSElement {
         pub angle: f64,
-		pub scale: f64,
-		pub c: Vec3d
+        pub scale: f64,
+        pub c: Vec3d,
     }
 
     fn rotate1(angle: f64, x: &mut f64, y: &mut f64, _: &mut f64) {
@@ -40,27 +40,43 @@ mod custom {
             let mut y = point.y;
             let mut z = point.z;
             let scale: f64 = self.scale;
-			let cx = self.c.x;
-			let cy = self.c.y;
-			let cz = self.c.z;
+            let cx = self.c.x;
+            let cy = self.c.y;
+            let cz = self.c.z;
 
             let mut r = x * x + y * y + z * z;
             for _ in 0..10 {
-				rotate1(self.angle, &mut x, &mut y, &mut z);
+                rotate1(self.angle, &mut x, &mut y, &mut z);
 
-				x=abs(x);y=abs(y);z=abs(z);
-				if x-y<0.0 { let x1=y;y=x;x=x1; }
-				if x-z<0.0 { let x1=z;z=x;x=x1; }
-				if y-z<0.0 { let y1=z;z=y;y=y1; }
+                x = abs(x);
+                y = abs(y);
+                z = abs(z);
+                if x - y < 0.0 {
+                    let x1 = y;
+                    y = x;
+                    x = x1;
+                }
+                if x - z < 0.0 {
+                    let x1 = z;
+                    z = x;
+                    x = x1;
+                }
+                if y - z < 0.0 {
+                    let y1 = z;
+                    z = y;
+                    y = y1;
+                }
 
-				rotate2(self.angle, &mut x, &mut y, &mut z);
-    
-				x=scale*x-cx*(scale-1.0);
-				y=scale*y-cy*(scale-1.0);
-				z=scale*z;
-				if z>0.5*cz*(scale-1.0) { z-=cz*(scale-1.0) }
-				
-				r=x*x+y*y+z*z;
+                rotate2(self.angle, &mut x, &mut y, &mut z);
+
+                x = scale * x - cx * (scale - 1.0);
+                y = scale * y - cy * (scale - 1.0);
+                z = scale * z;
+                if z > 0.5 * cz * (scale - 1.0) {
+                    z -= cz * (scale - 1.0)
+                }
+
+                r = x * x + y * y + z * z;
             }
             return r.sqrt() * scale.powi(-10); //the estimated distance
         }
@@ -72,28 +88,44 @@ mod custom {
             let mut y = point.y;
             let mut z = point.z;
             let scale: f64 = 2.0;
-			let cx = self.c.x;
-			let cy = self.c.y;
-			let cz = self.c.z;
+            let cx = self.c.x;
+            let cy = self.c.y;
+            let cz = self.c.z;
 
             let mut points = Vec::new();
 
             points.push(point);
 
             for _ in 0..10 {
-				rotate1(self.angle, &mut x, &mut y, &mut z);
+                rotate1(self.angle, &mut x, &mut y, &mut z);
 
-				x=abs(x);y=abs(y);z=abs(z);
-				if x-y<0.0 { let x1=y;y=x;x=x1; }
-				if x-z<0.0 { let x1=z;z=x;x=x1; }
-				if y-z<0.0 { let y1=z;z=y;y=y1; }
+                x = abs(x);
+                y = abs(y);
+                z = abs(z);
+                if x - y < 0.0 {
+                    let x1 = y;
+                    y = x;
+                    x = x1;
+                }
+                if x - z < 0.0 {
+                    let x1 = z;
+                    z = x;
+                    x = x1;
+                }
+                if y - z < 0.0 {
+                    let y1 = z;
+                    z = y;
+                    y = y1;
+                }
 
-				rotate2(self.angle, &mut x, &mut y, &mut z);
-    
-				x=scale*x-cx*(scale-1.0);
-				y=scale*y-cy*(scale-1.0);
-				z=scale*z;
-				if z>0.5*cz*(scale-1.0) { z-=cz*(scale-1.0) }
+                rotate2(self.angle, &mut x, &mut y, &mut z);
+
+                x = scale * x - cx * (scale - 1.0);
+                y = scale * y - cy * (scale - 1.0);
+                z = scale * z;
+                if z > 0.5 * cz * (scale - 1.0) {
+                    z -= cz * (scale - 1.0)
+                }
 
                 points.push(vec3(x, y, z));
             }
@@ -119,7 +151,11 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-		let elem = custom::IFSElement { angle, scale: 3.0, c: vec3(1.0, 1.0, 1.0) };
+        let elem = custom::IFSElement {
+            angle,
+            scale: 3.0,
+            c: vec3(1.0, 1.0, 1.0),
+        };
         scene.add_object(
             Arc::new(elem),
             Arc::new(OriginTrap::new(
@@ -128,13 +164,13 @@ mod add_objects {
                     (colour(colours::GRAY), 0.4),
                     (colour(colours::BLUE), 0.0),
                 ]),
-                elem
+                elem,
             )),
         );
     }
 
     pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 2.0]));//, 0.0872665, 10));
+        scene.add_light(directional([0.0, -1.0, 2.0])); //, 0.0872665, 10));
         scene.add_light(ambient([0.2; 3]));
     }
 }
@@ -145,7 +181,7 @@ fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
     let camera = CameraBuilder::new()
         .position(vec3(4.0, 1.0, -8.0))
         .forward(vec3(-4.0, -1.0, 8.0))
-		.aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
+        .aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
         .orthonormalize()
         .unwrap();
 
@@ -173,11 +209,10 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let desc = ImageDesc {
-		//width: 3840,
-		//height: 2160,
-
-		width: 1200,
-		height: 800
+        //width: 3840,
+        //height: 2160,
+        width: 1200,
+        height: 800,
     };
     let opts = ImageOptions { samples: 20 };
     let scene = Arc::new(create_scene(angle, &desc));

@@ -84,8 +84,8 @@ pub fn trace_image(
     let mut pb = pbr::ProgressBar::new(desc.height as u64);
     for _ in 0..desc.height {
         let _ = rx.recv();
-        
-		pb.inc();
+
+        pb.inc();
     }
 
     {

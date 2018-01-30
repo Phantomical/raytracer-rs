@@ -115,9 +115,9 @@ pub fn rotate_xyz(angle_x: f64, angle_y: f64, angle_z: f64) -> Mat3d {
     let (siny, cosy) = angle_y.sin_cos();
     let (sinz, cosz) = angle_z.sin_cos();
 
-    let x = Mat3d::new([ 1.0, 0.0, 0.0, 0.0, cosx, -sinx, 0.0, sinx, cosx ]);
-    let y = Mat3d::new([ cosy, 0.0, siny, 0.0, 1.0, 0.0, -siny, 0.0, cosy ]);
-    let z = Mat3d::new([ cosz, -sinz, 0.0, sinz, cosz, 0.0, 0.0, 0.0, 1.0 ]);
+    let x = Mat3d::new([1.0, 0.0, 0.0, 0.0, cosx, -sinx, 0.0, sinx, cosx]);
+    let y = Mat3d::new([cosy, 0.0, siny, 0.0, 1.0, 0.0, -siny, 0.0, cosy]);
+    let z = Mat3d::new([cosz, -sinz, 0.0, sinz, cosz, 0.0, 0.0, 0.0, 1.0]);
 
     return x * y * z;
 }

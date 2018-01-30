@@ -18,7 +18,7 @@ mod custom {
 
     pub struct IFSElement {
         pub angle: f64,
-		pub scale: f64
+        pub scale: f64,
     }
 
     fn rotate1(angle: f64, x: &mut f64, y: &mut f64, _: &mut f64) {
@@ -42,14 +42,38 @@ mod custom {
             let mut r = x * x + y * y + z * z;
             for _ in 0..10 {
                 rotate1(self.angle, &mut x, &mut y, &mut z);
-                
-				// Octahedral symmetry planes
-				if x-y<0.0 { let x1=y;y=x;x=x1;}
-				if x-z<0.0 { let x1=z;z=x;x=x1;}
-				if y-z<0.0 { let y1=z;z=y;y=y1;}
-				if x+y<0.0 { let x1=-y;y=-x;x=x1;}
-				if x+z<0.0 { let x1=-z;z=-x;x=x1;}
-				if y+z<0.0 { let y1=-z;z=-y;y=y1;}
+
+                // Octahedral symmetry planes
+                if x - y < 0.0 {
+                    let x1 = y;
+                    y = x;
+                    x = x1;
+                }
+                if x - z < 0.0 {
+                    let x1 = z;
+                    z = x;
+                    x = x1;
+                }
+                if y - z < 0.0 {
+                    let y1 = z;
+                    z = y;
+                    y = y1;
+                }
+                if x + y < 0.0 {
+                    let x1 = -y;
+                    y = -x;
+                    x = x1;
+                }
+                if x + z < 0.0 {
+                    let x1 = -z;
+                    z = -x;
+                    x = x1;
+                }
+                if y + z < 0.0 {
+                    let y1 = -z;
+                    z = -y;
+                    y = y1;
+                }
 
                 rotate2(self.angle, &mut x, &mut y, &mut z);
 
@@ -149,7 +173,7 @@ fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
     let camera = CameraBuilder::new()
         .position(vec3(0.0, 1.0, -6.0))
         .forward(vec3(0.0, -1.0, 6.0))
-		.aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
+        .aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
         .orthonormalize()
         .unwrap();
 
@@ -177,11 +201,10 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let desc = ImageDesc {
-		width: 3840,
-		height: 2160,
-
-		//width: 1200,
-		//height: 800
+        width: 3840,
+        height: 2160,
+        //width: 1200,
+        //height: 800
     };
     let opts = ImageOptions { samples: 2 };
     let scene = Arc::new(create_scene(angle, &desc));

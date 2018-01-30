@@ -18,7 +18,7 @@ mod custom {
 
     pub struct IFSElement {
         pub angle: f64,
-		pub scale: f64
+        pub scale: f64,
     }
 
     fn rotate1(angle: f64, x: &mut f64, y: &mut f64, _: &mut f64) {
@@ -157,7 +157,7 @@ fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
     let camera = CameraBuilder::new()
         .position(vec3(0.0, 1.0, -6.0))
         .forward(vec3(0.0, -1.0, 6.0))
-		.aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
+        .aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
         .orthonormalize()
         .unwrap();
 

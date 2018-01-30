@@ -27,8 +27,7 @@ impl Raymarchable for Mandelbulb {
             let b = power * (w.y / r).acos();
             let a = power * w.x.atan2(w.z);
 
-            w = point
-                + r.powi(self.power) * vec3(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
+            w = point + r.powi(self.power) * vec3(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
 
             m = dot(w, w);
         }
@@ -38,22 +37,21 @@ impl Raymarchable for Mandelbulb {
 }
 
 impl IFS for Mandelbulb {
-	fn points(&self, point: Vec3d) -> Box<Iterator<Item = Vec3d>> {
-	    let mut w = point;
+    fn points(&self, point: Vec3d) -> Box<Iterator<Item = Vec3d>> {
+        let mut w = point;
         let power = self.power as f64;
-		let mut points = vec![w];
+        let mut points = vec![w];
 
         for _ in 0..self.iterations {
             let r = length(w);
             let b = power * (w.y / r).acos();
             let a = power * w.x.atan2(w.z);
 
-            w = point + r.powi(self.power) 
-				* vec3(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
+            w = point + r.powi(self.power) * vec3(b.sin() * a.sin(), b.cos(), b.sin() * a.cos());
 
             points.push(w);
         }
 
-		return Box::new(points.into_iter());
-	}
+        return Box::new(points.into_iter());
+    }
 }

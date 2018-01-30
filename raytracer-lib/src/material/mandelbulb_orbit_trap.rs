@@ -56,11 +56,7 @@ impl Material for MandelbulbOrbitTrap {
             vec3(0.02, 0.10, 0.30),
             clamp(trap.z * trap.z, 0.0, 1.0),
         );
-        col = mix(
-            col,
-            vec3(0.30, 0.10, 0.02),
-            clamp(trap.w.powi(6), 0.0, 1.0),
-        );
+        col = mix(col, vec3(0.30, 0.10, 0.02), clamp(trap.w.powi(6), 0.0, 1.0));
         col *= 0.5;
         col = sqrt(col);
 
