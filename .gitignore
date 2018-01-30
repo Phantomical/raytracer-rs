@@ -16,10 +16,10 @@ gradient/target
 gradient/Cargo.lock
 gradient/.vscode
 
-scheduler/.vs/
-scheduler/target
-scheduler/Cargo.lock
-scheduler/.vscode
+glslvec/.vs/
+glslvec/target
+glslvec/Cargo.lock
+glslvec/.vscode
 
 images/
 

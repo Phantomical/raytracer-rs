@@ -19,7 +19,4 @@ gradient   = { path = "../gradient" }
 pbr        = "1.0"
 dyon       = "0.28"
 serde      = "1.0"
-
-[dependencies.glslvec]
-git = "http://github.com/phantomical/glslvec" 
-
+glslvec    = { path = "../glslvec" }
