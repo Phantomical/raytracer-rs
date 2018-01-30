@@ -1,10 +1,12 @@
 
 use std::ops::*;
+use serde::{Serialize, Deserialize};
 
 use traits::*;
 
 /// A 2D vector.
 #[derive(Copy, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize)]
 pub struct Vec2<T: Sized>{
 	pub x: T,
 	pub y: T

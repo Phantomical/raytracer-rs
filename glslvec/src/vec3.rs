@@ -1,10 +1,11 @@
 
 use std::ops::*;
+use serde::{Serialize, Deserialize};
 
 use traits::*;
 
 /// A 3D vector.
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Vec3<T: Sized>{
 	pub x: T,
 	pub y: T,

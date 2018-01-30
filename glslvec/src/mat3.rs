@@ -2,10 +2,12 @@
 use vec3::*;
 use traits::*;
 use functions::dot;
+use serde::{Serialize, Deserialize};
 
 use std::ops::*;
 
 #[derive(Copy, Clone, Default, Debug)]
+#[derive(Serialize, Deserialize)]
 pub struct Mat3<T: Sized> {
 	pub rows: [Vec3<T>; 3]
 }
