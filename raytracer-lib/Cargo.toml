@@ -11,16 +11,15 @@ path = "src/lib.rs"
 #lto = true
 
 [dependencies]
-rand = "0.4.1"
-image = "0.18.0"
+rand       = "0.4.1"
+image      = "0.18.0"
 threadpool = "1.7.0"
-num_cpus = "1.0"
-gradient = { path = "../gradient" }
-pbr = "1.0"
+num_cpus   = "1.0"
+gradient   = { path = "../gradient" }
+pbr        = "1.0"
+dyon       = "0.28"
+serde      = "1.0"
 
 [dependencies.glslvec]
 git = "http://github.com/phantomical/glslvec" 
 
-[dependencies.cgmath]
-version = "0.16" 
-features = ["swizzle"]

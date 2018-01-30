@@ -1,7 +1,6 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
-extern crate cgmath;
 extern crate glslvec;
 extern crate gradient;
 extern crate num_cpus;
