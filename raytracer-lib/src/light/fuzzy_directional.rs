@@ -29,7 +29,7 @@ where
 
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct FuzzyDirectionalLight {
     /// The main direction that the light is pointing in
     pub direction: Vec3d,

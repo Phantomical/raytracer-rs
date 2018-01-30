@@ -6,6 +6,7 @@ use std::iter::*;
 
 use gradient::Gradient;
 
+#[derive(Serialize, Deserialize, Clone)]
 pub struct OriginTrap<T: IFS> {
     gradient: Gradient<f32, Colour>,
     object: T,

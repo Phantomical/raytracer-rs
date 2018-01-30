@@ -69,7 +69,6 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use std::sync::Arc;
     use raytracer::Scene;
     use raytracer::builder::*;
     use raytracer::colours;
@@ -80,7 +79,7 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        scene.add_object(Arc::new(custom::IFSElement {}), normal());
+        scene.add_object(custom::IFSElement {}, normal());
     }
 
     pub fn add_lights(scene: &mut Scene) {

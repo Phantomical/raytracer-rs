@@ -1,6 +1,7 @@
 use lib::*;
 use lib::object::*;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct Translate<T: Raymarchable + Sized> {
     position: Vec3d,
     subobj: T,

@@ -2,7 +2,6 @@
 use vec3::*;
 use traits::*;
 use functions::dot;
-use serde::{Serialize, Deserialize};
 
 use std::ops::*;
 

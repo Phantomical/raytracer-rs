@@ -27,81 +27,93 @@ pub fn colour(vals: [f32; 3]) -> Colour {
 }
 
 /* Objects */
-pub fn sphere(pos: [f64; 3], radius: f64) -> Arc<Raymarchable> {
-    return Arc::new(Sphere::new(vec3d(pos), radius));
+pub fn sphere(pos: [f64; 3], radius: f64) -> Sphere {
+    Sphere::new(vec3d(pos), radius)
 }
-pub fn box_obj(bounds: [f64; 3]) -> Arc<Raymarchable> {
-    return Arc::new(BoxObj::new(vec3d(bounds)));
+pub fn box_obj(bounds: [f64; 3]) -> BoxObj {
+    BoxObj::new(vec3d(bounds))
 }
-pub fn cone(radius: f64, height: f64) -> Arc<Raymarchable> {
-    Arc::new(Cone::new(radius, height))
+pub fn cone(radius: f64, height: f64) -> Cone {
+    Cone::new(radius, height)
 }
-pub fn cylinder(c: [f64; 3]) -> Arc<Raymarchable> {
-    Arc::new(Cylinder::new(vec3d(c)))
+pub fn cylinder(c: [f64; 3]) -> Cylinder {
+    Cylinder::new(vec3d(c))
 }
-pub fn hexagonal_prism(height: f64, radius: f64) -> Arc<Raymarchable> {
-    Arc::new(HexagonalPrism::new(height, radius))
+pub fn hexagonal_prism(height: f64, radius: f64) -> HexagonalPrism {
+    HexagonalPrism::new(height, radius)
 }
-pub fn plane(normal: [f64; 3], point: [f64; 3]) -> Arc<Raymarchable> {
-    Arc::new(Plane::new(vec3d(normal), vec3d(point)))
+pub fn plane(normal: [f64; 3], point: [f64; 3]) ->  Plane {
+    Plane::new(vec3d(normal), vec3d(point))
 }
-pub fn torus(inner: f64, outer: f64) -> Arc<Raymarchable> {
-    Arc::new(Torus::new(inner, outer))
+pub fn torus(inner: f64, outer: f64) -> Torus {
+    Torus::new(inner, outer)
 }
-pub fn triangular_prism(height: f64, radius: f64) -> Arc<Raymarchable> {
-    Arc::new(TriangularPrism::new(height, radius))
+pub fn triangular_prism(height: f64, radius: f64) -> TriangularPrism {
+    TriangularPrism::new(height, radius)
 }
-pub fn translate(obj: Arc<Raymarchable>, trans: [f64; 3]) -> Arc<Raymarchable> {
-    Arc::new(Translate::new(vec3d(trans), obj))
+pub fn translate<T>(obj: T, trans: [f64; 3]) -> Translate<T>
+	where T: Raymarchable
+{
+    Translate::new(vec3d(trans), obj)
 }
-pub fn transform(obj: Arc<Raymarchable>, trans: Mat3d) -> Arc<Raymarchable> {
-    Arc::new(Transform::new(trans, obj))
+pub fn transform<T>(obj: T, trans: Mat3d) -> Transform<T>
+	where T: Raymarchable
+{
+    Transform::new(trans, obj)
 }
-pub fn repeat(obj: Arc<Raymarchable>, modulus: [f64; 3]) -> Arc<Raymarchable> {
-    Arc::new(Repeat::new(obj, vec3d(modulus)))
+pub fn repeat<T>(obj: T, modulus: [f64; 3]) -> Repeat<T>
+	where T: Raymarchable + Copy
+{
+    Repeat::new(obj, vec3d(modulus))
 }
-pub fn hollow(obj: Arc<Raymarchable>) -> Arc<Raymarchable> {
-    Arc::new(Hollow::new(obj))
+pub fn hollow<T>(obj: T) -> Hollow<T>
+	where T: Raymarchable + Copy
+{
+    Hollow::new(obj)
 }
-pub fn sierpinski(iterations: u32, scale: f64) -> Arc<Raymarchable> {
-    Arc::new(Sierpinski::new(iterations, scale))
+pub fn sierpinski(iterations: u32, scale: f64) -> Sierpinski {
+    Sierpinski::new(iterations, scale)
 }
-pub fn rotate(obj: Arc<Raymarchable>, xyz: Mat3d) -> Arc<Raymarchable> {
-    Arc::new(Rotate::new(obj, xyz))
+pub fn rotate<T>(obj: T, xyz: Mat3d) -> Rotate<T>
+	where T: Raymarchable + Copy
+{
+    Rotate::new(obj, xyz)
 }
-pub fn mandelbulb(iterations: usize, power: i32) -> Arc<Raymarchable> {
-    Arc::new(Mandelbulb::new(iterations, power))
+pub fn mandelbulb(iterations: usize, power: i32) -> Mandelbulb {
+    Mandelbulb::new(iterations, power)
 }
 
 /* Materials */
-pub fn solid_colour(col: [f32; 3]) -> Arc<Material> {
-    Arc::new(SolidColour::new(colour(col)))
+pub fn solid_colour(col: [f32; 3]) -> SolidColour {
+	SolidColour::new(colour(col))
 }
-pub fn mirror() -> Arc<Material> {
-    Arc::new(Mirror {})
+pub fn mirror() -> Mirror {
+    Mirror {}
 }
-pub fn normal() -> Arc<Material> {
-    Arc::new(NormalColour::new())
+pub fn normal() -> NormalColour {
+    NormalColour::new()
 }
-pub fn mandelbulb_orbit_trap(iterations: usize, power: i32) -> Arc<Material> {
-    Arc::new(MandelbulbOrbitTrap::new(iterations, power))
+pub fn mandelbulb_orbit_trap(iterations: usize, power: i32) -> MandelbulbOrbitTrap {
+    MandelbulbOrbitTrap::new(iterations, power)
 }
 
 /* Lights */
-pub fn ambient(col: [f32; 3]) -> Arc<Light> {
-    Arc::new(AmbientLight::new(colour(col)))
+pub fn ambient(col: [f32; 3]) -> AmbientLight {
+    AmbientLight::new(colour(col))
 }
-pub fn directional(dir: [f64; 3]) -> Arc<Light> {
-    Arc::new(DirectionalLight::new(vec3d(dir)))
+pub fn directional(dir: [f64; 3]) -> DirectionalLight {
+    DirectionalLight::new(vec3d(dir))
 }
-pub fn fuzzy_directional(dir: [f64; 3], fuzziness: f64, rays: usize) -> Arc<Light> {
-    Arc::new(FuzzyDirectionalLight::new(vec3d(dir), fuzziness, rays))
+pub fn fuzzy_directional(dir: [f64; 3], fuzziness: f64, rays: usize) -> FuzzyDirectionalLight {
+    FuzzyDirectionalLight::new(vec3d(dir), fuzziness, rays)
 }
-pub fn tint(light: Arc<Light>, col: [f32; 3]) -> Arc<Light> {
-    Arc::new(Tint::new(light, colour(col)))
+pub fn tint<T>(light: T, col: [f32; 3]) -> Tint<T>
+	where T: Light
+{
+    Tint::new(light, colour(col))
 }
-pub fn point_light(pos: [f64; 3], power: f32) -> Arc<Light> {
-    Arc::new(PointLight::new(vec3d(pos), power))
+pub fn point_light(pos: [f64; 3], power: f32) -> PointLight {
+    PointLight::new(vec3d(pos), power)
 }
 
 /* Adapter Methods */

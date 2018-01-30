@@ -2,6 +2,7 @@ use vec::*;
 
 use object::Raymarchable;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct Rotate<T: Raymarchable> {
     mat: Mat3d,
     //inv : Basis3<f64>,

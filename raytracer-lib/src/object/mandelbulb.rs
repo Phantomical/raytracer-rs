@@ -1,7 +1,7 @@
 use vec::*;
 use object::{Raymarchable, IFS};
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct Mandelbulb {
     iterations: usize,
     power: i32,

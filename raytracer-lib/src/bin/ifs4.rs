@@ -136,7 +136,6 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use std::sync::Arc;
     use raytracer::{Scene, vec3};
     use raytracer::builder::*;
     use raytracer::colours;
@@ -156,15 +155,15 @@ mod add_objects {
             c: vec3(1.0, 1.0, 1.0),
         };
         scene.add_object(
-            Arc::new(elem),
-            Arc::new(OriginTrap::new(
+            elem,
+            OriginTrap::new(
                 Gradient::new(&[
                     (colour(colours::ORANGE), 0.75),
                     (colour(colours::GRAY), 0.4),
                     (colour(colours::BLUE), 0.0),
                 ]),
                 elem,
-            )),
+            ),
         );
     }
 

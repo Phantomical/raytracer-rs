@@ -1,6 +1,7 @@
 use lib::*;
 use lib::object::*;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct Hollow<T: Raymarchable> {
     obj: T,
 }

@@ -4,6 +4,7 @@ use std::iter::once;
 
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct DirectionalLight {
     direction: Vec3d,
 }

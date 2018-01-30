@@ -11,12 +11,13 @@ path = "src/lib.rs"
 #lto = true
 
 [dependencies]
-rand       = "0.4.1"
-image      = "0.18.0"
-threadpool = "1.7.0"
-num_cpus   = "1.0"
-gradient   = { path = "../gradient" }
-pbr        = "1.0"
-dyon       = "0.28"
-serde      = "1.0"
-glslvec    = { path = "../glslvec" }
+rand         = "0.4.1"
+image        = "0.18.0"
+threadpool   = "1.7.0"
+num_cpus     = "1.0"
+gradient     = { path = "../gradient" }
+pbr          = "1.0"
+dyon         = "0.28"
+serde        = "1.0"
+glslvec      = { path = "../glslvec" }
+serde_derive = "1.0"

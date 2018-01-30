@@ -1,6 +1,7 @@
 use lib::*;
 use lib::object::*;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct HexagonalPrism {
     radius: f64,
     height: f64,

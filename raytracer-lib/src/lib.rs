@@ -1,6 +1,9 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
+#[macro_use]
+extern crate serde_derive;
+
 extern crate num_cpus;
 extern crate pbr;
 extern crate rand;

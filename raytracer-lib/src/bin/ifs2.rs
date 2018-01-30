@@ -117,7 +117,6 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use std::sync::Arc;
     use raytracer::Scene;
     use raytracer::builder::*;
     use raytracer::colours;
@@ -132,15 +131,15 @@ mod add_objects {
         );
 
         scene.add_object(
-            Arc::new(custom::IFSElement { angle, scale: 2.0 }),
-            Arc::new(OriginTrap::new(
+            custom::IFSElement { angle, scale: 2.0 },
+            OriginTrap::new(
                 Gradient::new(&[
                     (colour(colours::ORANGE), 0.75),
                     (colour(colours::GRAY), 0.4),
                     (colour(colours::BLUE), 0.0),
                 ]),
                 custom::IFSElement { angle, scale: 2.0 },
-            )),
+            ),
         );
     }
 

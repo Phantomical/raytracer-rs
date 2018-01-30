@@ -80,14 +80,17 @@ impl Scene {
         return self.trace_ray(self.camera.screen_ray(point));
     }
 
-    pub fn add_object(&mut self, obj: Arc<Raymarchable>, mat: Arc<Material>) {
+    pub fn add_object<R, M>(&mut self, obj: R, mat: M)
+		where R: Raymarchable + 'static,
+		      M: Material + 'static
+	{
         self.objects.push(ObjectData {
-            object: obj,
-            material: mat,
+            object: Arc::new(obj),
+            material: Arc::new(mat),
             bound: None,
         });
     }
-    pub fn add_light(&mut self, light: Arc<Light>) {
-        self.lights.push(light);
+    pub fn add_light<T: Light + 'static>(&mut self, light: T) {
+        self.lights.push(Arc::new(light));
     }
 }

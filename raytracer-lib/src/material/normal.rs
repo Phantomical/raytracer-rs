@@ -1,6 +1,7 @@
 use lib::*;
 use lib::material::Material;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct NormalColour {}
 
 impl NormalColour {

@@ -1,6 +1,7 @@
 use lib::*;
 use lib::object::*;
 
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct Repeat<T: Raymarchable> {
     modulus: Vec3d,
     obj: T,

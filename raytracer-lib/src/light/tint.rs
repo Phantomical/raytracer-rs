@@ -1,20 +1,19 @@
 use lib::*;
 use lib::light::Light;
 
-use std::sync::Arc;
-
-pub struct Tint {
+#[derive(Serialize, Deserialize, Clone, Copy)]
+pub struct Tint<T: Light> {
     tint: Colour,
-    light: Arc<Light>,
+    light: T,
 }
 
-impl Tint {
-    pub fn new(light: Arc<Light>, tint: Colour) -> Self {
+impl<T: Light> Tint<T> {
+    pub fn new(light: T, tint: Colour) -> Self {
         Self { tint, light }
     }
 }
 
-impl Light for Tint {
+impl<T: Light> Light for Tint<T> {
     fn illumination(&self, isect: &Intersection) -> Colour {
         let illum = self.light.illumination(isect);
 

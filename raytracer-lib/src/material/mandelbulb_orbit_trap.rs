@@ -1,8 +1,7 @@
 use lib::*;
 use lib::material::Material;
 
-//use gradient::Gradient;
-
+#[derive(Serialize, Deserialize, Copy, Clone)]
 pub struct MandelbulbOrbitTrap {
     //gradient : Gradient<f32, Colour>,
     power: i32,
