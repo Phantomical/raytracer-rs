@@ -1,4 +1,3 @@
-extern crate cgmath;
 extern crate gradient;
 extern crate image;
 extern crate raytracer;

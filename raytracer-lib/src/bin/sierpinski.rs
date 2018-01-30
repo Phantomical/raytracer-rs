@@ -1,4 +1,3 @@
-extern crate cgmath;
 extern crate image;
 extern crate raytracer;
 
@@ -15,8 +14,7 @@ mod add_objects {
     use raytracer::builder::*;
     use raytracer::colours;
 
-    use raytracer::{cgmath_vec, normalize};
-    use cgmath::{Basis3, Rad, Rotation3};
+    use raytracer::{Mat3d, normalize};
 
     pub fn add_objects(scene: &mut Scene) {
         scene.add_object(
@@ -24,9 +22,9 @@ mod add_objects {
             solid_colour(colours::WHITE),
         );
 
-        let rotation = Basis3::from_axis_angle(
-            cgmath_vec(normalize(vec3d([-1.0, 0.0, 1.0]))),
-            Rad(deg2rad(52.5)),
+        let rotation = Mat3d::from_axis_angle(
+            normalize(vec3d([-1.0, 0.0, 1.0])),
+			deg2rad(52.5),
         );
 
         scene.add_object(

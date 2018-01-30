@@ -7,8 +7,6 @@ use std::sync::Arc;
 use std::ops::Deref;
 use std::f64::consts::PI;
 
-use cgmath::Basis3;
-
 impl Raymarchable for Arc<Raymarchable> {
     fn normal_at(&self, point: Vec3d, dir: Vec3d) -> Vec3d {
         return self.deref().normal_at(point, dir);
@@ -68,7 +66,7 @@ pub fn hollow(obj: Arc<Raymarchable>) -> Arc<Raymarchable> {
 pub fn sierpinski(iterations: u32, scale: f64) -> Arc<Raymarchable> {
     Arc::new(Sierpinski::new(iterations, scale))
 }
-pub fn rotate(obj: Arc<Raymarchable>, xyz: Basis3<f64>) -> Arc<Raymarchable> {
+pub fn rotate(obj: Arc<Raymarchable>, xyz: Mat3d) -> Arc<Raymarchable> {
     Arc::new(Rotate::new(obj, xyz))
 }
 pub fn mandelbulb(iterations: usize, power: i32) -> Arc<Raymarchable> {

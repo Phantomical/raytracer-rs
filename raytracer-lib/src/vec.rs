@@ -7,20 +7,10 @@ pub type Vec4d = glslvec::Vec4<f64>;
 pub type Colour = glslvec::Vec3<f32>;
 pub type Mat3d = glslvec::Mat3<f64>;
 
-use cgmath;
-pub use cgmath::{Rotation, SquareMatrix};
-
 pub use glslvec::{abs, clamp, cross, distance, dot, length, max, min, mix, normalize, sqrt,
                   distance2, length2, vec2, vec3, vec4};
 
 pub use glslvec::prelude::{HasLength, HasMinMax, HasNormalize};
-
-pub fn cgmath_vec(v: Vec3d) -> cgmath::Vector3<f64> {
-    cgmath::Vector3::new(v.x, v.y, v.z)
-}
-pub fn glslvec_vec(v: cgmath::Vector3<f64>) -> Vec3d {
-    vec3(v.x, v.y, v.z)
-}
 
 /// Calculates the projection of x onto y.
 /// In mathematical notation this would be

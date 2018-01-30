@@ -1,16 +1,15 @@
 use vec::*;
-use cgmath::Basis3;
 
 use object::Raymarchable;
 
 pub struct Rotate<T: Raymarchable> {
-    mat: Basis3<f64>,
+    mat: Mat3d,
     //inv : Basis3<f64>,
     obj: T,
 }
 
 impl<T: Raymarchable> Rotate<T> {
-    pub fn new(obj: T, mat: Basis3<f64>) -> Self {
+    pub fn new(obj: T, mat: Mat3d) -> Self {
         Self {
             obj,
             mat,
@@ -22,6 +21,6 @@ impl<T: Raymarchable> Rotate<T> {
 impl<T: Raymarchable> Raymarchable for Rotate<T> {
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj
-            .distance(glslvec_vec(self.mat.rotate_vector(cgmath_vec(point))))
+            .distance(self.mat * point)
     }
 }
