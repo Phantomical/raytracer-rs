@@ -1,7 +1,7 @@
 use lib::*;
 use lib::object::Raymarchable;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Transform<T: Raymarchable + Sized> {
     mat: Mat3d,
     inv: Mat3d,

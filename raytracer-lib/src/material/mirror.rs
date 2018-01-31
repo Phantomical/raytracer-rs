@@ -2,7 +2,7 @@ use vec::*;
 use material::Material;
 use lib::Intersection;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Mirror {}
 
 impl Material for Mirror {

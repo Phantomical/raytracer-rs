@@ -4,32 +4,12 @@ use lib::light::Light;
 use rand::{thread_rng, Rng, ThreadRng};
 use rand::distributions::{IndependentSample, Range};
 
-use std::ops::{Generator, GeneratorState};
+use std::vec::Vec;
 use std::f64::consts::PI;
-
-struct GenIter<G: Generator<Return = ()>>(G);
-
-impl<G: Generator<Return = ()>> Iterator for GenIter<G> {
-    type Item = G::Yield;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        match self.0.resume() {
-            GeneratorState::Yielded(y) => Some(y),
-            GeneratorState::Complete(()) => None,
-        }
-    }
-}
-
-fn generator_to_iterator<G>(g: G) -> GenIter<G>
-where
-    G: Generator<Return = ()>,
-{
-    GenIter(g)
-}
 
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
-#[derive(Clone, Copy, Serialize, Deserialize)]
+#[derive(Clone, Copy)]
 pub struct FuzzyDirectionalLight {
     /// The main direction that the light is pointing in
     pub direction: Vec3d,
@@ -73,17 +53,15 @@ impl Light for FuzzyDirectionalLight {
     }
 
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
-        return Box::new(generator_to_iterator({
-            let me = self.clone();
-            let point = isect.point;
-            let normal = isect.normal;
-            move || {
-                for _ in 0..me.rays {
-                    let mut rng = thread_rng();
-                    let vec = me.rand_vec::<ThreadRng>(&mut rng);
-                    yield (Ray::new(point + normal * 0.001, vec), DIRECTIONAL_DISTANCE);
-                }
-            }
-        }));
+        let mut points = Vec::new();
+        for _ in 0..self.rays {
+            let mut rng = thread_rng();
+            let vec = self.rand_vec::<ThreadRng>(&mut rng);
+            points.push((
+				Ray::new(isect.point + isect.normal * 0.001, vec), 
+				DIRECTIONAL_DISTANCE));
+        }
+
+		return Box::new(points.into_iter());
     }
 }

@@ -1,7 +1,7 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Torus {
     inner_radius: f64,
     outer_radius: f64,

@@ -1,7 +1,7 @@
 use vec::*;
 use object::*;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Plane {
     /// The normal vector of the plane.
     /// All vectors laying on the plane

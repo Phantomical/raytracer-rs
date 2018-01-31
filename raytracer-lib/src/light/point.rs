@@ -3,7 +3,7 @@ use lib::light::Light;
 
 use std::iter::once;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct PointLight {
     power: f32,
     position: Vec3d,

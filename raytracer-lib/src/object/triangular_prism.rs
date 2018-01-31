@@ -1,7 +1,7 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct TriangularPrism {
     height: f64,
     radius: f64,

@@ -1,7 +1,7 @@
 use lib::*;
 use lib::light::Light;
 
-#[derive(Serialize, Deserialize, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub struct Tint<T: Light> {
     tint: Colour,
     light: T,

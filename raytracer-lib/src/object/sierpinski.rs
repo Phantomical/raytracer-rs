@@ -1,7 +1,7 @@
 use lib::*;
 use lib::object::Raymarchable;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Sierpinski {
     iterations: u32,
     scale: f64,

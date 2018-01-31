@@ -1,7 +1,7 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Serialize, Deserialize, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Cylinder {
     c: Vec3d,
 }
