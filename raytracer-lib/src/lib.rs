@@ -7,6 +7,7 @@ extern crate rand;
 extern crate threadpool;
 extern crate glslvec;
 extern crate gradient;
+extern crate rhai;
 
 pub mod object;
 pub mod material;

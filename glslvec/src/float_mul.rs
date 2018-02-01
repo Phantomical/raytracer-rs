@@ -14,6 +14,13 @@ macro_rules! add_mul {
 				rhs + self
 			}
 		}
+		impl Sub<$vecname<$type>> for $type {
+			type Output = $vecname<$type>;
+
+			fn sub(self, rhs: $vecname<$type>) -> $vecname<$type> {
+				-rhs + self
+			}
+		}
 		impl Mul<$vecname<$type>> for $type {
 			type Output = $vecname<$type>;
 		
