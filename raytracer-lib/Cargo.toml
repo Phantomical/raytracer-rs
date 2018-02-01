@@ -8,7 +8,7 @@ name = "raytracer"
 path = "src/lib.rs"
 
 [profile.release]
-#lto = true
+lto = true
 
 [dependencies]
 rand         = "0.4.1"
@@ -17,5 +17,5 @@ threadpool   = "1.7.0"
 num_cpus     = "1.0"
 gradient     = { path = "../gradient" }
 pbr          = "1.0"
-dyon         = "0.28"
+#dyon         = "0.28"
 glslvec      = { path = "../glslvec" }

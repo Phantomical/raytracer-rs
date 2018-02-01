@@ -5,7 +5,6 @@ use traits::*;
 
 /// A 4D vector.
 #[derive(Copy, Clone, Debug, Default)]
-#[derive(Serialize, Deserialize)]
 pub struct Vec4<T: Sized>{
 	pub x: T,
 	pub y: T,

@@ -4,7 +4,7 @@ use std::ops::*;
 use traits::*;
 
 /// A 3D vector.
-#[derive(Copy, Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Copy, Clone, Debug, Default)]
 pub struct Vec3<T: Sized>{
 	pub x: T,
 	pub y: T,
