@@ -1,3 +1,4 @@
+
 extern crate gradient;
 extern crate image;
 extern crate raytracer;
@@ -136,50 +137,48 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use raytracer::{Scene, vec3};
+    use raytracer::{SceneBuilder, vec3};
     use raytracer::builder::*;
     use raytracer::colours;
     use raytracer::material::OriginTrap;
 
     use gradient::Gradient;
 
-    pub fn add_objects(scene: &mut Scene, angle: f64) {
-        scene.add_object(
-            sphere([0.0, -10002.0, 0.0], 10000.0),
-            solid_colour(colours::WHITE),
-        );
-
+    pub fn add_objects(scene: SceneBuilder, angle: f64) -> SceneBuilder {
         let elem = custom::IFSElement {
             angle,
             scale: 3.0,
             c: vec3(1.0, 1.0, 1.0),
         };
+
         scene.add_object(
-            elem,
-            OriginTrap::new(
-                Gradient::new(&[
-                    (colour(colours::ORANGE), 0.75),
-                    (colour(colours::GRAY), 0.4),
-                    (colour(colours::BLUE), 0.0),
-                ]),
-                elem,
-            ),
-        );
+				sphere([0.0, -10002.0, 0.0], 10000.0),
+				solid_colour(colours::WHITE))
+			.add_object(
+				elem,
+				OriginTrap::new(
+				    Gradient::new(&[
+				        (colour(colours::ORANGE), 0.75),
+				        (colour(colours::GRAY), 0.4),
+				        (colour(colours::BLUE), 0.0),
+				    ]),
+				    elem,
+				))
     }
 
-    pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 2.0])); //, 0.0872665, 10));
-        scene.add_light(ambient([0.2; 3]));
+    pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
+        scene.add_light(directional([0.0, -1.0, 2.0])) //, 0.0872665, 10))
+			.add_light(ambient([0.2; 3]))
     }
 }
 
 use raytracer::builder::deg2rad;
 
-fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
+fn create_scene(angle: f64, size: ImageSize) -> ImageDesc {
     let camera = CameraBuilder::new()
         .position(vec3(4.0, 1.0, -8.0))
         .forward(vec3(-4.0, -1.0, 8.0))
-        .aspect_y(deg2rad(60.0), (desc.width as f64) / (desc.height as f64))
+        .aspect_y(deg2rad(60.0), (size.width as f64) / (size.height as f64))
         .orthonormalize()
         .unwrap();
 
@@ -188,12 +187,18 @@ fn create_scene(angle: f64, desc: &ImageDesc) -> Scene {
         ..Default::default()
     };
 
-    let mut scene = Scene::new(camera, opts, builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new()
+		.background(builder::colour(colours::BLACK));
 
-    add_objects::add_objects(&mut scene, deg2rad(angle));
-    add_objects::add_lights(&mut scene);
+    scene = add_objects::add_objects(scene, deg2rad(angle));
+    scene = add_objects::add_lights(scene);
 
-    return scene;
+    return ImageDesc {
+		scene: Arc::new(scene.unwrap()),
+		camera,
+		size,
+		opts,
+	};
 }
 
 fn main() {
@@ -206,16 +211,17 @@ fn main() {
 
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
-    let desc = ImageDesc {
+    let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 1200,
-        height: 800,
-    };
-    let opts = ImageOptions { samples: 20 };
-    let scene = Arc::new(create_scene(angle, &desc));
+        width: 120,
+        height: 80,
 
-    let image_val = trace_image(desc, opts, scene);
+		samples: 1,
+    };
+    let desc = create_scene(angle, size);
+
+    let image_val = trace_image(&desc);
 
     let ref mut file = File::create(args[1].clone()).unwrap();
 

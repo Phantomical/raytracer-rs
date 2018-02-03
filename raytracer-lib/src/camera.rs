@@ -1,6 +1,7 @@
 use lib::*;
 use std::f64::consts::PI;
 
+#[derive(Clone, Copy)]
 pub struct Camera {
     pub position: Vec3d,
 

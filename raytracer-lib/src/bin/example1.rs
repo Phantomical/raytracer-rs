@@ -2,7 +2,6 @@ extern crate image;
 extern crate raytracer;
 
 use raytracer::*;
-use raytracer::colours;
 
 use std::env;
 use std::fs::File;
@@ -10,40 +9,36 @@ use std::fs::File;
 use std::sync::Arc;
 
 mod add_objects {
-    use raytracer::Scene;
+    use raytracer::SceneBuilder;
     use raytracer::builder::*;
     use raytracer::colours;
 
-    pub fn add_objects(scene: &mut Scene) {
-        scene.add_object(
-            sphere([0.0, -100001.0, 0.0], 100000.0),
-            solid_colour(colours::WHITE),
-        );
-
-        scene.add_object(sphere([0.0, 0.0, 0.0], 1.0), solid_colour(colours::RED));
-
-        scene.add_object(
-            translate(
-                transform(torus(1.0, 0.5), rotate_xyz(deg2rad(-45.0), 0.0, 0.0)),
-                [1.0, 0.0, 0.0],
-            ),
-            solid_colour(colours::ORANGE),
-        );
-        scene.add_object(
-            translate(
-                transform(torus(1.0, 0.5), rotate_xyz(deg2rad(45.0), 0.0, 0.0)),
-                [-1.0, 0.0, 0.0],
-            ),
-            solid_colour(colours::ORANGE),
-        );
+    pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
+       
+	   scene.add_object(
+				sphere([0.0, -100001.0, 0.0], 100000.0),
+				solid_colour(colours::WHITE))
+			.add_object(sphere([0.0, 0.0, 0.0], 1.0), solid_colour(colours::RED))
+			.add_object(
+				translate(
+				    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(-45.0), 0.0, 0.0)),
+				    [1.0, 0.0, 0.0],
+				),
+				solid_colour(colours::ORANGE))
+			.add_object(
+				translate(
+				    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(45.0), 0.0, 0.0)),
+				    [-1.0, 0.0, 0.0],
+				),
+				solid_colour(colours::ORANGE))
     }
 
-    pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 20));
+    pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
+        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 20))
     }
 }
 
-fn create_scene() -> Scene {
+fn create_desc(size: ImageSize) -> ImageDesc {
     let camera = CameraBuilder::new()
         .position(vec3(0.0, 1.0, -10.0))
         .orthonormalize()
@@ -54,12 +49,17 @@ fn create_scene() -> Scene {
         ..Default::default()
     };
 
-    let mut scene = Scene::new(camera, opts, builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new();
 
-    add_objects::add_objects(&mut scene);
-    add_objects::add_lights(&mut scene);
+    scene = add_objects::add_objects(scene);
+    scene = add_objects::add_lights(scene);
 
-    return scene;
+    ImageDesc { 
+		scene: Arc::new(scene.unwrap()),
+		camera,
+		size,
+		opts
+	}
 }
 
 fn main() {
@@ -70,14 +70,14 @@ fn main() {
         return;
     }
 
-    let desc = ImageDesc {
+    let size = ImageSize {
         width: 1000,
         height: 750,
+		samples: 50,
     };
-    let opts = ImageOptions { samples: 50 };
-    let scene = Arc::new(create_scene());
+    let desc = create_desc(size);
 
-    let image_val = trace_image(desc, opts, scene);
+    let image_val = trace_image(&desc);
 
     let ref mut file = File::create(args[1].clone()).unwrap();
 

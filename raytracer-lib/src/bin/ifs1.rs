@@ -1,3 +1,4 @@
+
 extern crate image;
 extern crate raytracer;
 
@@ -14,6 +15,7 @@ mod custom {
     use raytracer::object::Raymarchable;
     use builder::deg2rad;
 
+	#[derive(Copy, Clone)]
     pub struct IFSElement {}
 
     fn rotate1(_angle: &mut f64, x: &mut f64, y: &mut f64) {
@@ -69,26 +71,24 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use raytracer::Scene;
+    use raytracer::SceneBuilder;
     use raytracer::builder::*;
     use raytracer::colours;
 
-    pub fn add_objects(scene: &mut Scene) {
+    pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
         scene.add_object(
-            sphere([0.0, -10001.0, 0.0], 10000.0),
-            solid_colour(colours::WHITE),
-        );
-
-        scene.add_object(custom::IFSElement {}, normal());
+				sphere([0.0, -10001.0, 0.0], 10000.0),
+				solid_colour(colours::WHITE))
+			.add_object(custom::IFSElement {}, normal())
     }
 
-    pub fn add_lights(scene: &mut Scene) {
-        scene.add_light(directional([0.0, -1.0, 5.0])); //, 0.0872665, 10));
-        scene.add_light(ambient([0.2; 3]));
+    pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
+        scene.add_light(directional([0.0, -1.0, 5.0])) //, 0.0872665, 10));
+			.add_light(ambient([0.2; 3]))
     }
 }
 
-fn create_scene() -> Scene {
+fn create_scene(size: ImageSize) -> ImageDesc {
     let camera = CameraBuilder::new()
         .position(vec3(2.0, 0.0, -4.0))
         .forward(vec3(-0.5, 0.0, 1.0))
@@ -100,12 +100,18 @@ fn create_scene() -> Scene {
         ..Default::default()
     };
 
-    let mut scene = Scene::new(camera, opts, builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new()
+		.background(builder::colour(colours::BLACK));
 
-    add_objects::add_objects(&mut scene);
-    add_objects::add_lights(&mut scene);
+    scene = add_objects::add_objects(scene);
+    scene = add_objects::add_lights(scene);
 
-    return scene;
+    ImageDesc {
+		scene: Arc::new(scene.unwrap()),
+		camera,
+		size,
+		opts
+	}
 }
 
 fn main() {
@@ -116,14 +122,14 @@ fn main() {
         return;
     }
 
-    let desc = ImageDesc {
+    let size = ImageSize {
         width: 1200,
         height: 800,
+		samples: 2,
     };
-    let opts = ImageOptions { samples: 2 };
-    let scene = Arc::new(create_scene());
+    let desc = create_scene(size);
 
-    let image_val = trace_image(desc, opts, scene);
+    let image_val = trace_image(&desc);
 
     let ref mut file = File::create(args[1].clone()).unwrap();
 

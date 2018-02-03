@@ -8,6 +8,7 @@ extern crate threadpool;
 extern crate glslvec;
 extern crate gradient;
 extern crate rhai;
+extern crate image;
 
 pub mod object;
 pub mod material;
@@ -21,8 +22,10 @@ mod intersection;
 mod raymarcher;
 mod scene;
 mod camera;
-mod image;
 mod scenedata;
+mod cacheable;
+mod scenebuilder;
+mod newscene;
 
 pub use vec::*;
 pub use ray::*;
@@ -32,15 +35,9 @@ pub use scene::*;
 pub use camera::*;
 pub use image::*;
 pub use scenedata::*;
+pub use scenebuilder::*;
+pub use newscene::*;
 
 mod lib {
     pub use ::*;
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
 }
