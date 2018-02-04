@@ -78,7 +78,7 @@ mod custom {
 
                 r = x * x + y * y + z * z;
             }
-            return r.sqrt() * scale.powi(-10); //the estimated distance
+            return (r.sqrt() - 2.0) * scale.powi(-10); //the estimated distance
         }
     }
 
@@ -167,7 +167,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(directional([0.0, -1.0, 2.0])) //, 0.0872665, 10))
+        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
 			.add_light(ambient([0.2; 3]))
     }
 }
@@ -214,10 +214,10 @@ fn main() {
     let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 120,
-        height: 80,
+        width: 1200,
+        height: 800,
 
-		samples: 1,
+		samples: 10,
     };
     let desc = create_scene(angle, size);
 
