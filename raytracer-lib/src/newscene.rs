@@ -9,17 +9,21 @@ use cacheable::Cacheable;
 use camera::Camera;
 use scenedata::ObjectData;
 
-use std::sync::mpsc::channel;
+use std::sync::mpsc::{channel, Sender};
 use std::sync::{Arc, Mutex};
 use std::vec::Vec;
 use std::ops::Deref;
 use std::rc::Rc;
+use std::io::Write;
 
 use pbr;
+use pbr::ProgressBar;
+
 use num_cpus;
 use rand::{random, Closed01};
 use threadpool::ThreadPool;
 use image::{Rgb, ImageBuffer};
+use std::thread;
 
 pub struct CachedObjectData {
 	pub object: Arc<Cacheable<Rc<Raymarchable>>>,
@@ -167,21 +171,28 @@ pub fn render_pixel(
     return result / (desc.samples as f32);
 }
 
-pub fn trace_image(desc: &ImageDesc) -> ImageBuffer<Rgb<u8>, Vec<u8>> {
-    let imagebuf = Arc::new(Mutex::new(ImageBuffer::new(desc.size.width, desc.size.height)));
-    let (tx, rx) = channel();
-    let pool = ThreadPool::new(num_cpus::get());
+fn trace_single_image<T>(
+	image_idx: usize,
+	tx: Sender<(usize, u32, Vec<Rgb<u8>>)>,
+	pool: &ThreadPool,
+	desc: &ImageDesc,
+	pb: Arc<Mutex<ProgressBar<T>>>) -> ImageBuffer<Rgb<u8>, Vec<u8>>
+	where T: Write + Send + 'static
+{
+	let count = Arc::new(Mutex::new(0u32));
 
 	for y in 0..desc.size.height {
 		pool.execute({
-		    let imagebuf = Arc::clone(&imagebuf);
             let cached_scene = Arc::clone(&desc.scene);
 			let opts = desc.opts;
             let tx = tx.clone();
 			let size = desc.size;
 			let camera = desc.camera;
+			let pb = Arc::clone(&pb);
+			let count = Arc::clone(&count);
             move || {
 				let scene = cached_scene.deref().cached();
+				let mut values = Vec::new();
                 for x in 0..size.width {
                     let colour = render_pixel(
 						Vec2u { x: x, y: y }, 
@@ -190,37 +201,88 @@ pub fn trace_image(desc: &ImageDesc) -> ImageBuffer<Rgb<u8>, Vec<u8>> {
 						camera,
 						&scene);
 
-                    imagebuf.lock().unwrap().put_pixel(
-                        x,
-                        y,
-                        Rgb {
-                            data: [
-                                (colour.x * 255.0) as u8,
-                                (colour.y * 255.0) as u8,
-                                (colour.z * 255.0) as u8,
-                            ],
-                        },
-                    );
+					values.push(Rgb { 
+						data: [
+							(colour.x * 255.0) as u8,
+							(colour.y * 255.0) as u8,
+							(colour.z * 255.0) as u8,
+						]		
+					});
                 }
-                tx.send(y).expect("Channel is present");
+				tx.send((
+					image_idx,
+					y,
+					values
+				)).expect("Channel is present");
+
+				{
+					let ref mut bar = pb.lock().expect("Unlock Error");
+					let ref mut cnt = count.lock().unwrap();
+
+					bar.inc();
+					**cnt += 1;
+
+					if **cnt == size.height {
+						bar.finish_print(&format!("done image {}", image_idx));
+					}
+				}
             }
 		});
 	}
 
-	let mut pb = pbr::ProgressBar::new(desc.size.height as u64);
+	ImageBuffer::new(desc.size.width, desc.size.height)    
+}
+
+pub fn trace_image(desc: &ImageDesc) -> ImageBuffer<Rgb<u8>, Vec<u8>> {
+    let (tx, rx) = channel();
+    let pool = ThreadPool::new(num_cpus::get());
+	let pb = Arc::new(Mutex::new(ProgressBar::new(desc.size.height as u64)));
+
+	let mut imagebuf = trace_single_image(0, tx, &pool, desc, pb);
+
     for _ in 0..desc.size.height {
-        let _ = rx.recv();
+        let (_, y, pixels) = rx.recv().expect("Receive Error");
 
-        pb.inc();
+		for x in 0..desc.size.width {
+			imagebuf.put_pixel(x, y, pixels[x as usize]);
+		}
     }
 
-    {
-        let _ = imagebuf.lock();
-    }
+    return imagebuf;
+}
 
-    return Arc::try_unwrap(imagebuf)
-        .expect("Lock still has multiple owners")
-        .into_inner()
-        .expect("Mutex cannot be locked");
+pub fn multi_trace_image<I>(descriptors: I) -> impl Iterator<Item = ImageBuffer<Rgb<u8>, Vec<u8>>> 
+	where I: Iterator<Item=ImageDesc>
+{
+	let (tx, rx) = channel();
+	let pool = ThreadPool::new(num_cpus::get());
+	let mut widths = Vec::new();
+	let mut images = Vec::new();
+	let mut pb = pbr::MultiBar::new();
+	let mut count = 0;
+
+	for (i, desc) in descriptors.enumerate() {
+		let pb = Arc::new(Mutex::new(pb.create_bar(desc.size.height as u64)));
+		widths.push(desc.size.width);
+		images.push(trace_single_image(i, tx.clone(), &pool, &desc, pb));
+		count += desc.size.height;
+	}
+
+	let handle = thread::spawn(move || {
+		pb.listen();
+	});
+
+	for _ in 0..count {
+		let (img, y, pixels) = rx.recv().expect("Receive Error");
+		//println!("here");
+
+		for x in 0..widths[img] {
+			images[img].put_pixel(x, y, pixels[x as usize]);
+		}
+	}
+
+	handle.join().unwrap();
+
+	return images.into_iter();
 }
 

@@ -19,4 +19,5 @@ gradient     = { path = "../gradient" }
 pbr          = "1.0"
 rhai         = { git = "https://github.com/jonathandturner/rhai" }
 glslvec      = { path = "../glslvec" }
-simd         = "*"
+#simd         = "*"
+runtime-fmt  = "*"

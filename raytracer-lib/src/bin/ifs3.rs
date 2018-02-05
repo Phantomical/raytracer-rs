@@ -204,10 +204,10 @@ fn main() {
     let angle = args[2].parse().expect("Error: Angle was not a number");
 
     let size = ImageSize {
-        width: 3840,
-        height: 2160,
-        //width: 1200,
-        //height: 800,
+        //width: 3840,
+        //height: 2160,
+        width: 1200,
+        height: 800,
 		samples: 2
     };
     let desc = create_scene(angle, size);
