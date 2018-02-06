@@ -9,6 +9,7 @@ path = "src/lib.rs"
 
 [profile.release]
 lto = true
+panic = 'abort'
 
 [dependencies]
 rand         = "0.4.1"

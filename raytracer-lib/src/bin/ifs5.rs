@@ -101,7 +101,8 @@ mod custom {
             points.push(point);
 
             for _ in 0..10 {
-                rotate1(self.angle, &mut x, &mut y, &mut z);
+                //rotate1(self.angle, &mut x, &mut y, &mut z);
+                rotate2(self.angle, &mut x, &mut y, &mut z);
 
                 x = abs(x);
                 y = abs(y);
@@ -122,7 +123,6 @@ mod custom {
                     y = y1;
                 }
 
-                rotate2(self.angle, &mut x, &mut y, &mut z);
 
                 x = scale * x - cx * (scale - 1.0);
                 y = scale * y - cy * (scale - 1.0);
@@ -151,15 +151,15 @@ mod add_objects {
     pub fn add_objects(scene: SceneBuilder, angle: f64) -> SceneBuilder {
         let elem = custom::IFSElement {
             angle,
-            scale: 3.0,
-            c: vec3(1.0, 1.0, 1.0),
+            scale: 1.6,
+            c: vec3(4.8, 1.5, 0.0),
         };
 
-        scene.add_object(
-				sphere([0.0, -10002.0, 0.0], 10000.0),
-				solid_colour(colours::WHITE))
+        scene//.add_object(
+			//	sphere([0.0, -10002.0, 0.0], 10000.0),
+			//	solid_colour(colours::WHITE))
 			.add_object(
-				bound_sphere(elem, 3.0),
+				bound_sphere(elem, 20.0),
 				OriginTrap::new(
 				    Gradient::new(&[
 				        (colour(colours::ORANGE), 0.75),
@@ -180,8 +180,8 @@ use raytracer::builder::deg2rad;
 
 fn create_scene(angle: f64, size: ImageSize) -> ImageDesc {
     let camera = CameraBuilder::new()
-        .position(vec3(4.0, 1.0, -8.0))
-        .forward(vec3(-4.0, -1.0, 8.0))
+        .position(vec3(4.0, 1.0, -20.0))
+        .forward(vec3(-4.0, -1.0, 20.0))
         .aspect_y(deg2rad(60.0), (size.width as f64) / (size.height as f64))
         .orthonormalize()
         .unwrap();
@@ -215,10 +215,10 @@ fn main() {
 
 	let mut descriptors = Vec::new();
     let size = ImageSize {
-        width: 3840,
-        height: 2160,
-        //width: 400,
-        //height: 300,
+        //width: 3840,
+        //height: 2160,
+        width: 1200,
+        height: 800,
 
 		samples: 10,
     };

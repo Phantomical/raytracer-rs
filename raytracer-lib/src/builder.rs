@@ -82,6 +82,11 @@ pub fn rotate<T>(obj: T, xyz: Mat3d) -> Rotate<T>
 pub fn mandelbulb(iterations: usize, power: i32) -> Mandelbulb {
     Mandelbulb::new(iterations, power)
 }
+pub fn bound_sphere<T>(obj: T, radius: f64) -> BoundSphere<T> 
+	where T: Raymarchable + Clone 
+{
+	BoundSphere::new(radius, obj)
+}
 
 /* Materials */
 pub fn solid_colour(col: [f32; 3]) -> SolidColour {
