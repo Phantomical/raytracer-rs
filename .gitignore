@@ -23,10 +23,10 @@ glslvec/.vscode
 
 images/
 
-vector/.vs/
-vector/target
-vector/Cargo.lock
-vector/.vscode
+valarray/.vs/
+valarray/target
+valarray/Cargo.lock
+valarray/.vscode
 
 /raytracer-lib/output.png
 /raytracer-lib/output.txt
