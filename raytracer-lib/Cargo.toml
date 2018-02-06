@@ -14,11 +14,11 @@ panic = 'abort'
 [dependencies]
 rand         = "0.4.1"
 image        = "0.18.0"
-threadpool   = "1.7.0"
-num_cpus     = "1.0"
 gradient     = { path = "../gradient" }
 pbr          = "1.0"
 rhai         = { git = "https://github.com/jonathandturner/rhai" }
 glslvec      = { path = "../glslvec" }
 #simd         = "*"
 runtime-fmt  = "*"
+futures      = "*"
+futures-cpupool = "*"

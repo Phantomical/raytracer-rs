@@ -4,8 +4,6 @@ extern crate raytracer;
 use raytracer::*;
 
 use std::env;
-use std::fs::File;
-
 use std::sync::Arc;
 
 mod add_objects {
@@ -77,9 +75,5 @@ fn main() {
     };
     let desc = create_desc(size);
 
-    let image_val = trace_image(&desc);
-
-    let ref mut file = File::create(args[1].clone()).unwrap();
-
-    image::ImageRgb8(image_val).save(file, image::PNG).unwrap();
+	trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }

@@ -3,6 +3,9 @@ extern crate gradient;
 extern crate image;
 extern crate raytracer;
 
+extern crate pbr;
+extern crate futures;
+
 #[macro_use]
 extern crate runtime_fmt;
 
@@ -10,7 +13,6 @@ use raytracer::*;
 use raytracer::colours;
 
 use std::env;
-use std::fs::File;
 
 use std::sync::Arc;
 use std::vec::Vec;
@@ -217,24 +219,18 @@ fn main() {
     let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 1200,
-        height: 800,
+        width: 1200/2,
+        height: 800/2,
 
 		samples: 10,
     };
 
 	for i in 2..args.len() {
 		let angle = args[i].parse().expect("Error: Angle was not a number");
-
-		descriptors.push(create_scene(angle, size));
-	}
-
-    let images = multi_trace_image(descriptors.into_iter());
-
-	for (i, image_val) in images.enumerate() {
 		let name = rt_format!(&args[1], i).expect("Could not format string");
-		let ref mut file = File::create(&*name).expect("Could not open file");
 
-		image::ImageRgb8(image_val).save(file, image::PNG).unwrap();
+		descriptors.push((create_scene(angle, size), name));
 	}
+
+	trace_to_disk(descriptors.into_iter());
 }

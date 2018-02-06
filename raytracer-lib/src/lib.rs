@@ -1,14 +1,14 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
-extern crate num_cpus;
 extern crate pbr;
 extern crate rand;
-extern crate threadpool;
 extern crate glslvec;
 extern crate gradient;
 extern crate rhai;
 extern crate image;
+extern crate futures;
+extern crate futures_cpupool;
 
 pub mod object;
 pub mod material;

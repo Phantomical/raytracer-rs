@@ -7,8 +7,6 @@ use raytracer::*;
 use raytracer::colours;
 
 use std::env;
-use std::fs::File;
-
 use std::sync::Arc;
 
 mod custom {
@@ -159,7 +157,7 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
+        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 50))
 			.add_light(ambient([0.2; 3]))
     }
 }
@@ -212,9 +210,5 @@ fn main() {
     };
     let desc = create_scene(angle, size);
 
-    let image_val = trace_image(&desc);
-
-    let ref mut file = File::create(args[1].clone()).unwrap();
-
-    image::ImageRgb8(image_val).save(file, image::PNG).unwrap();
+    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }
