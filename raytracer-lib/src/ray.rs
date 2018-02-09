@@ -1,5 +1,6 @@
 use lib::*;
 
+#[derive(Clone, Copy)]
 pub struct Ray {
     pub origin: Vec3d,
     pub direction: Vec3d,

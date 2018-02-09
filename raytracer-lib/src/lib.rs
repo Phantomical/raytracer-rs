@@ -26,6 +26,7 @@ mod scenedata;
 mod cacheable;
 mod scenebuilder;
 mod newscene;
+mod scripting;
 
 pub use vec::*;
 pub use ray::*;

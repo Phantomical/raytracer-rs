@@ -14,20 +14,26 @@ fn xxy(v: Vec2d) -> Vec3d {
     return v.xxy();
 }
 
-pub trait Raymarchable: Sync + Send {
+pub fn normal_finite_difference<T>(me: &T, point: Vec3d) -> Vec3d 
+	where T: ?Sized + Raymarchable
+{
+    let eps = vec2(0.0, me.epsilon(point));
+    // Normal approximation using gradient method
+
+    return vec3(
+        me.distance(point + yxx(eps)) - me.distance(point - yxx(eps)),
+        me.distance(point + xyx(eps)) - me.distance(point - xyx(eps)),
+        me.distance(point + xxy(eps)) - me.distance(point - xxy(eps)),
+    ).normalize();
+}
+
+pub trait Raymarchable {
     fn epsilon(&self, _point: Vec3d) -> f64 {
         0.000001
     }
 
     fn normal_at(&self, point: Vec3d, _direction: Vec3d) -> Vec3d {
-        let eps = vec2(0.0, self.epsilon(point));
-        // Normal approximation using gradient method
-
-        return vec3(
-            self.distance(point + yxx(eps)) - self.distance(point - yxx(eps)),
-            self.distance(point + xyx(eps)) - self.distance(point - xyx(eps)),
-            self.distance(point + xxy(eps)) - self.distance(point - xxy(eps)),
-        ).normalize();
+		normal_finite_difference(self, point)
     }
 
     fn distance(&self, point: Vec3d) -> f64;

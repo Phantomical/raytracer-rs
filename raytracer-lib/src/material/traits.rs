@@ -3,7 +3,7 @@ use lib::Intersection;
 use cacheable::Cacheable;
 use std::rc::Rc;
 
-pub trait Material: Sync + Send {
+pub trait Material {
     fn base_colour(&self, isect: &Intersection) -> Colour;
 
     fn roughness(&self, _isect: &Intersection) -> f32 {

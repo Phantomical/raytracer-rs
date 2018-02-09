@@ -2,6 +2,7 @@ use lib::{Colour, Mat3d, Vec2d, Vec3d};
 use lib::light::*;
 use lib::object::*;
 use lib::material::*;
+use scripting::CachedScript;
 
 use std::sync::Arc;
 use std::ops::Deref;
@@ -86,6 +87,9 @@ pub fn bound_sphere<T>(obj: T, radius: f64) -> BoundSphere<T>
 	where T: Raymarchable + Clone 
 {
 	BoundSphere::new(radius, obj)
+}
+pub fn scripted_object(source: String) -> CachedScript {
+	CachedScript{ source }
 }
 
 /* Materials */
