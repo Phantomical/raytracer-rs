@@ -1,6 +1,8 @@
 
 use lib::{Vec3d};
-use lib::object::{Raymarchable, normal_finite_difference};
+use lib::object::{Raymarchable, IFS, normal_finite_difference};
+
+use std::rc::Rc;
 
 use scripting::*;
 use cacheable::*;
@@ -35,9 +37,16 @@ impl Raymarchable for ScriptedRaymarchable {
 	}
 }
 
-impl Cacheable<ScriptedRaymarchable> for CachedScript {
-	fn cached(&self) -> ScriptedRaymarchable {
-		ScriptedRaymarchable(Script::new(self))
+impl IFS for ScriptedRaymarchable {
+	fn points(&self, point: Vec3d) -> Box<Iterator<Item = Vec3d>> {
+		self.0.call_points(point)
+			.expect("An error occurred while trying to call the 'points' method within a script.")
+	}
+}
+
+impl Cacheable<Rc<Raymarchable>> for CachedScript {
+	fn cached(&self) -> Rc<Raymarchable> {
+		Rc::new(ScriptedRaymarchable(Script::new(self)))
 	}
 }
 

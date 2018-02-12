@@ -4,10 +4,10 @@ use lib::material::Material;
 
 use std::iter::*;
 
+use cacheable::Cacheable;
 use gradient::Gradient;
 
-#[derive(Clone)]
-pub struct OriginTrap<T: IFS> {
+pub struct OriginTrap<T> {
     gradient: Gradient<f32, Colour>,
     object: T,
 }
@@ -30,4 +30,10 @@ impl<T: IFS> Material for OriginTrap<T> {
 
         return self.gradient.value_at(min as f32);
     }
+}
+
+impl<R: IFS, T: Cacheable<R>> Cacheable<OriginTrap<R>> for OriginTrap<T> {
+	fn cached(&self) -> OriginTrap<R> {
+		OriginTrap::new(self.gradient.clone(), self.object.cached())
+	}
 }

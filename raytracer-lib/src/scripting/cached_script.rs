@@ -1,7 +1,9 @@
 
-use rhai::{Engine, EvalAltResult};
+use rhai::{Engine, EvalAltResult, Any};
 use lib::{Vec3d, Intersection, Colour};
 use scripting::engine;
+
+use std::vec::Vec;
 
 pub struct CachedScript {
 	pub source: String
@@ -67,6 +69,33 @@ impl Script {
 		}
 		else {
 			return Err(FunctionCallError::WrongReturnType);
+		}
+	}
+
+	/* Methods for IFS */
+	pub fn call_points(&self, mut point: Vec3d)
+		-> Result<Box<Iterator<Item = Vec3d>>, FunctionCallError>
+	{
+		let ref result = *try!(self.engine.call_fn_raw(
+			"points".to_string(),
+			vec![&mut point]));
+
+		if let Some(ref retval) = result.downcast_ref::<Vec<Box<Any>>>() {
+			let mut vec = Vec::new();
+
+			for ref item in retval.iter() {
+				if let Some(val) = item.downcast_ref::<Vec3d>() {
+					vec.push(*val);
+				}
+				else {
+					return Err(FunctionCallError::WrongReturnType);
+				}
+			}
+
+			Ok(Box::new(vec.into_iter()))
+		}
+		else {
+			Err(FunctionCallError::WrongReturnType)
 		}
 	}
 	

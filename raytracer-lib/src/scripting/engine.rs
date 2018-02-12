@@ -8,6 +8,8 @@ use lib::*;
 use lib::object::Raymarchable;
 use lib::material::Material;
 
+use scripting::swizzle;
+
 fn add<B, A: Add<B>>(x: A, y: B) -> A::Output { x + y }
 fn sub<B, A: Sub<B>>(x: A, y: B) -> A::Output { x - y }
 fn mul<B, A: Mul<B>>(x: A, y: B) -> A::Output { x * y }
@@ -160,6 +162,8 @@ pub fn build() -> Engine {
 	register_isect_fns(&mut engine);
 	register_raymarchable_fns(&mut engine);
 	register_material_fns(&mut engine);
+	swizzle::register_swizzle_vec3d_fns(&mut engine);
+	swizzle::register_swizzle_vec2d_fns(&mut engine);
 
 	engine
 }
