@@ -30,6 +30,17 @@ impl<T: Sized + Clone> Vec3<T> {
 	pub fn as_array(self) -> [T; 3] {
 		[ self.x, self.y, self.z ]
 	}
+
+	/// Vector conversion
+	pub fn from<U>(v: Vec3<U>) -> Self 
+		where U: Into<T>
+	{
+		Vec3::new([
+			v.x.into(),
+			v.y.into(),
+			v.z.into()
+		])
+	}
 }
 impl<T: Sized + Clone + Zero + One> Vec3<T> {
 	/// Returns a vector containing only zeros
@@ -355,4 +366,5 @@ impl<T> HasClamp for Vec3<T>
 			self.z.min(max).max(min))
 	}
 }
+
 

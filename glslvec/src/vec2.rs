@@ -28,6 +28,16 @@ impl<T: Sized + Clone> Vec2<T> {
 	pub fn as_array(self) -> [T; 2] {
 		[self.x, self.y]
 	}
+	
+	/// Vector conversion
+	pub fn from<U>(v: Vec2<U>) -> Self 
+		where U: Into<T>
+	{
+		Self::new([
+			v.x.into(),
+			v.y.into()
+		])
+	}
 }
 
 impl<T: Sized + Clone + Zero + One> Vec2<T> {

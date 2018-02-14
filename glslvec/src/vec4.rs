@@ -31,6 +31,18 @@ impl<T: Sized + Clone> Vec4<T> {
 	/// Returns an array containing all the elements of the vector.
 	pub fn as_array(self) -> [T; 4] {
 		[self.x, self.y, self.z, self.w]
+	}	
+	
+	/// Vector conversion
+	pub fn from<U>(v: Vec4<U>) -> Self 
+		where U: Into<T>
+	{
+		Self::new([
+			v.x.into(),
+			v.y.into(),
+			v.z.into(),
+			v.w.into()
+		])
 	}
 }
 impl<T: Sized + Clone + Zero + One> Vec4<T> {
