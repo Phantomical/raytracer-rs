@@ -1,0 +1,10 @@
+[package]
+name = "raytracer"
+version = "0.1.0"
+authors = ["Sean Lynch <swlynch@uwaterloo.ca>"]
+
+[dependencies]
+glslvec  = { path = "../glslvec"  }
+gradient = { path = "../gradient" }
+ndarray  = "*"
+ndarray-rand = "*"
