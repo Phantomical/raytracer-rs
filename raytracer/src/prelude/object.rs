@@ -1,7 +1,7 @@
 
 use ndarray::*;
 use array_vec::ArrayVec3;
-use vec::vec3;
+use vec::{vec3, Vec3d};
 
 /// Calculates the 
 pub fn finite_difference_normal<T>(
@@ -31,5 +31,14 @@ pub trait Object {
 	fn normal_at(&self, points: &ArrayVec3) -> ArrayVec3
 	{
 		finite_difference_normal(self, points)
+	}
+}
+
+impl Object {
+	pub fn distance_singular(&self, point: Vec3d) -> f64 {
+		self.distance(&ArrayVec3::from(point))[*&[0]]
+	}
+	pub fn normal_singular(&self, point: Vec3d) -> Vec3d {
+		self.normal_at(&ArrayVec3::from(point)).at(*&[0])
 	}
 }

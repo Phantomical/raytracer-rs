@@ -14,6 +14,7 @@ mod vec;
 mod array_vec;
 
 mod types;
+mod engine;
 
 pub mod prelude;
 pub mod object;

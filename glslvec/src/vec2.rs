@@ -41,11 +41,6 @@ impl<T: Sized + Clone> Vec2<T> {
 }
 
 impl<T: Sized + Clone + Zero + One> Vec2<T> {
-	/// Returns a vector containing only zeros
-	pub fn zero() -> Self {
-		Self::new([T::zero(), T::zero()])
-	}
-
 	/// Returns a vector with x equal to 1 and all
 	/// other elements equal to 0.
 	pub fn unit_x() -> Self {
@@ -55,6 +50,12 @@ impl<T: Sized + Clone + Zero + One> Vec2<T> {
 	/// other elements equal to 0.
 	pub fn unit_y() -> Self {
 		Self::new([T::zero(), T::one()])
+	}
+}
+
+impl<T: Zero + Clone> Zero for Vec2<T> {
+	fn zero() -> Self {
+		Self::new([T::zero(), T::zero()])
 	}
 }
 
@@ -76,26 +77,6 @@ impl<T: Sized + Clone> IndexMut<usize> for Vec2<T> {
 				1 => &mut self.y,
 				_ => panic!("Accessed out of range index on a vector")
 			}
-	}
-}
-
-impl<T: Sized + Clone> HasPerElementOps for Vec2<T> {
-	type ElemType = T;
-
-	fn apply_op<U: Fn(&T) -> T>(&self, func: U) -> Self {
-		vec2(
-			func(&self[0]),
-			func(&self[1]))
-	}
-}
-impl<T: Sized + Clone> HasPerElementBinOps for Vec2<T> {
-	type ElemType = T;
-
-	fn apply_bin_op<U: Fn(&T, T) -> T>(&self, rhs: Self, func: U) -> Self {
-		vec2(
-			func(&self[0], rhs[0].clone()),
-			func(&self[1], rhs[1].clone())
-		)
 	}
 }
 
@@ -324,3 +305,84 @@ impl<T> HasClamp for Vec2<T>
 	}
 }
 
+macro_rules! unary_op {
+	($op:ident) => {
+		fn $op(&self) -> Self {
+			vec2(self.x.$op(), self.y.$op())
+		}
+	}
+}
+
+impl<T> HasAbs for Vec2<T> 
+	where T: HasAbs + Clone
+{
+	unary_op!(abs);
+}
+
+impl<T> HasTrig for Vec2<T>
+	where T: HasTrig + Clone 
+{
+	unary_op!(sin);
+	unary_op!(cos);
+	unary_op!(tan);
+	unary_op!(asin);
+	unary_op!(acos);
+	unary_op!(atan);
+}
+
+impl<T> HasExponential for Vec2<T> 
+	where T: HasExponential + Clone
+{
+	fn pow(&self, exponent: Self) -> Self {
+		vec2(
+			self.x.pow(exponent.x),
+			self.y.pow(exponent.y))
+	}
+	
+	unary_op!(log);
+	unary_op!(exp);
+	unary_op!(log2);
+	unary_op!(exp2);
+}
+
+impl<T> HasSqrt for Vec2<T>
+	where T: HasSqrt + Clone 
+{
+	unary_op!(sqrt);
+	unary_op!(inv_sqrt);
+}
+
+impl<T> HasSign for Vec2<T>
+	where T: HasSign + Clone
+{
+	unary_op!(sign);
+}
+
+impl<T> HasFloor for Vec2<T>
+	where T: HasFloor + Clone
+{
+	unary_op!(floor);
+}
+
+impl<T> HasCeil for Vec2<T>
+	where T: HasCeil + Clone
+{
+	unary_op!(ceil);
+}
+
+impl<T> HasFract for Vec2<T>
+	where T: HasFract + Clone
+{
+	unary_op!(fract);
+}
+
+impl<T> HasLength for Vec2<T>
+	where T: HasSqrt + Clone,
+	      Self: HasDot<Output = T>
+{
+	type Output = T;
+
+	fn length(&self) -> T {
+		self.dot(self.clone()).sqrt()
+	}
+}

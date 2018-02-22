@@ -5,30 +5,35 @@ mod internal {
 	use std::ops::*;
 	use std::convert::From;
 
-	use vec::Vec3d;
+	use vec::{Vec3, vec3};
 	
-	pub struct ArrayVec3<D>
+	#[derive(Clone)]
+	pub struct ArrayVec3<T, D>
 		where D: Dimension
 	{
-		pub x: Array<f64, D>,
-		pub y: Array<f64, D>,
-		pub z: Array<f64, D>
+		pub x: Array<T, D>,
+		pub y: Array<T, D>,
+		pub z: Array<T, D>
 	}
 	
-	impl<D> ArrayVec3<D>
+	impl<T, D> ArrayVec3<T, D>
 		where D: Dimension
 	{
 		pub fn new(
-			x: Array<f64 ,D>,
-			y: Array<f64 ,D>, 
-			z: Array<f64 ,D>) -> Self 
+			x: Array<T ,D>,
+			y: Array<T ,D>, 
+			z: Array<T ,D>) -> Self 
 		{
 			Self { x, y, z }
 		}
+
+		pub fn elem_size(&self) -> usize {
+			self.x.shape().iter().product()
+		}
 	}
 
-	impl From<Vec3d> for ArrayVec3<IxDyn> {
-		fn from(v: Vec3d) -> Self {
+	impl<T> From<Vec3<T>> for ArrayVec3<T, IxDyn> {
+		fn from(v: Vec3<T>) -> Self {
 			Self {
 				x: array![v.x].into_dyn(),
 				y: array![v.y].into_dyn(),
@@ -38,14 +43,14 @@ mod internal {
 	}
 	
 	macro_rules! bin_op {
-		($trait:ident, $op:tt, $name:ident) => {
-			impl<'a, S, D> $trait<&'a ArrayBase<S, D>> for ArrayVec3<D> 
-				where S: Data<Elem = f64>,
+		($trait:ident, $op:tt, $name:ident, $T:ty) => {
+			impl<'a, S, D> $trait<&'a ArrayBase<S, D>> for ArrayVec3<$T, D> 
+				where S: Data<Elem = $T>,
 				      D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 			
-				fn $name(self, rhs: &ArrayBase<S, D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: &ArrayBase<S, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						self.x $op rhs,
 						self.y $op rhs,
@@ -54,12 +59,12 @@ mod internal {
 				}
 			}
 
-			impl<'a, 'b, D> $trait<&'b Array<f64, D>> for &'a ArrayVec3<D> 
+			impl<'a, 'b, D> $trait<&'b Array<$T, D>> for &'a ArrayVec3<$T, D> 
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 			
-				fn $name(self, rhs: &Array<f64, D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: &Array<$T, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						&self.x $op rhs,
 						&self.y $op rhs,
@@ -68,12 +73,12 @@ mod internal {
 				}
 			}
 
-			impl<'a, D> $trait<Array<f64, D>> for &'a ArrayVec3<D> 
+			impl<'a, D> $trait<Array<$T, D>> for &'a ArrayVec3<$T, D> 
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 			
-				fn $name(self, rhs: Array<f64, D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: Array<$T, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						&self.x $op &rhs,
 						&self.y $op &rhs,
@@ -81,12 +86,12 @@ mod internal {
 					)
 				}
 			}
-			impl<'a, 'b, D> $trait<&'b ArrayVec3<D>> for &'a ArrayVec3<D> 
+			impl<'a, 'b, D> $trait<&'b ArrayVec3<$T, D>> for &'a ArrayVec3<$T, D> 
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 			
-				fn $name(self, rhs: &ArrayVec3<D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: &ArrayVec3<$T, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						&self.x $op &rhs.x,
 						&self.y $op &rhs.y,
@@ -95,13 +100,13 @@ mod internal {
 				}
 			}
 
-			impl<'a, S, D> $trait<ArrayBase<S, D>> for ArrayVec3<D> 
-				where S: Data<Elem = f64>,
+			impl<'a, S, D> $trait<ArrayBase<S, D>> for ArrayVec3<$T, D> 
+				where S: Data<Elem = $T>,
 					  D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 		
-				fn $name(self, rhs: ArrayBase<S, D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: ArrayBase<S, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						self.x $op &rhs,
 						self.y $op &rhs,
@@ -110,12 +115,12 @@ mod internal {
 				}
 			}
 
-			impl<'a, D> $trait<ArrayVec3<D>> for &'a ArrayVec3<D> 
+			impl<'a, D> $trait<ArrayVec3<$T, D>> for &'a ArrayVec3<$T, D> 
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 			
-				fn $name(self, rhs: ArrayVec3<D>) -> ArrayVec3<D> {
+				fn $name(self, rhs: ArrayVec3<$T, D>) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						&self.x $op &rhs.x,
 						&self.y $op &rhs.y,
@@ -124,12 +129,12 @@ mod internal {
 				}
 			}
 
-			impl<D> $trait<f64> for ArrayVec3<D>
+			impl<D> $trait<$T> for ArrayVec3<$T, D>
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 
-				fn $name(self, rhs: f64) -> ArrayVec3<D> {
+				fn $name(self, rhs: $T) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						self.x $op rhs,
 						self.y $op rhs,
@@ -137,12 +142,12 @@ mod internal {
 					)
 				}
 			}
-			impl<'a, D> $trait<f64> for &'a ArrayVec3<D>
+			impl<'a, D> $trait<$T> for &'a ArrayVec3<$T, D>
 				where D: Dimension
 			{
-				type Output = ArrayVec3<D>;
+				type Output = ArrayVec3<$T, D>;
 
-				fn $name(self, rhs: f64) -> ArrayVec3<D> {
+				fn $name(self, rhs: $T) -> ArrayVec3<$T, D> {
 					ArrayVec3::new(
 						&self.x $op rhs,
 						&self.y $op rhs,
@@ -150,174 +155,216 @@ mod internal {
 					)
 				}
 			}
-		}
-	}
-	
-	bin_op!(Add, +, add);
-	bin_op!(Sub, -, sub);
-	bin_op!(Mul, *, mul);
-	bin_op!(Div, /, div);
-	
-	impl<D> HasDot for ArrayVec3<D>
-	where D: Dimension
-	{
-		type Output = Array<f64, D>;
 
-		fn dot(&self, rhs: Self) -> Self::Output {
-			return rhs.x * &self.x 
-			     + rhs.y * &self.y
-			     + rhs.z * &self.z;
+			impl<D> $trait for ArrayVec3<$T, D>
+				where D: Dimension
+			{
+				type Output = ArrayVec3<$T, D>;
+
+				fn $name(self, rhs: ArrayVec3<$T, D>) -> ArrayVec3<$T, D> {
+					ArrayVec3::new(
+						self.x $op rhs.x,
+						self.y $op rhs.y,
+						self.z $op rhs.z
+					)
+				}
+			}
+
+			impl<'a, D> $trait<&'a ArrayVec3<$T, D>> for ArrayVec3<$T, D>
+				where D: Dimension
+			{
+				type Output = ArrayVec3<$T, D>;
+
+				fn $name(self, rhs: &ArrayVec3<$T, D>) -> Self::Output {
+					ArrayVec3::new(
+						self.x $op &rhs.x,
+						self.y $op &rhs.y,
+						self.z $op &rhs.z
+					)
+				}
+			}
 		}
 	}
-	impl<D> HasSqrt for ArrayVec3<D> 
-	where D: Dimension
-	{
-		fn sqrt(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::sqrt),
-				self.y.mapv(f64::sqrt),
-				self.z.mapv(f64::sqrt))
+
+	macro_rules! impl_traits {
+		($type:tt) => {
+			bin_op!(Add, +, add, $type);
+			bin_op!(Sub, -, sub, $type);
+			bin_op!(Mul, *, mul, $type);
+			bin_op!(Div, /, div, $type);
+	
+			impl<D> HasDot for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				type Output = Array<$type, D>;
+
+				fn dot(&self, rhs: Self) -> Self::Output {
+					return rhs.x * &self.x 
+						 + rhs.y * &self.y
+						 + rhs.z * &self.z;
+				}
+			}
+			impl<D> HasSqrt for ArrayVec3<$type, D> 
+			where D: Dimension
+			{
+				fn sqrt(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::sqrt),
+						self.y.mapv($type::sqrt),
+						self.z.mapv($type::sqrt))
+				}
+				fn inv_sqrt(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv(|x| x.sqrt().recip()),
+						self.y.mapv(|x| x.sqrt().recip()),
+						self.z.mapv(|x| x.sqrt().recip())
+					)
+				}
+			}
+			impl<D> HasCross for ArrayVec3<$type, D> 
+			where D: Dimension 
+			{
+				fn cross(&self, rhs: Self) -> Self {
+					let x1 = &rhs.z * &self.y;
+					let y1 = &rhs.x * &self.z;
+					let z1 = &rhs.y * &self.x;
+
+					let x2 = rhs.y * &self.z;
+					let y2 = rhs.z * &self.x;
+					let z2 = rhs.x * &self.y;
+
+					ArrayVec3::new(x1 - x2, y1 - y2, z1 - z2)
+				}
+			}
+			impl<D> HasLength for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				type Output = Array<$type, D>;
+
+				fn length(&self) -> Self::Output {
+					(&self.x * &self.x + &self.y * &self.y + &self.z * &self.z)
+						.mapv($type::sqrt)
+				}
+			}
+			impl<D> HasAbs for ArrayVec3<$type, D> 
+			where D: Dimension
+			{
+				fn abs(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::abs),
+						self.y.mapv($type::abs),
+						self.z.mapv($type::abs))
+				}
+			}
+			impl<D> HasTrig for ArrayVec3<$type, D> 
+			where D: Dimension
+			{
+				fn sin(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::sin),
+						self.y.mapv($type::sin),
+						self.z.mapv($type::sin))
+				}
+				fn cos(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::cos),
+						self.y.mapv($type::cos),
+						self.z.mapv($type::cos))
+				}
+				fn tan(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::tan),
+						self.y.mapv($type::tan),
+						self.z.mapv($type::tan))
+				}
+				fn asin(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::asin),
+						self.y.mapv($type::asin),
+						self.z.mapv($type::asin))
+				}
+				fn acos(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::acos),
+						self.y.mapv($type::acos),
+						self.z.mapv($type::acos))
+				}
+				fn atan(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::atan),
+						self.y.mapv($type::atan),
+						self.z.mapv($type::atan))
+				}
+			}
+			impl<D> HasFloor for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				fn floor(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::floor),
+						self.y.mapv($type::floor),
+						self.z.mapv($type::floor))
+				}
+			}
+			impl<D> HasCeil for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				fn ceil(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::ceil),
+						self.y.mapv($type::ceil),
+						self.z.mapv($type::ceil))
+				}
+			}
+			impl<D> HasFract for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				fn fract(&self) -> Self {
+					ArrayVec3::new(
+						self.x.mapv($type::fract),
+						self.y.mapv($type::fract),
+						self.z.mapv($type::fract))
+				}
+			}
+			impl<D> HasMinMax for ArrayVec3<$type, D>
+			where D: Dimension
+			{
+				fn min(&self, mut rhs: Self) -> Self {
+					Zip::from(&mut rhs.x).and(&self.x).apply(|a, &b| *a = a.min(b));
+					Zip::from(&mut rhs.y).and(&self.y).apply(|a, &b| *a = a.min(b));
+					Zip::from(&mut rhs.z).and(&self.z).apply(|a, &b| *a = a.min(b));
+					rhs
+				}
+				fn max(&self, mut rhs: Self) -> Self {
+					Zip::from(&mut rhs.x).and(&self.x).apply(|a, &b| *a = a.max(b));
+					Zip::from(&mut rhs.y).and(&self.y).apply(|a, &b| *a = a.max(b));
+					Zip::from(&mut rhs.z).and(&self.z).apply(|a, &b| *a = a.max(b));
+					rhs
+				}
+			}
 		}
-		fn inv_sqrt(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(|x| x.sqrt().recip()),
-				self.y.mapv(|x| x.sqrt().recip()),
-				self.z.mapv(|x| x.sqrt().recip())
+	}
+
+	impl_traits!(f64);
+	impl_traits!(f32);
+
+	impl<D, T> ArrayVec3<T, D> 
+		where D: Dimension,
+		      T: Clone
+	{
+		pub fn at<Idx>(&self, idx: Idx) -> Vec3<T>
+			where Idx: NdIndex<D> + Copy
+		{
+			vec3(
+				self.x[idx].clone(),
+				self.y[idx].clone(),
+				self.z[idx].clone()
 			)
-		}
-	}
-	impl<D> HasCross for ArrayVec3<D> 
-	where D: Dimension 
-	{
-		fn cross(&self, rhs: Self) -> Self {
-			let x1 = &rhs.z * &self.y;
-			let y1 = &rhs.x * &self.z;
-			let z1 = &rhs.y * &self.x;
-
-			let x2 = rhs.y * &self.z;
-			let y2 = rhs.z * &self.x;
-			let z2 = rhs.x * &self.y;
-
-			ArrayVec3::new(x1 - x2, y1 - y2, z1 - z2)
-		}
-	}
-	impl<D> HasLength for ArrayVec3<D>
-	where D: Dimension
-	{
-		type Output = Array<f64, D>;
-
-		fn length(&self) -> Self::Output {
-			(&self.x * &self.x + &self.y * &self.y + &self.z * &self.z)
-				.mapv(f64::sqrt)
-		}
-	}
-	impl<D> HasNormalize for ArrayVec3<D>
-	where D: Dimension
-	{
-		fn normalize(&self) -> Self {
-			let mult = 1.0 / self.length();
-
-			self * mult
-		}
-	}
-	impl<D> HasAbs for ArrayVec3<D> 
-	where D: Dimension
-	{
-		fn abs(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::abs),
-				self.y.mapv(f64::abs),
-				self.z.mapv(f64::abs))
-		}
-	}
-	impl<D> HasTrig for ArrayVec3<D> 
-	where D: Dimension
-	{
-		fn sin(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::sin),
-				self.y.mapv(f64::sin),
-				self.z.mapv(f64::sin))
-		}
-		fn cos(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::cos),
-				self.y.mapv(f64::cos),
-				self.z.mapv(f64::cos))
-		}
-		fn tan(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::tan),
-				self.y.mapv(f64::tan),
-				self.z.mapv(f64::tan))
-		}
-		fn asin(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::asin),
-				self.y.mapv(f64::asin),
-				self.z.mapv(f64::asin))
-		}
-		fn acos(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::acos),
-				self.y.mapv(f64::acos),
-				self.z.mapv(f64::acos))
-		}
-		fn atan(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::atan),
-				self.y.mapv(f64::atan),
-				self.z.mapv(f64::atan))
-		}
-	}
-	impl<D> HasFloor for ArrayVec3<D>
-	where D: Dimension
-	{
-		fn floor(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::floor),
-				self.y.mapv(f64::floor),
-				self.z.mapv(f64::floor))
-		}
-	}
-	impl<D> HasCeil for ArrayVec3<D>
-	where D: Dimension
-	{
-		fn ceil(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::ceil),
-				self.y.mapv(f64::ceil),
-				self.z.mapv(f64::ceil))
-		}
-	}
-	impl<D> HasFract for ArrayVec3<D>
-	where D: Dimension
-	{
-		fn fract(&self) -> Self {
-			ArrayVec3::new(
-				self.x.mapv(f64::fract),
-				self.y.mapv(f64::fract),
-				self.z.mapv(f64::fract))
-		}
-	}
-	impl<D> HasMinMax for ArrayVec3<D>
-	where D: Dimension
-	{
-		fn min(&self, mut rhs: Self) -> Self {
-			Zip::from(&mut rhs.x).and(&self.x).apply(|a, &b| *a = a.min(b));
-			Zip::from(&mut rhs.y).and(&self.y).apply(|a, &b| *a = a.min(b));
-			Zip::from(&mut rhs.z).and(&self.z).apply(|a, &b| *a = a.min(b));
-			rhs
-		}
-		fn max(&self, mut rhs: Self) -> Self {
-			Zip::from(&mut rhs.x).and(&self.x).apply(|a, &b| *a = a.max(b));
-			Zip::from(&mut rhs.y).and(&self.y).apply(|a, &b| *a = a.max(b));
-			Zip::from(&mut rhs.z).and(&self.z).apply(|a, &b| *a = a.max(b));
-			rhs
 		}
 	}
 }
 
 use ndarray::IxDyn;
 
-pub type ArrayVec3 = internal::ArrayVec3<IxDyn>;
+pub type ArrayVec3 = internal::ArrayVec3<f64, IxDyn>;
+pub type ArrayColour = internal::ArrayVec3<f32, IxDyn>;

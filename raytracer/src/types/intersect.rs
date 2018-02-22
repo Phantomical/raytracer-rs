@@ -1,14 +1,12 @@
 
 use vec::Vec3d;
-use prelude::*;
+use types::ObjectData;
 
-use std::sync::Arc;
-
+#[derive(Clone)]
 pub struct Intersect {
 	pub position: Vec3d,
 	pub normal: Vec3d,
-	pub object: Arc<Object>,
-	pub material: Arc<Material>
+	pub object: ObjectData
 }
 
 impl Intersect {

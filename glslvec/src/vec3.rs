@@ -367,4 +367,85 @@ impl<T> HasClamp for Vec3<T>
 	}
 }
 
+macro_rules! unary_op {
+	($op:ident) => {
+		fn $op(&self) -> Self {
+			vec3(self.x.$op(), self.y.$op(), self.z.$op())
+		}
+	}
+}
 
+impl<T> HasAbs for Vec3<T> 
+	where T: HasAbs + Clone
+{
+	unary_op!(abs);
+}
+
+impl<T> HasTrig for Vec3<T>
+	where T: HasTrig + Clone 
+{
+	unary_op!(sin);
+	unary_op!(cos);
+	unary_op!(tan);
+	unary_op!(asin);
+	unary_op!(acos);
+	unary_op!(atan);
+}
+
+impl<T> HasExponential for Vec3<T> 
+	where T: HasExponential + Clone
+{
+	fn pow(&self, exponent: Self) -> Self {
+		vec3(
+			self.x.pow(exponent.x),
+			self.y.pow(exponent.y),
+			self.z.pow(exponent.z))
+	}
+	
+	unary_op!(log);
+	unary_op!(exp);
+	unary_op!(log2);
+	unary_op!(exp2);
+}
+
+impl<T> HasSqrt for Vec3<T>
+	where T: HasSqrt + Clone 
+{
+	unary_op!(sqrt);
+	unary_op!(inv_sqrt);
+}
+
+impl<T> HasSign for Vec3<T>
+	where T: HasSign + Clone
+{
+	unary_op!(sign);
+}
+
+impl<T> HasFloor for Vec3<T>
+	where T: HasFloor + Clone
+{
+	unary_op!(floor);
+}
+
+impl<T> HasCeil for Vec3<T>
+	where T: HasCeil + Clone
+{
+	unary_op!(ceil);
+}
+
+impl<T> HasFract for Vec3<T>
+	where T: HasFract + Clone
+{
+	unary_op!(fract);
+}
+
+impl<T> HasLength for Vec3<T>
+	where T: HasSqrt + Clone,
+	      Self: HasDot<Output = T>
+{
+	type Output = T;
+
+	fn length(&self) -> T {
+		self.dot(self.clone()).sqrt()
+	}
+}
