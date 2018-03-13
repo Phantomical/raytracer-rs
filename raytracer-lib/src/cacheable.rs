@@ -1,4 +1,4 @@
-pub trait Cacheable<T>: Send + Sync {
+trait Cacheable<T>: Send + Sync {
     fn cached(&self) -> T;
 }
 

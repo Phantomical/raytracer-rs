@@ -1,8 +1,6 @@
 use vec::*;
 use ray::*;
 use std::iter::Iterator;
-use cacheable::Cacheable;
-use std::rc::Rc;
 
 use erased_serde::Serialize;
 
@@ -55,31 +53,6 @@ pub trait Analytical: Raymarchable {
 
 pub trait IFS: Raymarchable {
     fn points(&self, point: Vec3d) -> Box<Iterator<Item = Vec3d>>;
-}
-
-impl<T> Cacheable<Rc<Raymarchable>> for T
-where
-    T: Cacheable<T> + Raymarchable + 'static,
-{
-    fn cached(&self) -> Rc<Raymarchable> {
-        Rc::new(self.cached())
-    }
-}
-impl<T> Cacheable<Rc<Analytical>> for T
-where
-    T: Cacheable<T> + Analytical + 'static,
-{
-    fn cached(&self) -> Rc<Analytical> {
-        Rc::new(self.cached())
-    }
-}
-impl<T> Cacheable<Rc<IFS>> for T
-where
-    T: Cacheable<T> + IFS + 'static,
-{
-    fn cached(&self) -> Rc<IFS> {
-        Rc::new(self.cached())
-    }
 }
 
 serialize_trait_object!(Raymarchable);

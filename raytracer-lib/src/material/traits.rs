@@ -1,7 +1,5 @@
 use vec::*;
 use lib::Intersection;
-use cacheable::Cacheable;
-use std::rc::Rc;
 
 use erased_serde::Serialize;
 
@@ -17,12 +15,3 @@ pub trait Material: Sync + Send + Serialize {
 }
 
 serialize_trait_object!(Material);
-
-impl<T> Cacheable<Rc<Material>> for T
-where
-    T: Cacheable<T> + Material + 'static,
-{
-    fn cached(&self) -> Rc<Material> {
-        Rc::new(self.cached())
-    }
-}

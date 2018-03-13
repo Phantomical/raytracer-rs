@@ -4,7 +4,6 @@ use lib::material::Material;
 
 use std::iter::*;
 
-use cacheable::Cacheable;
 use gradient::Gradient;
 use serde::Serialize;
 
@@ -38,11 +37,5 @@ impl<T: IFS> Material for OriginTrap<T>
             .unwrap_or(0.0);
 
         return self.gradient.value_at(min as f32);
-    }
-}
-
-impl<R: IFS, T: Cacheable<R>> Cacheable<OriginTrap<R>> for OriginTrap<T> {
-    fn cached(&self) -> OriginTrap<R> {
-        OriginTrap::new(self.gradient.clone(), self.object.cached())
     }
 }
