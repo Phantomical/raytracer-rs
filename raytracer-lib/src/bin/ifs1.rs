@@ -1,4 +1,6 @@
 
+#[macro_use]
+extern crate serde;
 extern crate image;
 extern crate raytracer;
 
@@ -15,6 +17,7 @@ mod custom {
     use builder::deg2rad;
 
 	#[derive(Copy, Clone)]
+	#[derive(Serialize, Deserialize)]
     pub struct IFSElement {}
 
     fn rotate1(_angle: &mut f64, x: &mut f64, y: &mut f64) {

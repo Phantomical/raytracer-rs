@@ -1,4 +1,6 @@
 
+#[macro_use]
+extern crate serde;
 extern crate gradient;
 extern crate image;
 extern crate raytracer;
@@ -16,6 +18,7 @@ mod custom {
     use std::vec::Vec;
 
 	#[derive(Clone, Copy)]
+	#[derive(Serialize, Deserialize)]
     pub struct IFSElement {
         pub angle: f64,
         pub scale: f64,
