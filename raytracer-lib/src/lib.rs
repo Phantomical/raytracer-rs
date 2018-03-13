@@ -8,7 +8,6 @@ extern crate gradient;
 extern crate image;
 extern crate pbr;
 extern crate rand;
-extern crate rhai;
 
 #[macro_use]
 extern crate erased_serde;
