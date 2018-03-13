@@ -1,10 +1,16 @@
 
 mod image_desc;
-mod scene_data;
+mod objectdata;
 mod image_size;
 mod scene;
+mod raymarcher;
+mod raymarch_options;
+mod light_data;
 
 pub use self::image_size::*;
 pub use self::image_desc::*;
-pub use self::scene_data::*;
+pub use self::light_data::*;
 pub use self::scene::*;
+pub use self::raymarcher::*;
+pub use self::raymarch_options::*;
+pub use self::objectdata::*;

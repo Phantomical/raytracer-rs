@@ -1,11 +1,10 @@
 use lib::*;
-use std::sync::Arc;
-use light::Light;
 
 use std::vec::Vec;
 
+#[derive(Serialize, Deserialize)]
 pub struct Scene {
-    pub lights: Vec<Arc<Light>>,
+    pub lights: Vec<LightData>,
     pub objects: Vec<ObjectData>,
     pub background: Colour,
 }

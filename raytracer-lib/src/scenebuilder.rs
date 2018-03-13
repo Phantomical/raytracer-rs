@@ -2,14 +2,14 @@
 use lib::light::Light;
 use lib::object::Raymarchable;
 use lib::material::Material;
-use lib::{Colour, ObjectData, Scene};
+use lib::{Colour, ObjectData, Scene, LightData};
 
 use std::vec::Vec;
 use std::sync::Arc;
 
 pub struct SceneBuilder {
     objects: Vec<ObjectData>,
-    lights: Vec<Arc<Light>>,
+    lights: Vec<LightData>,
     background: Colour,
 }
 
@@ -39,7 +39,7 @@ impl SceneBuilder {
     where
         L: Light + 'static,
     {
-        self.lights.push(Arc::new(light));
+        self.lights.push(LightData::new(Arc::new(light)));
 
         self
     }
