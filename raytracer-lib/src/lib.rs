@@ -27,30 +27,31 @@ mod vec;
 mod ray;
 mod intersection;
 mod raymarcher;
-mod scene;
 mod camera;
-mod scenedata;
+mod objectdata;
 mod cacheable;
 mod scenebuilder;
 mod newscene;
+mod engine;
 
 pub use vec::*;
 pub use ray::*;
 pub use intersection::*;
 pub use raymarcher::*;
-pub use scene::*;
 pub use camera::*;
 pub use image::*;
-pub use scenedata::*;
+pub use objectdata::*;
 pub use scenebuilder::*;
 pub use newscene::*;
+pub use engine::*;
+
+pub mod prelude {
+	pub use object::{Raymarchable, IFS, Analytical};
+	pub use material::Material;
+	pub use light::Light;
+}
 
 mod lib {
     pub use ::*;
 }
 
-pub mod prelude {
-	pub use object::{Raymarchable, IFS};
-	pub use material::Material;
-	pub use light::Light;
-}

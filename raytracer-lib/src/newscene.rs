@@ -18,21 +18,6 @@ use futures::Future;
 use futures::future::{join_all, lazy};
 use futures_cpupool::*;
 
-#[derive(Copy, Clone)]
-pub struct ImageSize {
-    pub width: u32,
-    pub height: u32,
-    pub samples: u32,
-}
-
-pub struct ImageDesc {
-    pub scene: Arc<Scene>,
-    pub camera: Camera,
-
-    pub size: ImageSize,
-    pub opts: RaymarchOptions,
-}
-
 fn isect_illumination(
     light: &Arc<Light>,
     isect: &Intersection,
