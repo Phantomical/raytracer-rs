@@ -1,4 +1,3 @@
-
 use vec2::*;
 use vec3::*;
 use vec4::*;
@@ -9,7 +8,7 @@ macro_rules! add_mul {
 	($type:ty, $vecname:ident) => {
 		impl Add<$vecname<$type>> for $type {
 			type Output = $vecname<$type>;
-		
+
 			fn add(self, rhs: $vecname<$type>) -> $vecname<$type> {
 				rhs + self
 			}
@@ -23,7 +22,7 @@ macro_rules! add_mul {
 		}
 		impl Mul<$vecname<$type>> for $type {
 			type Output = $vecname<$type>;
-		
+
 			fn mul(self, rhs: $vecname<$type>) -> $vecname<$type> {
 				rhs * self
 			}

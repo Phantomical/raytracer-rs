@@ -1,4 +1,3 @@
-
 use traits::*;
 use functions::clamp;
 
@@ -8,7 +7,7 @@ macro_rules! implement_functions {
 	($type:ty) => {
 		impl HasDot for $type {
 			type Output = Self;
-		
+
 			fn dot(&self, rhs: Self) -> Self {
 				self * rhs
 			}
@@ -17,7 +16,7 @@ macro_rules! implement_functions {
 			fn sqrt(&self) -> Self {
 				(*self).sqrt()
 			}
-		
+
 			fn inv_sqrt(&self) -> Self {
 				self.sqrt().recip()
 			}
@@ -37,7 +36,7 @@ macro_rules! implement_functions {
 			fn tan(&self) -> Self {
 				(*self).tan()
 			}
-		
+
 			fn asin(&self) -> Self {
 				(*self).asin()
 			}
@@ -97,7 +96,7 @@ macro_rules! implement_functions {
 		}
 		impl HasMix for $type {
 			type ElemType = Self;
-		
+
 			fn mix(&self, rhs: Self, f: Self) -> Self {
 				*self * f + rhs * (1.0 - f)
 			}
@@ -110,7 +109,7 @@ macro_rules! implement_functions {
 		impl HasSmoothStep for $type {
 			fn smoothstep(&self, edge0: Self, edge1: Self) -> Self {
 				let x = clamp((*self - edge0) / (edge1 - edge0), 0.0, 1.0);
-		
+
 				x * x * (3.0 - 2.0 * x)
 			}
 		}
@@ -125,7 +124,7 @@ macro_rules! implement_functions {
 				1.0
 			}
 		}
-		
+
 		impl HasClamp for $type {
 			type ElemType = Self;
 
@@ -139,49 +138,53 @@ macro_rules! implement_functions {
 implement_functions!(f32);
 implement_functions!(f64);
 
-impl<T: HasPerElementBinOps> HasMinMax for T 
-	where T::ElemType: HasMinMax
+impl<T: HasPerElementBinOps> HasMinMax for T
+where
+    T::ElemType: HasMinMax,
 {
-	fn min(&self, rhs: Self) -> Self {
-		self.apply_bin_op(rhs, |ref a, b| a.min(b))
-	}
-	fn max(&self, rhs: Self) -> Self {
-		self.apply_bin_op(rhs, |ref a, b| a.max(b))
-	}
+    fn min(&self, rhs: Self) -> Self {
+        self.apply_bin_op(rhs, |ref a, b| a.min(b))
+    }
+    fn max(&self, rhs: Self) -> Self {
+        self.apply_bin_op(rhs, |ref a, b| a.max(b))
+    }
 }
-impl<T: HasPerElementBinOps> HasStep for T 
-	where T::ElemType: HasStep
+impl<T: HasPerElementBinOps> HasStep for T
+where
+    T::ElemType: HasStep,
 {
-	fn step(&self, rhs: Self) -> Self {
-		self.apply_bin_op(rhs, |ref a, b| a.step(b))
-	}
+    fn step(&self, rhs: Self) -> Self {
+        self.apply_bin_op(rhs, |ref a, b| a.step(b))
+    }
 }
 
 impl<T> HasDistance for T
-	where T: Sub<T> + Clone,
-	      T::Output: HasLength
+where
+    T: Sub<T> + Clone,
+    T::Output: HasLength,
 {
-	type Output = <<T as Sub<T>>::Output as HasLength>::Output;
+    type Output = <<T as Sub<T>>::Output as HasLength>::Output;
 
-	fn distance(&self, rhs: Self) -> Self::Output {
-		(self.clone() - rhs).length()
-	}
+    fn distance(&self, rhs: Self) -> Self::Output {
+        (self.clone() - rhs).length()
+    }
 }
 impl<T> HasNormalize for T
-	where T: HasLength + Div<<T as HasLength>::Output, Output = T> + Clone
+where
+    T: HasLength + Div<<T as HasLength>::Output, Output = T> + Clone,
 {
-	fn normalize(&self) -> Self {
-		self.clone() / self.length()
-	}
+    fn normalize(&self) -> Self {
+        self.clone() / self.length()
+    }
 }
 
 impl<T: HasPerElementBinOps> HasMix for T
-	where T::ElemType: HasMix<ElemType = T::ElemType> + Clone
+where
+    T::ElemType: HasMix<ElemType = T::ElemType> + Clone,
 {
-	type ElemType = T::ElemType;
+    type ElemType = T::ElemType;
 
-	fn mix(&self, b: Self, f: Self::ElemType) -> T {
-		self.apply_bin_op(b, move |ref a, b| a.mix(b, f.clone()))
-	}
+    fn mix(&self, b: Self, f: Self::ElemType) -> T {
+        self.apply_bin_op(b, move |ref a, b| a.mix(b, f.clone()))
+    }
 }
-
