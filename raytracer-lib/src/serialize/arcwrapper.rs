@@ -8,14 +8,15 @@ use object::Raymarchable;
 use material::Material;
 use light::Light;
 
-use vec::Vec3d;
+use vec::{Vec3d, Colour};
+use lib::Intersection;
 use serialize::{object, material, light};
 
 #[derive(Serialize)]
 pub struct RaymarchableWrapper(Arc<Raymarchable>);
-//#[derive(Serialize)]
+#[derive(Serialize)]
 pub struct MaterialWrapper(Arc<Material>);
-//#[derive(Serialize)]
+#[derive(Serialize)]
 pub struct LightWrapper(Arc<Light>);
 
 impl Raymarchable for RaymarchableWrapper {
@@ -33,5 +34,25 @@ impl<'de> Deserialize<'de> for RaymarchableWrapper {
 		where D: Deserializer<'de>
 	{
 		Ok(RaymarchableWrapper(try!(object::deserialize(de))))
+	}
+}
+
+impl Material for MaterialWrapper {
+	fn base_colour(&self, isect: &Intersection) -> Colour {
+		self.0.base_colour(isect)
+	}
+	fn roughness(&self, isect: &Intersection) -> f32 {
+		self.0.roughness(isect);
+	}
+	fn reflectivity(&self, isect, &Intersection) -> f32 {
+		self.0.reflectivity(isect)
+	}
+}
+
+impl<'de> Deserialize<'de> for MaterialWrapper {
+	fn deserialize<D>(de: D) -> Result<Self, D::Error>
+		where D: Deserializer<'de>
+	{
+		Ok(MaterialWrapper(try!(material::deserialize(de))))
 	}
 }
