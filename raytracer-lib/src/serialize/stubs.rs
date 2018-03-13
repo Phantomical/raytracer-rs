@@ -53,6 +53,8 @@ pub mod object {
     use std::sync::Arc;
     use object;
 
+	use serialize::arcwrapper::RaymarchableWrapper;
+
     deserialization_table!(Raymarchable, [
 		(object::Sphere, Sphere, "sphere"),
 		(object::BoxObj, BoxObj, "box"),
@@ -64,12 +66,12 @@ pub mod object {
 		(object::Sierpinski, Sierpinski, "sierpinski"),
 		(object::Torus, Torus, "torus"),
 		(object::TriangularPrism, TriangularPrism, "triangular_prism"),
-		//(object::BoundSphere<Arc<Raymarchable>>, BoundSphere, "boundsphere"),
-		//(object::Hollow<Arc<Raymarchable>>, Hollow, "hollow"),
-		//(object::Repeat<Arc<Raymarchable>>, Repeat, "repeat"),
-		//(object::Rotate<Arc<Raymarchable>>, Rotate, "rotate"),
-		//(object::Transform<Arc<Raymarchable>>, Transform, "transform"),
-		//(object::Translate<Arc<Raymarchable>>, Translate, "translate"),
+		(object::BoundSphere<RaymarchableWrapper>, BoundSphere, "boundsphere"),
+		(object::Hollow<RaymarchableWrapper>, Hollow, "hollow"),
+		(object::Repeat<RaymarchableWrapper>, Repeat, "repeat"),
+		(object::Rotate<RaymarchableWrapper>, Rotate, "rotate"),
+		(object::Transform<RaymarchableWrapper>, Transform, "transform"),
+		(object::Translate<RaymarchableWrapper>, Translate, "translate"),
 	]);
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Raymarchable>, D::Error>
