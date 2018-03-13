@@ -53,7 +53,7 @@ pub mod object {
     use std::sync::Arc;
     use object;
 
-	use serialize::arcwrapper::RaymarchableWrapper;
+    use serialize::arcwrapper::RaymarchableWrapper;
 
     deserialization_table!(Raymarchable, [
 		(object::Sphere, Sphere, "sphere"),
@@ -88,13 +88,20 @@ pub mod material {
     use std::sync::Arc;
     use material;
 
-    deserialization_table!(Material, [
-		(material::SolidColour, SolidColour, "colour"),
-		(material::NormalColour, NormalColour, "normal_colour"),
-		(material::MandelbulbOrbitTrap, MandelBulbOrbitTrap, "mandelbulb_orbit_trap"),
-		(material::Mirror, Mirror, "mirror"),
-		//(material::OrbitTrap<IFSWrapper>. OrbitTrap, "orbit_trap"),
-	]);
+    deserialization_table!(
+        Material,
+        [
+            (material::SolidColour, SolidColour, "colour"),
+            (material::NormalColour, NormalColour, "normal_colour"),
+            (
+                material::MandelbulbOrbitTrap,
+                MandelBulbOrbitTrap,
+                "mandelbulb_orbit_trap"
+            ),
+            (material::Mirror, Mirror, "mirror"),
+            //(material::OrbitTrap<IFSWrapper>. OrbitTrap, "orbit_trap"),
+        ]
+    );
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Material>, D::Error>
     where
@@ -111,13 +118,20 @@ pub mod light {
     #[allow(unused_imports)]
     use light;
 
-    deserialization_table!(Light, [
-		(light::PointLight, PointLight, "point"),
-		(light::AmbientLight, AmbientLight, "ambient"),
-		(light::DirectionalLight, DirectionalLight, "directional"),
-		(light::FuzzyDirectionalLight, FuzzyDirectionalLight, "fuzzy_directional"),
-		//(light::Tint, Tint, "tint"),
-	]);
+    deserialization_table!(
+        Light,
+        [
+            (light::PointLight, PointLight, "point"),
+            (light::AmbientLight, AmbientLight, "ambient"),
+            (light::DirectionalLight, DirectionalLight, "directional"),
+            (
+                light::FuzzyDirectionalLight,
+                FuzzyDirectionalLight,
+                "fuzzy_directional"
+            ),
+            //(light::Tint, Tint, "tint"),
+        ]
+    );
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Light>, D::Error>
     where

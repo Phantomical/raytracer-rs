@@ -55,8 +55,7 @@ fn isect_colour(scene: &Scene, isect: &Intersection, opts: &RaymarchOptions) -> 
     let mut illum = Colour::zero();
 
     for ref light in scene.lights.iter() {
-        illum = max(isect_illumination(
-			&light.light, isect, scene, opts), illum);
+        illum = max(isect_illumination(&light.light, isect, scene, opts), illum);
     }
 
     return base_colour * clamp(illum, 0.0, 1.0);

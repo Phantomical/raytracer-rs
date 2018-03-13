@@ -1,6 +1,4 @@
-
-#[derive(Clone, Copy)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct RaymarchOptions {
     /// The maximum distance out to which a ray will be traced
     pub max_distance: f64,

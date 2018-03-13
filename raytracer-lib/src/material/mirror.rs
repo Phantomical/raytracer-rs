@@ -2,8 +2,7 @@ use vec::*;
 use material::Material;
 use lib::Intersection;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Mirror {
     #[serde(with = "tag")]
     #[serde(rename = "type")]
@@ -14,9 +13,9 @@ pub struct Mirror {
 type_serialization_decl!("mirror");
 
 impl Mirror {
-	pub fn new() -> Self {
-		Self{ tag: () }
-	}
+    pub fn new() -> Self {
+        Self { tag: () }
+    }
 }
 
 impl Material for Mirror {

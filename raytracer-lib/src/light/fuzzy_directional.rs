@@ -9,8 +9,7 @@ use std::f64::consts::PI;
 
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
-#[derive(Clone, Copy)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct FuzzyDirectionalLight {
     #[serde(with = "tag")]
     #[serde(rename = "type")]
@@ -39,7 +38,7 @@ impl FuzzyDirectionalLight {
             direction: dir.normalize(),
             fuzziness,
             rays,
-			tag: ()
+            tag: (),
         };
     }
 

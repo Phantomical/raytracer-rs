@@ -1,5 +1,4 @@
-
-use lib::{Scene, Camera, ImageSize, RaymarchOptions};
+use lib::{Camera, ImageSize, RaymarchOptions, Scene};
 use std::sync::Arc;
 
 #[derive(Serialize, Deserialize)]

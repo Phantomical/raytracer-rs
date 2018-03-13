@@ -1,8 +1,7 @@
 use lib::*;
 use lib::material::Material;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct NormalColour {
     #[serde(with = "tag")]
     #[serde(rename = "type")]

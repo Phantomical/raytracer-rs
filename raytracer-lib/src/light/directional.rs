@@ -4,8 +4,7 @@ use std::iter::once;
 
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct DirectionalLight {
     #[serde(with = "tag")]
     #[serde(rename = "type")]
@@ -34,7 +33,7 @@ impl DirectionalLight {
     pub fn new(direction: Vec3d) -> DirectionalLight {
         return DirectionalLight {
             direction: direction,
-			tag: ()
+            tag: (),
         };
     }
 }

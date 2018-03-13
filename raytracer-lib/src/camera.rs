@@ -1,8 +1,7 @@
 use lib::*;
 use std::f64::consts::PI;
 
-#[derive(Clone, Copy)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct Camera {
     pub position: Vec3d,
 

@@ -1,8 +1,7 @@
 use lib::*;
 use lib::material::Material;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct MandelbulbOrbitTrap {
     #[serde(with = "tag")]
     #[serde(rename = "type")]
@@ -26,7 +25,7 @@ impl MandelbulbOrbitTrap {
             //gradient,
             power,
             iterations,
-			tag: (),
+            tag: (),
         }
     }
 }

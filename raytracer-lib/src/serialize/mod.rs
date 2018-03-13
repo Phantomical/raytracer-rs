@@ -4,4 +4,4 @@ mod decl;
 
 mod arcwrapper;
 
-pub use self::stubs::{object, material, light};
+pub use self::stubs::{light, material, object};

@@ -1,8 +1,7 @@
-
 use lib::light::Light;
 use lib::object::Raymarchable;
 use lib::material::Material;
-use lib::{Colour, ObjectData, Scene, LightData};
+use lib::{Colour, LightData, ObjectData, Scene};
 
 use std::vec::Vec;
 use std::sync::Arc;

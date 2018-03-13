@@ -143,7 +143,7 @@ mod custom {
 mod add_objects {
     use custom;
     use raytracer::SceneBuilder;
-	use raytracer::math::vec3;
+    use raytracer::math::vec3;
     use raytracer::builder::*;
     use raytracer::colours;
     use raytracer::material::OriginTrap;

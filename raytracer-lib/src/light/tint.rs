@@ -2,8 +2,7 @@ use lib::*;
 use lib::light::Light;
 use serde::Serialize;
 
-#[derive(Clone, Copy)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct Tint<T: Light> {
     #[serde(with = "tag")]
     #[serde(rename = "type")]
@@ -18,12 +17,17 @@ type_serialization_decl!("tint");
 
 impl<T: Light> Tint<T> {
     pub fn new(light: T, tint: Colour) -> Self {
-        Self { tint, light, tag: () }
+        Self {
+            tint,
+            light,
+            tag: (),
+        }
     }
 }
 
-impl<T: Light> Light for Tint<T> 
-	where T: Serialize
+impl<T: Light> Light for Tint<T>
+where
+    T: Serialize,
 {
     fn illumination(&self, isect: &Intersection) -> Colour {
         let illum = self.light.illumination(isect);

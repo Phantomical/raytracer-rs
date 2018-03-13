@@ -22,12 +22,17 @@ type_serialization_decl!("origin_trap");
 
 impl<T: IFS> OriginTrap<T> {
     pub fn new(gradient: Gradient<f32, Colour>, object: T) -> Self {
-        Self { gradient, object, tag: () }
+        Self {
+            gradient,
+            object,
+            tag: (),
+        }
     }
 }
 
 impl<T: IFS> Material for OriginTrap<T>
-	where T: Serialize + Sync + Send
+where
+    T: Serialize + Sync + Send,
 {
     fn base_colour(&self, isect: &Intersection) -> Colour {
         let min = self.object

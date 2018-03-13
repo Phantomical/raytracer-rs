@@ -43,13 +43,13 @@ pub use newscene::*;
 pub use engine::*;
 
 pub mod prelude {
-	pub use object::{Raymarchable, IFS, Analytical};
-	pub use material::Material;
-	pub use light::Light;
+    pub use object::{Analytical, Raymarchable, IFS};
+    pub use material::Material;
+    pub use light::Light;
 }
 
 pub mod math {
-	pub use vec::*;
+    pub use vec::*;
 }
 
 pub(crate) use math::*;
@@ -57,4 +57,3 @@ pub(crate) use math::*;
 mod lib {
     pub use ::*;
 }
-
