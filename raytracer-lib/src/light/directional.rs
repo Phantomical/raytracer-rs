@@ -5,9 +5,17 @@ use std::iter::once;
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct DirectionalLight {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     direction: Vec3d,
 }
+
+type_serialization_decl!("directional_light");
 
 impl Light for DirectionalLight {
     fn illumination(&self, isect: &Intersection) -> Colour {
@@ -26,6 +34,7 @@ impl DirectionalLight {
     pub fn new(direction: Vec3d) -> DirectionalLight {
         return DirectionalLight {
             direction: direction,
+			tag: ()
         };
     }
 }

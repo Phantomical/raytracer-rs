@@ -2,14 +2,22 @@ use lib::*;
 use lib::light::Light;
 
 #[derive(Clone, Copy)]
+#[derive(Serialize, Deserialize)]
 pub struct Tint<T: Light> {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     tint: Colour,
     light: T,
 }
 
+type_serialization_decl!("tint");
+
 impl<T: Light> Tint<T> {
     pub fn new(light: T, tint: Colour) -> Self {
-        Self { tint, light }
+        Self { tint, light, tag: () }
     }
 }
 

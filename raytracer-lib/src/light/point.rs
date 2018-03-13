@@ -4,14 +4,22 @@ use lib::light::Light;
 use std::iter::once;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct PointLight {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     power: f32,
     position: Vec3d,
 }
 
+type_serialization_decl!("point");
+
 impl PointLight {
     pub fn new(position: Vec3d, power: f32) -> Self {
-        Self { position, power }
+        Self { position, power, tag: () }
     }
 }
 

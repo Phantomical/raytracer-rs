@@ -10,13 +10,21 @@ use std::f64::consts::PI;
 const DIRECTIONAL_DISTANCE: f64 = 1.0e10;
 
 #[derive(Clone, Copy)]
+#[derive(Serialize, Deserialize)]
 pub struct FuzzyDirectionalLight {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     /// The main direction that the light is pointing in
     pub direction: Vec3d,
     /// Angular radius of the cone (radians)
     pub fuzziness: f64,
     pub rays: usize,
 }
+
+type_serialization_decl!("fuzzy_directional_light");
 
 fn orthagonal(a: Vec3d) -> Vec3d {
     //TODO: Implement this
@@ -31,6 +39,7 @@ impl FuzzyDirectionalLight {
             direction: dir.normalize(),
             fuzziness,
             rays,
+			tag: ()
         };
     }
 

@@ -3,13 +3,21 @@ use lib::light::*;
 use std::iter::empty;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct AmbientLight {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     colour: Colour,
 }
 
+type_serialization_decl!("ambient");
+
 impl AmbientLight {
     pub fn new(colour: Colour) -> AmbientLight {
-        AmbientLight { colour: colour }
+        AmbientLight { colour: colour, tag: () }
     }
 }
 

@@ -111,7 +111,13 @@ pub mod light {
     #[allow(unused_imports)]
     use light;
 
-    deserialization_table!(Light, []);
+    deserialization_table!(Light, [
+		(light::PointLight, PointLight, "point"),
+		(light::AmbientLight, AmbientLight, "ambient"),
+		(light::DirectionalLight, DirectionalLight, "directional"),
+		(light::FuzzyDirectionalLight, FuzzyDirectionalLight, "fuzzy_directional"),
+		//(light::Tint, Tint, "tint"),
+	]);
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Light>, D::Error>
     where
