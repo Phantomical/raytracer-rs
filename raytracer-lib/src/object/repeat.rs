@@ -4,14 +4,21 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
-pub struct Repeat<T: Raymarchable> {
+pub struct Repeat<T: Raymarchable> { 
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     modulus: Vec3d,
     obj: T,
 }
 
+type_serialization_decl!("repeat");
+
 impl<T: Raymarchable> Repeat<T> {
     pub fn new(obj: T, modulus: Vec3d) -> Self {
-        Self { obj, modulus }
+        Self { obj, modulus, tag: () }
     }
 }
 

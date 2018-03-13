@@ -5,15 +5,23 @@ use serde::{Serialize, Deserialize};
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct Translate<T: Raymarchable> {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     position: Vec3d,
     subobj: T,
 }
+
+type_serialization_decl!("translate");
 
 impl<T: Raymarchable + Sized> Translate<T> {
     pub fn new(pos: Vec3d, obj: T) -> Self {
         return Self {
             position: pos,
             subobj: obj,
+			tag: ()
         };
     }
 }

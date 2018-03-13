@@ -4,6 +4,12 @@ use object::*;
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct Plane {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
+
     /// The normal vector of the plane.
     /// All vectors laying on the plane
     /// are perpendicular to this vector.
@@ -12,11 +18,14 @@ pub struct Plane {
     point: Vec3d,
 }
 
+type_serialization_decl!("plane");
+
 impl Plane {
     pub fn new(normal: Vec3d, point: Vec3d) -> Plane {
         return Plane {
             normal: normal.normalize(),
             point: point,
+			tag: (),
         };
     }
 }

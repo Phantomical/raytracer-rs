@@ -4,12 +4,18 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
-pub struct Transform<T: Raymarchable> 
-{
+pub struct Transform<T: Raymarchable> {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     mat: Mat3d,
     inv: Mat3d,
     obj: T,
 }
+
+type_serialization_decl!("transform");
 
 impl<T: Raymarchable + Sized> Transform<T> {
     pub fn new(mat: Mat3d, obj: T) -> Self {
@@ -17,6 +23,7 @@ impl<T: Raymarchable + Sized> Transform<T> {
             obj: obj,
             mat: mat,
             inv: mat.inverse(),
+			tag: ()
         }
     }
 }

@@ -4,12 +4,19 @@ use lib::object::*;
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct BoxObj {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     pub bounds: Vec3d,
 }
 
+type_serialization_decl!("box");
+
 impl BoxObj {
     pub fn new(bounds: Vec3d) -> Self {
-        Self { bounds }
+        Self { bounds, tag: () }
     }
 }
 

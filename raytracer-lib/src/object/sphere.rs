@@ -5,15 +5,23 @@ use object::*;
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct Sphere {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     centre: Vec3d,
     radius: f64,
 }
+
+type_serialization_decl!("sphere");
 
 impl Sphere {
     pub fn new(centre: Vec3d, radius: f64) -> Sphere {
         return Sphere {
             centre: centre,
             radius: radius,
+			tag: ()
         };
     }
 }

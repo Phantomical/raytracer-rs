@@ -6,6 +6,11 @@ use serde::{Serialize, Deserialize};
 #[derive(Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct BoundSphere<T: Raymarchable> {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
 	radius: f64,
 	object: T
 }
@@ -14,9 +19,11 @@ impl<T> BoundSphere<T>
 	where T: Raymarchable
 {
 	pub fn new(radius: f64, object: T) -> Self {
-		Self { radius, object }
+		Self { radius, object, tag: () }
 	}
 }
+
+type_serialization_decl!("boundsphere");
 
 impl<'de, T> Raymarchable for BoundSphere<T>
 	where T: Raymarchable + Serialize + Deserialize<'de>

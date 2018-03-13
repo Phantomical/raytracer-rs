@@ -15,6 +15,9 @@ extern crate serde;
 #[macro_use]
 extern crate erased_serde;
 
+#[macro_use]
+mod serialize;
+
 pub mod object;
 pub mod material;
 pub mod colours;
@@ -32,7 +35,6 @@ mod cacheable;
 mod scenebuilder;
 mod newscene;
 mod scripting;
-mod serialize;
 
 pub use vec::*;
 pub use ray::*;

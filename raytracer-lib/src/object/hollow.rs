@@ -5,12 +5,19 @@ use serde::{Serialize, Deserialize};
 #[derive(Copy, Clone)]
 #[derive(Serialize, Deserialize)]
 pub struct Hollow<T: Raymarchable> {
+	#[serde(with = "tag")]
+	#[serde(rename = "type")]
+	#[serde(skip_deserializing)]
+	tag: (),
+
     obj: T,
 }
 
+type_serialization_decl!("hollow");
+
 impl<T: Raymarchable> Hollow<T> {
     pub fn new(obj: T) -> Self {
-        Self { obj }
+        Self { obj, tag: () }
     }
 }
 

@@ -39,8 +39,9 @@ macro_rules! deserialization_table {
 	}
 }
 
+#[allow(dead_code)]
 pub mod object {
-    use object::Object;
+    use object::Raymarchable;
     use serde::Deserializer;
     use std::sync::Arc;
     use object;
@@ -49,13 +50,14 @@ pub mod object {
 		(object::Sphere, Sphere, "sphere")
 	]);
 
-    pub fn deserialize<'de, D>(d: D) -> Result<Arc<Object>, D::Error>
+    pub fn deserialize<'de, D>(d: D) -> Result<Arc<Raymarchable>, D::Error>
     where
         D: Deserializer<'de>,
     {
         DeserializationTable::deserialize_to_arc(d)
     }
 }
+#[allow(dead_code)]
 pub mod material {
     use material::Material;
     use serde::Deserializer;
@@ -71,6 +73,7 @@ pub mod material {
         DeserializationTable::deserialize_to_arc(d)
     }
 }
+#[allow(dead_code)]
 pub mod light {
     use light::Light;
     use serde::Deserializer;
