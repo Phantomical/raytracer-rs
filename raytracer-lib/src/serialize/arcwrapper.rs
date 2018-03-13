@@ -9,7 +9,7 @@ use material::Material;
 use light::Light;
 
 use vec::{Vec3d, Colour};
-use lib::Intersection;
+use lib::{Intersection, Ray};
 use serialize::{object, material, light};
 
 #[derive(Serialize)]
@@ -42,9 +42,9 @@ impl Material for MaterialWrapper {
 		self.0.base_colour(isect)
 	}
 	fn roughness(&self, isect: &Intersection) -> f32 {
-		self.0.roughness(isect);
+		self.0.roughness(isect)
 	}
-	fn reflectivity(&self, isect, &Intersection) -> f32 {
+	fn reflectivity(&self, isect: &Intersection) -> f32 {
 		self.0.reflectivity(isect)
 	}
 }
@@ -54,5 +54,22 @@ impl<'de> Deserialize<'de> for MaterialWrapper {
 		where D: Deserializer<'de>
 	{
 		Ok(MaterialWrapper(try!(material::deserialize(de))))
+	}
+}
+
+impl Light for LightWrapper {
+	fn illumination(&self, isect: &Intersection) -> Colour {
+		self.0.illumination(isect)
+	}
+	fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>> {
+		self.0.shadow_rays(isect)
+	}
+}
+
+impl<'de> Deserialize<'de> for LightWrapper {
+	fn deserialize<D>(de: D) -> Result<Self, D::Error>
+		where D: Deserializer<'de>
+	{
+		Ok(LightWrapper(try!(light::deserialize(de))))
 	}
 }

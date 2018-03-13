@@ -1,5 +1,6 @@
 use lib::*;
 use lib::light::Light;
+use serde::Serialize;
 
 #[derive(Clone, Copy)]
 #[derive(Serialize, Deserialize)]
@@ -21,7 +22,9 @@ impl<T: Light> Tint<T> {
     }
 }
 
-impl<T: Light> Light for Tint<T> {
+impl<T: Light> Light for Tint<T> 
+	where T: Serialize
+{
     fn illumination(&self, isect: &Intersection) -> Colour {
         let illum = self.light.illumination(isect);
 
