@@ -103,7 +103,7 @@ pub fn solid_colour(col: [f32; 3]) -> SolidColour {
     SolidColour::new(colour(col))
 }
 pub fn mirror() -> Mirror {
-    Mirror {}
+    Mirror::new()
 }
 pub fn normal() -> NormalColour {
     NormalColour::new()

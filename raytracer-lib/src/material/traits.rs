@@ -3,7 +3,9 @@ use lib::Intersection;
 use cacheable::Cacheable;
 use std::rc::Rc;
 
-pub trait Material {
+use erased_serde::Serialize;
+
+pub trait Material: Serialize {
     fn base_colour(&self, isect: &Intersection) -> Colour;
 
     fn roughness(&self, _isect: &Intersection) -> f32 {
@@ -13,6 +15,8 @@ pub trait Material {
         return 0.0;
     }
 }
+
+serialize_trait_object!(Material);
 
 impl<T> Cacheable<Rc<Material>> for T
 where

@@ -3,7 +3,21 @@ use material::Material;
 use lib::Intersection;
 
 #[derive(Copy, Clone)]
-pub struct Mirror {}
+#[derive(Serialize, Deserialize)]
+pub struct Mirror {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+}
+
+type_serialization_decl!("mirror");
+
+impl Mirror {
+	pub fn new() -> Self {
+		Self{ tag: () }
+	}
+}
 
 impl Material for Mirror {
     fn base_colour(&self, _isect: &Intersection) -> Colour {

@@ -2,11 +2,19 @@ use lib::*;
 use lib::material::Material;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct MandelbulbOrbitTrap {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     //gradient : Gradient<f32, Colour>,
     power: i32,
     iterations: usize,
 }
+
+type_serialization_decl!("mandelbulb_orbit_trap");
 
 impl MandelbulbOrbitTrap {
     pub fn new(
@@ -18,6 +26,7 @@ impl MandelbulbOrbitTrap {
             //gradient,
             power,
             iterations,
+			tag: (),
         }
     }
 }

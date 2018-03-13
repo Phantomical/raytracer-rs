@@ -2,14 +2,22 @@ use vec::Colour;
 use material::Material;
 use lib::Intersection;
 
-#[derive(Copy, Clone, Serialize, Deserialize)]
+#[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct SolidColour {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+
     pub colour: Colour,
 }
 
+type_serialization_decl!("colour");
+
 impl SolidColour {
     pub fn new(colour: Colour) -> Self {
-        return Self { colour: colour };
+        return Self { colour: colour, tag:() };
     }
 }
 

@@ -14,7 +14,7 @@ panic = 'abort'
 [dependencies]
 rand         = "0.4.1"
 image        = "0.18.0"
-gradient     = { path = "../gradient" }
+gradient     = { path = "../gradient", features=["serde"] }
 pbr          = "1.0"
 rhai         = "0.8"
 glslvec      = { path = "../glslvec", features=["serde"] }

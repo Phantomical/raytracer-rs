@@ -7,6 +7,7 @@ use std::fmt::Debug;
 pub use num::traits::One;
 
 #[derive(Clone)]
+#[cfg_attr(feature="serde", derive(Serialize, Deserialize))]
 pub struct Gradient<T: Sized + Clone, C: Sized + Clone> {
 	samples : Vec<(C, T)>
 }

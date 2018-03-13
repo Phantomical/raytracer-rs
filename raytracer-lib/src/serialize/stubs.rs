@@ -88,7 +88,13 @@ pub mod material {
     use std::sync::Arc;
     use material;
 
-    deserialization_table!(Material, [(material::SolidColour, SolidColour, "colour")]);
+    deserialization_table!(Material, [
+		(material::SolidColour, SolidColour, "colour"),
+		(material::NormalColour, NormalColour, "normal_colour"),
+		(material::MandelbulbOrbitTrap, MandelBulbOrbitTrap, "mandelbulb_orbit_trap"),
+		(material::Mirror, Mirror, "mirror"),
+		//(material::OrbitTrap<IFSWrapper>. OrbitTrap, "orbit_trap"),
+	]);
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Material>, D::Error>
     where

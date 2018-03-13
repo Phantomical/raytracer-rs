@@ -2,11 +2,19 @@ use lib::*;
 use lib::material::Material;
 
 #[derive(Copy, Clone)]
-pub struct NormalColour {}
+#[derive(Serialize, Deserialize)]
+pub struct NormalColour {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
+}
+
+type_serialization_decl!("normal_colour");
 
 impl NormalColour {
     pub fn new() -> Self {
-        Self {}
+        Self { tag: () }
     }
 }
 
