@@ -2,6 +2,7 @@ extern crate image;
 extern crate raytracer;
 
 use raytracer::*;
+use raytracer::math::vec3;
 use raytracer::colours;
 
 use std::env;
@@ -12,7 +13,7 @@ mod add_objects {
     use raytracer::builder::*;
     use raytracer::colours;
 
-    use raytracer::{normalize, Mat3d};
+    use raytracer::math::{normalize, Mat3d};
 
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
         let rotation = Mat3d::from_axis_angle(normalize(vec3d([-1.0, 0.0, 1.0])), deg2rad(52.5));

@@ -4,6 +4,7 @@ extern crate raytracer;
 extern crate serde;
 
 use raytracer::*;
+use raytracer::math::*;
 use raytracer::colours;
 
 use std::env;
@@ -11,7 +12,7 @@ use std::env;
 use std::sync::Arc;
 
 mod custom {
-    use raytracer::Vec3d;
+    use raytracer::math::Vec3d;
     use raytracer::object::Raymarchable;
     use builder::deg2rad;
 

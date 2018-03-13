@@ -2,6 +2,7 @@ extern crate image;
 extern crate raytracer;
 
 use raytracer::*;
+use raytracer::math::*;
 
 use std::env;
 use std::sync::Arc;

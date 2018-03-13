@@ -8,6 +8,7 @@ extern crate serde;
 extern crate runtime_fmt;
 
 use raytracer::*;
+use raytracer::math::*;
 use raytracer::colours;
 
 use std::env;
@@ -16,7 +17,7 @@ use std::sync::Arc;
 use std::vec::Vec;
 
 mod custom {
-    use raytracer::{abs, Vec3d, vec3};
+    use raytracer::math::*;
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
@@ -141,7 +142,8 @@ mod custom {
 
 mod add_objects {
     use custom;
-    use raytracer::{SceneBuilder, vec3};
+    use raytracer::SceneBuilder;
+	use raytracer::math::vec3;
     use raytracer::builder::*;
     use raytracer::colours;
     use raytracer::material::OriginTrap;

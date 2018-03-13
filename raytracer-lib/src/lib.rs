@@ -1,3 +1,5 @@
+//! Raytracer
+
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
@@ -32,7 +34,6 @@ mod scenebuilder;
 mod newscene;
 mod engine;
 
-pub use vec::*;
 pub use ray::*;
 pub use intersection::*;
 pub use camera::*;
@@ -46,6 +47,12 @@ pub mod prelude {
 	pub use material::Material;
 	pub use light::Light;
 }
+
+pub mod math {
+	pub use vec::*;
+}
+
+pub(crate) use math::*;
 
 mod lib {
     pub use ::*;

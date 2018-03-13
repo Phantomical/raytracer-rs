@@ -3,6 +3,7 @@ extern crate image;
 extern crate raytracer;
 
 use raytracer::*;
+use raytracer::math::*;
 use raytracer::colours;
 
 use std::env;
