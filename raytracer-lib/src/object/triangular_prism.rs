@@ -1,13 +1,12 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct TriangularPrism {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     height: f64,
     radius: f64,
@@ -17,7 +16,11 @@ type_serialization_decl!("triangular_prism");
 
 impl TriangularPrism {
     pub fn new(height: f64, radius: f64) -> Self {
-        Self { height, radius, tag:() }
+        Self {
+            height,
+            radius,
+            tag: (),
+        }
     }
 }
 

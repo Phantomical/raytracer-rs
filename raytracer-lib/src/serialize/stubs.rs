@@ -46,9 +46,7 @@ pub mod object {
     use std::sync::Arc;
     use object;
 
-    deserialization_table!(Raymarchable, [
-		(object::Sphere, Sphere, "sphere")
-	]);
+    deserialization_table!(Raymarchable, [(object::Sphere, Sphere, "sphere")]);
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Raymarchable>, D::Error>
     where

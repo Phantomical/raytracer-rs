@@ -1,14 +1,13 @@
 use lib::*;
 use lib::object::*;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Translate<T: Raymarchable> {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     position: Vec3d,
     subobj: T,
@@ -21,7 +20,7 @@ impl<T: Raymarchable + Sized> Translate<T> {
         return Self {
             position: pos,
             subobj: obj,
-			tag: ()
+            tag: (),
         };
     }
 }

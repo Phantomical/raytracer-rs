@@ -1,4 +1,3 @@
-
 extern crate gradient;
 extern crate image;
 extern crate raytracer;
@@ -21,19 +20,22 @@ mod add_objects {
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
         let mandelbulb = Mandelbulb::new(3, 8);
 
-        scene.add_object(
-				sphere([0.0, -10001.0, 0.0], 10000.0),
-				solid_colour(colours::WHITE))
-			.add_object(
-				mandelbulb,
-				OriginTrap::new(
-				    Gradient::new(&[
-				        (colour(colours::ORANGE) * 0.8, 1.0),
-				        (colour(colours::GREEN) * 0.4, 0.85),
-				        (colour(colours::BLUE), 0.7),
-				    ]),
-				    mandelbulb,
-				))
+        scene
+            .add_object(
+                sphere([0.0, -10001.0, 0.0], 10000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(
+                mandelbulb,
+                OriginTrap::new(
+                    Gradient::new(&[
+                        (colour(colours::ORANGE) * 0.8, 1.0),
+                        (colour(colours::GREEN) * 0.4, 0.85),
+                        (colour(colours::BLUE), 0.7),
+                    ]),
+                    mandelbulb,
+                ),
+            )
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
@@ -57,18 +59,17 @@ fn create_scene(size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene);
     scene = add_objects::add_lights(scene);
 
     return ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts,
-	};
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    };
 }
 
 fn main() {
@@ -82,9 +83,9 @@ fn main() {
     let size = ImageSize {
         width: 1200,
         height: 800,
-		samples: 2,
+        samples: 2,
     };
     let desc = create_scene(size);
 
-	trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
+    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }

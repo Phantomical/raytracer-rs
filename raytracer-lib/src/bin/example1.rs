@@ -12,23 +12,26 @@ mod add_objects {
     use raytracer::colours;
 
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
-       
-	   scene.add_object(
-				sphere([0.0, -100001.0, 0.0], 100000.0),
-				solid_colour(colours::WHITE))
-			.add_object(sphere([0.0, 0.0, 0.0], 1.0), solid_colour(colours::RED))
-			.add_object(
-				translate(
-				    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(-45.0), 0.0, 0.0)),
-				    [1.0, 0.0, 0.0],
-				),
-				solid_colour(colours::ORANGE))
-			.add_object(
-				translate(
-				    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(45.0), 0.0, 0.0)),
-				    [-1.0, 0.0, 0.0],
-				),
-				solid_colour(colours::ORANGE))
+        scene
+            .add_object(
+                sphere([0.0, -100001.0, 0.0], 100000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(sphere([0.0, 0.0, 0.0], 1.0), solid_colour(colours::RED))
+            .add_object(
+                translate(
+                    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(-45.0), 0.0, 0.0)),
+                    [1.0, 0.0, 0.0],
+                ),
+                solid_colour(colours::ORANGE),
+            )
+            .add_object(
+                translate(
+                    transform(torus(1.0, 0.5), rotate_xyz(deg2rad(45.0), 0.0, 0.0)),
+                    [-1.0, 0.0, 0.0],
+                ),
+                solid_colour(colours::ORANGE),
+            )
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
@@ -52,12 +55,12 @@ fn create_desc(size: ImageSize) -> ImageDesc {
     scene = add_objects::add_objects(scene);
     scene = add_objects::add_lights(scene);
 
-    ImageDesc { 
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts
-	}
+    ImageDesc {
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    }
 }
 
 fn main() {
@@ -71,9 +74,9 @@ fn main() {
     let size = ImageSize {
         width: 1000,
         height: 750,
-		samples: 50,
+        samples: 50,
     };
     let desc = create_desc(size);
 
-	trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
+    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }

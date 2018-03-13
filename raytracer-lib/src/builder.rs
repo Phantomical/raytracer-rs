@@ -43,7 +43,7 @@ pub fn cylinder(c: [f64; 3]) -> Cylinder {
 pub fn hexagonal_prism(height: f64, radius: f64) -> HexagonalPrism {
     HexagonalPrism::new(height, radius)
 }
-pub fn plane(normal: [f64; 3], point: [f64; 3]) ->  Plane {
+pub fn plane(normal: [f64; 3], point: [f64; 3]) -> Plane {
     Plane::new(vec3d(normal), vec3d(point))
 }
 pub fn torus(inner: f64, outer: f64) -> Torus {
@@ -53,22 +53,26 @@ pub fn triangular_prism(height: f64, radius: f64) -> TriangularPrism {
     TriangularPrism::new(height, radius)
 }
 pub fn translate<T>(obj: T, trans: [f64; 3]) -> Translate<T>
-	where T: Raymarchable
+where
+    T: Raymarchable,
 {
     Translate::new(vec3d(trans), obj)
 }
 pub fn transform<T>(obj: T, trans: Mat3d) -> Transform<T>
-	where T: Raymarchable
+where
+    T: Raymarchable,
 {
     Transform::new(trans, obj)
 }
 pub fn repeat<T>(obj: T, modulus: [f64; 3]) -> Repeat<T>
-	where T: Raymarchable + Copy
+where
+    T: Raymarchable + Copy,
 {
     Repeat::new(obj, vec3d(modulus))
 }
 pub fn hollow<T>(obj: T) -> Hollow<T>
-	where T: Raymarchable + Copy
+where
+    T: Raymarchable + Copy,
 {
     Hollow::new(obj)
 }
@@ -76,25 +80,27 @@ pub fn sierpinski(iterations: u32, scale: f64) -> Sierpinski {
     Sierpinski::new(iterations, scale)
 }
 pub fn rotate<T>(obj: T, xyz: Mat3d) -> Rotate<T>
-	where T: Raymarchable + Copy
+where
+    T: Raymarchable + Copy,
 {
     Rotate::new(obj, xyz)
 }
 pub fn mandelbulb(iterations: usize, power: i32) -> Mandelbulb {
     Mandelbulb::new(iterations, power)
 }
-pub fn bound_sphere<T>(obj: T, radius: f64) -> BoundSphere<T> 
-	where T: Raymarchable + Clone 
+pub fn bound_sphere<T>(obj: T, radius: f64) -> BoundSphere<T>
+where
+    T: Raymarchable + Clone,
 {
-	BoundSphere::new(radius, obj)
+    BoundSphere::new(radius, obj)
 }
 pub fn scripted_object(source: String) -> CachedScript {
-	CachedScript{ source }
+    CachedScript { source }
 }
 
 /* Materials */
 pub fn solid_colour(col: [f32; 3]) -> SolidColour {
-	SolidColour::new(colour(col))
+    SolidColour::new(colour(col))
 }
 pub fn mirror() -> Mirror {
     Mirror {}
@@ -117,7 +123,8 @@ pub fn fuzzy_directional(dir: [f64; 3], fuzziness: f64, rays: usize) -> FuzzyDir
     FuzzyDirectionalLight::new(vec3d(dir), fuzziness, rays)
 }
 pub fn tint<T>(light: T, col: [f32; 3]) -> Tint<T>
-	where T: Light
+where
+    T: Light,
 {
     Tint::new(light, colour(col))
 }

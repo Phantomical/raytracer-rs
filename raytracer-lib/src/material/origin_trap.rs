@@ -33,7 +33,7 @@ impl<T: IFS> Material for OriginTrap<T> {
 }
 
 impl<R: IFS, T: Cacheable<R>> Cacheable<OriginTrap<R>> for OriginTrap<T> {
-	fn cached(&self) -> OriginTrap<R> {
-		OriginTrap::new(self.gradient.clone(), self.object.cached())
-	}
+    fn cached(&self) -> OriginTrap<R> {
+        OriginTrap::new(self.gradient.clone(), self.object.cached())
+    }
 }

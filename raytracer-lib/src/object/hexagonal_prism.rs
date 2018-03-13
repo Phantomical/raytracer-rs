@@ -1,13 +1,12 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct HexagonalPrism {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     radius: f64,
     height: f64,
@@ -17,7 +16,11 @@ type_serialization_decl!("hexagonal_prism");
 
 impl HexagonalPrism {
     pub fn new(height: f64, radius: f64) -> Self {
-        return Self { radius, height, tag: () };
+        return Self {
+            radius,
+            height,
+            tag: (),
+        };
     }
 }
 

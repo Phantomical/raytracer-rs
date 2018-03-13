@@ -1,13 +1,12 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct BoxObj {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     pub bounds: Vec3d,
 }

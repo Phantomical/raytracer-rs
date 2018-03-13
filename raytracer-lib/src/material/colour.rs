@@ -2,8 +2,7 @@ use vec::Colour;
 use material::Material;
 use lib::Intersection;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct SolidColour {
     pub colour: Colour,
 }

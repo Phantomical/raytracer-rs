@@ -16,8 +16,9 @@ fn xxy(v: Vec2d) -> Vec3d {
     return v.xxy();
 }
 
-pub fn normal_finite_difference<T>(me: &T, point: Vec3d) -> Vec3d 
-	where T: ?Sized + Raymarchable
+pub fn normal_finite_difference<T>(me: &T, point: Vec3d) -> Vec3d
+where
+    T: ?Sized + Raymarchable,
 {
     let eps = vec2(0.0, me.epsilon(point));
     // Normal approximation using gradient method
@@ -35,7 +36,7 @@ pub trait Raymarchable: Serialize {
     }
 
     fn normal_at(&self, point: Vec3d, _direction: Vec3d) -> Vec3d {
-		normal_finite_difference(self, point)
+        normal_finite_difference(self, point)
     }
 
     fn distance(&self, point: Vec3d) -> f64;
@@ -57,25 +58,28 @@ pub trait IFS: Raymarchable {
 }
 
 impl<T> Cacheable<Rc<Raymarchable>> for T
-	where T: Cacheable<T> + Raymarchable + 'static
+where
+    T: Cacheable<T> + Raymarchable + 'static,
 {
-	fn cached(&self) -> Rc<Raymarchable> {
-		Rc::new(self.cached())
-	}
+    fn cached(&self) -> Rc<Raymarchable> {
+        Rc::new(self.cached())
+    }
 }
 impl<T> Cacheable<Rc<Analytical>> for T
-	where T: Cacheable<T> + Analytical + 'static
+where
+    T: Cacheable<T> + Analytical + 'static,
 {
-	fn cached(&self) -> Rc<Analytical> {
-		Rc::new(self.cached())
-	}
+    fn cached(&self) -> Rc<Analytical> {
+        Rc::new(self.cached())
+    }
 }
 impl<T> Cacheable<Rc<IFS>> for T
-	where T: Cacheable<T> + IFS + 'static
+where
+    T: Cacheable<T> + IFS + 'static,
 {
-	fn cached(&self) -> Rc<IFS> {
-		Rc::new(self.cached())
-	}
+    fn cached(&self) -> Rc<IFS> {
+        Rc::new(self.cached())
+    }
 }
 
 serialize_trait_object!(Raymarchable);

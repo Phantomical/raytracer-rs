@@ -1,9 +1,8 @@
-
-#[macro_use]
-extern crate serde;
 extern crate gradient;
 extern crate image;
 extern crate raytracer;
+#[macro_use]
+extern crate serde;
 
 use raytracer::*;
 use raytracer::colours;
@@ -17,8 +16,7 @@ mod custom {
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
-	#[derive(Clone, Copy)]
-	#[derive(Serialize, Deserialize)]
+    #[derive(Clone, Copy, Serialize, Deserialize)]
     pub struct IFSElement {
         pub angle: f64,
         pub scale: f64,
@@ -129,24 +127,28 @@ mod add_objects {
     use gradient::Gradient;
 
     pub fn add_objects(scene: SceneBuilder, angle: f64) -> SceneBuilder {
-        scene.add_object(
-				sphere([0.0, -10001.0, 0.0], 10000.0),
-				solid_colour(colours::WHITE))
-			.add_object(
-				custom::IFSElement { angle, scale: 2.0 },
-				OriginTrap::new(
-				    Gradient::new(&[
-				        (colour(colours::ORANGE), 0.75),
-				        (colour(colours::GRAY), 0.4),
-				        (colour(colours::BLUE), 0.0),
-				    ]),
-				    custom::IFSElement { angle, scale: 2.0 },
-				))
+        scene
+            .add_object(
+                sphere([0.0, -10001.0, 0.0], 10000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(
+                custom::IFSElement { angle, scale: 2.0 },
+                OriginTrap::new(
+                    Gradient::new(&[
+                        (colour(colours::ORANGE), 0.75),
+                        (colour(colours::GRAY), 0.4),
+                        (colour(colours::BLUE), 0.0),
+                    ]),
+                    custom::IFSElement { angle, scale: 2.0 },
+                ),
+            )
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
-			.add_light(ambient([0.2; 3]))
+        scene
+            .add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
+            .add_light(ambient([0.2; 3]))
     }
 }
 
@@ -165,18 +167,17 @@ fn create_scene(angle: f64, size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene, deg2rad(angle));
     scene = add_objects::add_lights(scene);
 
     ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts
-	}
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    }
 }
 
 fn main() {
@@ -192,7 +193,7 @@ fn main() {
     let size = ImageSize {
         width: 3840,
         height: 2160,
-		samples: 2,
+        samples: 2,
     };
     let desc = create_scene(angle, size);
 

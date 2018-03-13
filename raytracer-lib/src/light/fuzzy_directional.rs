@@ -58,10 +58,11 @@ impl Light for FuzzyDirectionalLight {
             let mut rng = thread_rng();
             let vec = self.rand_vec::<ThreadRng>(&mut rng);
             points.push((
-				Ray::new(isect.point + isect.normal * 0.001, vec), 
-				DIRECTIONAL_DISTANCE));
+                Ray::new(isect.point + isect.normal * 0.001, vec),
+                DIRECTIONAL_DISTANCE,
+            ));
         }
 
-		return Box::new(points.into_iter());
+        return Box::new(points.into_iter());
     }
 }

@@ -1,14 +1,13 @@
 use lib::*;
 use lib::object::Raymarchable;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Transform<T: Raymarchable> {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     mat: Mat3d,
     inv: Mat3d,
@@ -23,13 +22,14 @@ impl<T: Raymarchable + Sized> Transform<T> {
             obj: obj,
             mat: mat,
             inv: mat.inverse(),
-			tag: ()
+            tag: (),
         }
     }
 }
 
 impl<'de, T: Raymarchable> Raymarchable for Transform<T>
-	where T: Serialize + Deserialize<'de>
+where
+    T: Serialize + Deserialize<'de>,
 {
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj.distance(self.inv * point)

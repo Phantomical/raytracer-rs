@@ -1,4 +1,3 @@
-
 macro_rules! type_serialization_decl {
 	($name:tt, $module:ident) => {
 		mod $module {

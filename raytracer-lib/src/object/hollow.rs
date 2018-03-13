@@ -1,14 +1,13 @@
 use lib::*;
 use lib::object::*;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Hollow<T: Raymarchable> {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     obj: T,
 }
@@ -22,7 +21,8 @@ impl<T: Raymarchable> Hollow<T> {
 }
 
 impl<'de, T: Raymarchable> Raymarchable for Hollow<T>
-	where T: Serialize + Deserialize<'de>
+where
+    T: Serialize + Deserialize<'de>,
 {
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj.distance(point).abs()

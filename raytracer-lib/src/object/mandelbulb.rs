@@ -1,13 +1,12 @@
 use vec::*;
 use object::{Raymarchable, IFS};
 
-#[derive(Clone, Copy)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Copy, Serialize, Deserialize)]
 pub struct Mandelbulb {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     iterations: usize,
     power: i32,
@@ -17,7 +16,11 @@ type_serialization_decl!("mandelbulb");
 
 impl Mandelbulb {
     pub fn new(iterations: usize, power: i32) -> Self {
-        Self { iterations, power, tag: () }
+        Self {
+            iterations,
+            power,
+            tag: (),
+        }
     }
 }
 

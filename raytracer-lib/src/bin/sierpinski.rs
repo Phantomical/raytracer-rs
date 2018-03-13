@@ -1,4 +1,3 @@
-
 extern crate image;
 extern crate raytracer;
 
@@ -13,25 +12,26 @@ mod add_objects {
     use raytracer::builder::*;
     use raytracer::colours;
 
-    use raytracer::{Mat3d, normalize};
+    use raytracer::{normalize, Mat3d};
 
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
-        let rotation = Mat3d::from_axis_angle(
-            normalize(vec3d([-1.0, 0.0, 1.0])),
-			deg2rad(52.5),
-        );
+        let rotation = Mat3d::from_axis_angle(normalize(vec3d([-1.0, 0.0, 1.0])), deg2rad(52.5));
 
-        scene.add_object(
-				sphere([0.0, -10001.0, 0.0], 10000.0),
-				solid_colour(colours::WHITE))
-			.add_object(
-				rotate(sierpinski(10, 2.0), rotation),
-				solid_colour(colours::RED))
+        scene
+            .add_object(
+                sphere([0.0, -10001.0, 0.0], 10000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(
+                rotate(sierpinski(10, 2.0), rotation),
+                solid_colour(colours::RED),
+            )
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 40))
-			.add_light(ambient([0.1, 0.1, 0.1]))
+        scene
+            .add_light(fuzzy_directional([0.0, -1.0, 1.0], 0.0872665, 40))
+            .add_light(ambient([0.1, 0.1, 0.1]))
     }
 }
 
@@ -47,18 +47,17 @@ fn create_scene(size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene);
     scene = add_objects::add_lights(scene);
 
     return ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts,
-	};
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    };
 }
 
 fn main() {
@@ -72,9 +71,9 @@ fn main() {
     let size = ImageSize {
         width: 1200,
         height: 800,
-		samples: 5
+        samples: 5,
     };
     let desc = create_scene(size);
 
-	trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
+    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }

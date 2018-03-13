@@ -1,13 +1,12 @@
 use lib::*;
 use lib::object::Raymarchable;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Sierpinski {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     iterations: u32,
     scale: f64,
@@ -17,7 +16,11 @@ type_serialization_decl!("sierpinski");
 
 impl Sierpinski {
     pub fn new(iterations: u32, scale: f64) -> Self {
-        Self { iterations, scale, tag:() }
+        Self {
+            iterations,
+            scale,
+            tag: (),
+        }
     }
 }
 

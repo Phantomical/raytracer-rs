@@ -1,4 +1,3 @@
-
 extern crate image;
 extern crate raytracer;
 
@@ -14,18 +13,22 @@ mod add_objects {
     use raytracer::colours;
 
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_object(
-				sphere([0.0, -100001.0, 0.0], 100000.0),
-				solid_colour(colours::WHITE))
-			.add_object(sphere([2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
-			.add_object(sphere([-2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
+        scene
+            .add_object(
+                sphere([0.0, -100001.0, 0.0], 100000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(sphere([2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
+            .add_object(sphere([-2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(tint(
-				fuzzy_directional([0.0, -1.0, 1.0], deg2rad(5.0), 20),
-				[0.3; 3]))
-				.add_light(point_light([0.0, 1.0, 0.0], 3.0))
+        scene
+            .add_light(tint(
+                fuzzy_directional([0.0, -1.0, 1.0], deg2rad(5.0), 20),
+                [0.3; 3],
+            ))
+            .add_light(point_light([0.0, 1.0, 0.0], 3.0))
     }
 }
 
@@ -40,18 +43,17 @@ fn create_scene(size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene);
     scene = add_objects::add_lights(scene);
 
-	ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size, 
-		opts,
-	}
+    ImageDesc {
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    }
 }
 
 fn main() {
@@ -65,9 +67,9 @@ fn main() {
     let size = ImageSize {
         width: 1000,
         height: 750,
-		samples: 5,
+        samples: 5,
     };
     let desc = create_scene(size);
 
-	trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
+    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
 }

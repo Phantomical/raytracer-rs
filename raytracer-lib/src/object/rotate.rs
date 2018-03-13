@@ -1,15 +1,14 @@
 use vec::*;
 
 use object::Raymarchable;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Rotate<T: Raymarchable> {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     mat: Mat3d,
     //inv : Basis3<f64>,
@@ -24,16 +23,16 @@ impl<T: Raymarchable> Rotate<T> {
             obj,
             mat,
             //inv: mat.inverse().expect("Rotation matrix was not invertible")
-			tag: ()
-		}
+            tag: (),
+        }
     }
 }
 
-impl<'de, T: Raymarchable> Raymarchable for Rotate<T> 
-	where T: Serialize + Deserialize<'de>
+impl<'de, T: Raymarchable> Raymarchable for Rotate<T>
+where
+    T: Serialize + Deserialize<'de>,
 {
     fn distance(&self, point: Vec3d) -> f64 {
-        self.obj
-            .distance(self.mat * point)
+        self.obj.distance(self.mat * point)
     }
 }

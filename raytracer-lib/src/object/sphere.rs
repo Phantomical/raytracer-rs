@@ -2,13 +2,12 @@ use vec::*;
 use ray::*;
 use object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Sphere {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     centre: Vec3d,
     radius: f64,
@@ -21,7 +20,7 @@ impl Sphere {
         return Sphere {
             centre: centre,
             radius: radius,
-			tag: ()
+            tag: (),
         };
     }
 }

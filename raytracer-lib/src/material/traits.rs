@@ -15,9 +15,10 @@ pub trait Material {
 }
 
 impl<T> Cacheable<Rc<Material>> for T
-	where T: Cacheable<T> + Material + 'static
+where
+    T: Cacheable<T> + Material + 'static,
 {
-	fn cached(&self) -> Rc<Material> {
-		Rc::new(self.cached())
-	}
+    fn cached(&self) -> Rc<Material> {
+        Rc::new(self.cached())
+    }
 }

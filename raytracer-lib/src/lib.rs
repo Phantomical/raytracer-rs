@@ -1,19 +1,19 @@
 #![feature(generators, generator_trait, conservative_impl_trait)]
 #![feature(specialization)]
 
-extern crate pbr;
-extern crate rand;
-extern crate glslvec;
-extern crate gradient;
-extern crate rhai;
-extern crate image;
 extern crate futures;
 extern crate futures_cpupool;
+extern crate glslvec;
+extern crate gradient;
+extern crate image;
+extern crate pbr;
+extern crate rand;
+extern crate rhai;
 
 #[macro_use]
-extern crate serde;
-#[macro_use]
 extern crate erased_serde;
+#[macro_use]
+extern crate serde;
 
 #[macro_use]
 mod serialize;

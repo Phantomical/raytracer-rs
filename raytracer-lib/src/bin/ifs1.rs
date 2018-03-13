@@ -1,8 +1,7 @@
-
-#[macro_use]
-extern crate serde;
 extern crate image;
 extern crate raytracer;
+#[macro_use]
+extern crate serde;
 
 use raytracer::*;
 use raytracer::colours;
@@ -16,8 +15,7 @@ mod custom {
     use raytracer::object::Raymarchable;
     use builder::deg2rad;
 
-	#[derive(Copy, Clone)]
-	#[derive(Serialize, Deserialize)]
+    #[derive(Copy, Clone, Serialize, Deserialize)]
     pub struct IFSElement {}
 
     fn rotate1(_angle: &mut f64, x: &mut f64, y: &mut f64) {
@@ -78,10 +76,12 @@ mod add_objects {
     use raytracer::colours;
 
     pub fn add_objects(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_object(
-				sphere([0.0, -10001.0, 0.0], 10000.0),
-				solid_colour(colours::WHITE))
-			.add_object(custom::IFSElement {}, normal())
+        scene
+            .add_object(
+                sphere([0.0, -10001.0, 0.0], 10000.0),
+                solid_colour(colours::WHITE),
+            )
+            .add_object(custom::IFSElement {}, normal())
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
@@ -102,18 +102,17 @@ fn create_scene(size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene);
     scene = add_objects::add_lights(scene);
 
     ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts
-	}
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    }
 }
 
 fn main() {
@@ -127,7 +126,7 @@ fn main() {
     let size = ImageSize {
         width: 1200,
         height: 800,
-		samples: 2,
+        samples: 2,
     };
     let desc = create_scene(size);
 

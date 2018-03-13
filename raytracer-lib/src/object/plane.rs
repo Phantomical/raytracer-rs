@@ -1,14 +1,12 @@
 use vec::*;
 use object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Plane {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
-
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     /// The normal vector of the plane.
     /// All vectors laying on the plane
@@ -25,7 +23,7 @@ impl Plane {
         return Plane {
             normal: normal.normalize(),
             point: point,
-			tag: (),
+            tag: (),
         };
     }
 }

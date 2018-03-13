@@ -1,12 +1,11 @@
-
-#[macro_use]
-extern crate serde;
 extern crate gradient;
 extern crate image;
 extern crate raytracer;
+#[macro_use]
+extern crate serde;
 
-extern crate pbr;
 extern crate futures;
+extern crate pbr;
 
 #[macro_use]
 extern crate runtime_fmt;
@@ -24,8 +23,7 @@ mod custom {
     use raytracer::object::{Raymarchable, IFS};
     use std::vec::Vec;
 
-    #[derive(Copy, Clone)]
-	#[derive(Serialize, Deserialize)]
+    #[derive(Copy, Clone, Serialize, Deserialize)]
     pub struct IFSElement {
         pub angle: f64,
         pub scale: f64,
@@ -128,7 +126,6 @@ mod custom {
                     y = y1;
                 }
 
-
                 x = scale * x - cx * (scale - 1.0);
                 y = scale * y - cy * (scale - 1.0);
                 z = scale * z;
@@ -176,8 +173,9 @@ mod add_objects {
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {
-        scene.add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
-			.add_light(ambient([0.2; 3]))
+        scene
+            .add_light(fuzzy_directional([0.0, -1.0, 2.0], 0.0872665, 10))
+            .add_light(ambient([0.2; 3]))
     }
 }
 
@@ -196,18 +194,17 @@ fn create_scene(angle: f64, size: ImageSize) -> ImageDesc {
         ..Default::default()
     };
 
-    let mut scene = SceneBuilder::new()
-		.background(builder::colour(colours::BLACK));
+    let mut scene = SceneBuilder::new().background(builder::colour(colours::BLACK));
 
     scene = add_objects::add_objects(scene, deg2rad(angle));
     scene = add_objects::add_lights(scene);
 
     return ImageDesc {
-		scene: Arc::new(scene.unwrap()),
-		camera,
-		size,
-		opts,
-	};
+        scene: Arc::new(scene.unwrap()),
+        camera,
+        size,
+        opts,
+    };
 }
 
 fn main() {
@@ -218,22 +215,22 @@ fn main() {
         return;
     }
 
-	let mut descriptors = Vec::new();
+    let mut descriptors = Vec::new();
     let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 1200/2,
-        height: 800/2,
+        width: 1200 / 2,
+        height: 800 / 2,
 
-		samples: 10,
+        samples: 10,
     };
 
-	for i in 2..args.len() {
-		let angle = args[i].parse().expect("Error: Angle was not a number");
-		let name = rt_format!(&args[1], i).expect("Could not format string");
+    for i in 2..args.len() {
+        let angle = args[i].parse().expect("Error: Angle was not a number");
+        let name = rt_format!(&args[1], i).expect("Could not format string");
 
-		descriptors.push((create_scene(angle, size), name));
-	}
+        descriptors.push((create_scene(angle, size), name));
+    }
 
-	trace_to_disk(descriptors.into_iter());
+    trace_to_disk(descriptors.into_iter());
 }

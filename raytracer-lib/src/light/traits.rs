@@ -8,11 +8,11 @@ pub trait Light: Sync + Send {
     fn shadow_rays(&self, isect: &Intersection) -> Box<Iterator<Item = (Ray, f64)>>;
 }
 
-
 impl<T> Cacheable<Rc<Light>> for T
-	where T: Cacheable<T> + Light + 'static
+where
+    T: Cacheable<T> + Light + 'static,
 {
-	fn cached(&self) -> Rc<Light> {
-		Rc::new(self.cached())
-	}
+    fn cached(&self) -> Rc<Light> {
+        Rc::new(self.cached())
+    }
 }

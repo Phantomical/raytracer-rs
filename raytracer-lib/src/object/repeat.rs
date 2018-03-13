@@ -1,14 +1,13 @@
 use lib::*;
 use lib::object::*;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
-pub struct Repeat<T: Raymarchable> { 
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+#[derive(Copy, Clone, Serialize, Deserialize)]
+pub struct Repeat<T: Raymarchable> {
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     modulus: Vec3d,
     obj: T,
@@ -18,7 +17,11 @@ type_serialization_decl!("repeat");
 
 impl<T: Raymarchable> Repeat<T> {
     pub fn new(obj: T, modulus: Vec3d) -> Self {
-        Self { obj, modulus, tag: () }
+        Self {
+            obj,
+            modulus,
+            tag: (),
+        }
     }
 }
 
@@ -31,7 +34,8 @@ fn modulus(v: Vec3d, m: Vec3d) -> Vec3d {
 }
 
 impl<'de, T: Raymarchable> Raymarchable for Repeat<T>
-	where T: Serialize + Deserialize<'de>
+where
+    T: Serialize + Deserialize<'de>,
 {
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj

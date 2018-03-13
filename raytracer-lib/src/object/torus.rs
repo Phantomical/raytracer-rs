@@ -1,13 +1,12 @@
 use lib::*;
 use lib::object::*;
 
-#[derive(Copy, Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Torus {
-	#[serde(with = "tag")]
-	#[serde(rename = "type")]
-	#[serde(skip_deserializing)]
-	tag: (),
+    #[serde(with = "tag")]
+    #[serde(rename = "type")]
+    #[serde(skip_deserializing)]
+    tag: (),
 
     inner_radius: f64,
     outer_radius: f64,
@@ -20,7 +19,7 @@ impl Torus {
         return Self {
             inner_radius,
             outer_radius,
-			tag: ()
+            tag: (),
         };
     }
 }
