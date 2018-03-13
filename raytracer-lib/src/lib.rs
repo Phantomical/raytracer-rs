@@ -34,7 +34,7 @@ mod scenedata;
 mod cacheable;
 mod scenebuilder;
 mod newscene;
-mod scripting;
+//mod scripting;
 
 pub use vec::*;
 pub use ray::*;
@@ -49,4 +49,10 @@ pub use newscene::*;
 
 mod lib {
     pub use ::*;
+}
+
+pub mod prelude {
+	pub use object::{Raymarchable, IFS};
+	pub use material::Material;
+	pub use light::Light;
 }

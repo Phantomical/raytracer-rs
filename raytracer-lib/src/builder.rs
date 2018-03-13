@@ -2,7 +2,6 @@ use lib::{Colour, Mat3d, Vec2d, Vec3d};
 use lib::light::*;
 use lib::object::*;
 use lib::material::*;
-use scripting::CachedScript;
 
 use std::sync::Arc;
 use std::ops::Deref;
@@ -94,9 +93,9 @@ where
 {
     BoundSphere::new(radius, obj)
 }
-pub fn scripted_object(source: String) -> CachedScript {
-    CachedScript { source }
-}
+//pub fn scripted_object(source: String) -> CachedScript {
+//    CachedScript { source }
+//}
 
 /* Materials */
 pub fn solid_colour(col: [f32; 3]) -> SolidColour {

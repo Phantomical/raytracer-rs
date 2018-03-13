@@ -1,17 +1,11 @@
-use lib::object::{Analytical, Raymarchable};
-use lib::material::Material;
 use lib::light::Light;
 use lib::*;
 use raymarcher::raymarch;
 
-use cacheable::Cacheable;
 use camera::Camera;
-use scenedata::ObjectData;
 
 use std::sync::{Arc, Mutex};
 use std::vec::Vec;
-use std::ops::Deref;
-use std::rc::Rc;
 use std::io::Write;
 use std::fs::File;
 
@@ -24,18 +18,6 @@ use futures::Future;
 use futures::future::{join_all, lazy};
 use futures_cpupool::*;
 
-pub struct CachedObjectData {
-    pub object: Arc<Cacheable<Rc<Raymarchable>>>,
-    pub bounds: Option<Arc<Cacheable<Rc<Analytical>>>>,
-    pub material: Arc<Cacheable<Rc<Material>>>,
-}
-
-pub struct CachedScene {
-    pub objects: Vec<CachedObjectData>,
-    pub lights: Vec<Arc<Cacheable<Rc<Light>>>>,
-    pub background: Colour,
-}
-
 #[derive(Copy, Clone)]
 pub struct ImageSize {
     pub width: u32,
@@ -44,43 +26,15 @@ pub struct ImageSize {
 }
 
 pub struct ImageDesc {
-    pub scene: Arc<CachedScene>,
+    pub scene: Arc<Scene>,
     pub camera: Camera,
 
     pub size: ImageSize,
     pub opts: RaymarchOptions,
 }
 
-impl Cacheable<ObjectData> for CachedObjectData {
-    fn cached(&self) -> ObjectData {
-        ObjectData {
-            object: self.object.deref().cached(),
-            material: self.material.deref().cached(),
-            bound: match self.bounds {
-                Some(ref p) => Some(p.deref().cached()),
-                None => None,
-            },
-        }
-    }
-}
-
-impl Cacheable<Scene> for CachedScene {
-    fn cached(&self) -> Scene {
-        let mut scene = Scene::new(self.background);
-
-        for ref obj in &self.objects {
-            scene.objects.push(obj.deref().cached());
-        }
-        for ref light in &self.lights {
-            scene.lights.push((***light).cached());
-        }
-
-        scene
-    }
-}
-
 fn isect_illumination(
-    light: &Rc<Light>,
+    light: &Arc<Light>,
     isect: &Intersection,
     scene: &Scene,
     opts: &RaymarchOptions,
@@ -184,7 +138,7 @@ where
             let camera = desc.camera;
             let pb = Arc::clone(&pb);
             lazy(move || {
-                let scene = cached_scene.deref().cached();
+                let scene = cached_scene;
                 let mut values = Vec::new();
                 for x in 0..size.width {
                     let colour = render_pixel(Vec2u { x: x, y: y }, size, opts, camera, &scene);

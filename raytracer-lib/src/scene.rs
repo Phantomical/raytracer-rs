@@ -1,11 +1,11 @@
 use lib::*;
-use std::rc::Rc;
+use std::sync::Arc;
 use light::Light;
 
 use std::vec::Vec;
 
 pub struct Scene {
-    pub lights: Vec<Rc<Light>>,
+    pub lights: Vec<Arc<Light>>,
     pub objects: Vec<ObjectData>,
     pub background: Colour,
 }

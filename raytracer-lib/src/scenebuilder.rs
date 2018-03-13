@@ -1,5 +1,5 @@
-use newscene::*;
-use cacheable::*;
+use scene::*;
+use scenedata::*;
 
 use lib::light::Light;
 use lib::object::Raymarchable;
@@ -7,12 +7,11 @@ use lib::material::Material;
 use lib::Colour;
 
 use std::vec::Vec;
-use std::rc::Rc;
 use std::sync::Arc;
 
 pub struct SceneBuilder {
-    objects: Vec<CachedObjectData>,
-    lights: Vec<Arc<Cacheable<Rc<Light>>>>,
+    objects: Vec<ObjectData>,
+    lights: Vec<Arc<Light>>,
     background: Colour,
 }
 
@@ -27,20 +26,20 @@ impl SceneBuilder {
 
     pub fn add_object<O, M>(mut self, obj: O, mat: M) -> Self
     where
-        O: Cacheable<Rc<Raymarchable>> + Sized + 'static,
-        M: Cacheable<Rc<Material>> + Sized + 'static,
+        O: Raymarchable + Sized + 'static,
+        M: Material + Sized + 'static,
     {
-        self.objects.push(CachedObjectData {
+        self.objects.push(ObjectData {
             object: Arc::new(obj),
             material: Arc::new(mat),
-            bounds: None,
+            bound: None,
         });
 
         self
     }
     pub fn add_light<L>(mut self, light: L) -> Self
     where
-        L: Cacheable<Rc<Light>> + 'static,
+        L: Light + 'static,
     {
         self.lights.push(Arc::new(light));
 
@@ -51,8 +50,8 @@ impl SceneBuilder {
         self
     }
 
-    pub fn unwrap(self) -> CachedScene {
-        CachedScene {
+    pub fn unwrap(self) -> Scene {
+        Scene {
             background: self.background,
             lights: self.lights,
             objects: self.objects,

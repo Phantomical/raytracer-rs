@@ -1,20 +1,20 @@
 use lib::object::{Analytical, Raymarchable};
 use lib::material::Material;
-use std::rc::Rc;
+use std::sync::Arc;
 
 pub struct ObjectData {
-    pub object: Rc<Raymarchable>,
-    pub bound: Option<Rc<Analytical>>,
-    pub material: Rc<Material>,
+    pub object: Arc<Raymarchable>,
+    pub bound: Option<Arc<Analytical>>,
+    pub material: Arc<Material>,
 }
 
 impl Clone for ObjectData {
     fn clone(&self) -> Self {
         return Self {
-            object: Rc::clone(&self.object),
-            material: Rc::clone(&self.material),
+            object: Arc::clone(&self.object),
+            material: Arc::clone(&self.material),
             bound: match self.bound {
-                Some(ref v) => Some(Rc::clone(v)),
+                Some(ref v) => Some(Arc::clone(v)),
                 None => None,
             },
         };
