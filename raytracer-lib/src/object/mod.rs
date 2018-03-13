@@ -15,7 +15,6 @@ mod sierpinski;
 mod rotate;
 mod mandelbulb;
 mod bound;
-//mod scripted_object;
 
 pub use self::traits::*;
 pub use self::sphere::*;
@@ -34,4 +33,3 @@ pub use self::sierpinski::*;
 pub use self::rotate::*;
 pub use self::mandelbulb::*;
 pub use self::bound::*;
-//pub use self::scripted_object::*;
