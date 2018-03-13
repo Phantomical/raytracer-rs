@@ -5,7 +5,7 @@ use std::rc::Rc;
 
 use erased_serde::Serialize;
 
-pub trait Material: Serialize {
+pub trait Material: Sync + Send + Serialize {
     fn base_colour(&self, isect: &Intersection) -> Colour;
 
     fn roughness(&self, _isect: &Intersection) -> f32 {

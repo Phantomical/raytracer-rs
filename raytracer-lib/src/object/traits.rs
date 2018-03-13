@@ -30,7 +30,7 @@ where
     ).normalize();
 }
 
-pub trait Raymarchable: Serialize {
+pub trait Raymarchable: Serialize + Sync + Send {
     fn epsilon(&self, _point: Vec3d) -> f64 {
         0.000001
     }

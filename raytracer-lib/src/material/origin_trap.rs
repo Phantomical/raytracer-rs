@@ -28,7 +28,7 @@ impl<T: IFS> OriginTrap<T> {
 }
 
 impl<T: IFS> Material for OriginTrap<T>
-	where T: Serialize
+	where T: Serialize + Sync + Send
 {
     fn base_colour(&self, isect: &Intersection) -> Colour {
         let min = self.object
@@ -36,8 +36,6 @@ impl<T: IFS> Material for OriginTrap<T>
             .map(|v| v.length())
             .min_by(|a, b| a.partial_cmp(b).unwrap())
             .unwrap_or(0.0);
-
-        //println!("{}", min);
 
         return self.gradient.value_at(min as f32);
     }
