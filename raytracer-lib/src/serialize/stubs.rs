@@ -13,7 +13,7 @@ macro_rules! deserialization_table {
 		{
 			$(
 				#[serde(rename = $name)]
-				$tyname($type),
+				$tyname($type)
 			),*
 		}
 
@@ -31,7 +31,7 @@ macro_rules! deserialization_table {
 						DeserializationTable::$tyname(val) => {
 							let a: Arc<$type> = Arc::new(val);
 							Ok(a)
-						},
+						}
 					),*
 				}
 			}
@@ -46,7 +46,24 @@ pub mod object {
     use std::sync::Arc;
     use object;
 
-    deserialization_table!(Raymarchable, [(object::Sphere, Sphere, "sphere")]);
+    deserialization_table!(Raymarchable, [
+		(object::Sphere, Sphere, "sphere"),
+		//(object::BoundSphere<Arc<Raymarchable>>, BoundSphere, "boundsphere"),
+		(object::BoxObj, BoxObj, "box"),
+		(object::Cone, Cone, "cone"),
+		(object::Cylinder, Cylinder, "cylinder"),
+		(object::HexagonalPrism, HexagonalPrism, "hexagonal_prism"),
+		//(object::Hollow<Arc<Raymarchable>>, Hollow, "hollow"),
+		(object::Mandelbulb, Mandelbulb, "mandelbulb"),
+		(object::Plane, Plane, "plane"),
+		//(object::Repeat<Arc<Raymarchable>>, Repeat, "repeat"),
+		//(object::Rotate<Arc<Raymarchable>>, Rotate, "rotate"),
+		(object::Sierpinski, Sierpinski, "sierpinski"),
+		(object::Torus, Torus, "torus"),
+		//(object::Transform<Arc<Raymarchable>>, Transform, "transform"),
+		//(object::Translate<Arc<Raymarchable>>, Translate, "translate"),
+		(object::TriangularPrism, TriangularPrism, "triangular_prism")
+	]);
 
     pub fn deserialize<'de, D>(d: D) -> Result<Arc<Raymarchable>, D::Error>
     where
