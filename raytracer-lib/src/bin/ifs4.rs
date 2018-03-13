@@ -214,17 +214,17 @@ fn main() {
 
 	let mut descriptors = Vec::new();
     let size = ImageSize {
-        width: 3840,
-        height: 2160,
-        //width: 400,
-        //height: 300,
+        //width: 3840,
+        //height: 2160,
+        width: 1080,
+        height: 720,
 
 		samples: 10,
     };
 	
 	for i in 2..args.len() {
 		let angle = args[i].parse().expect("Error: Angle was not a number");
-		let name = rt_format!(&args[1], i).expect("Could not format string");
+		let name = rt_format!(&args[1], i - 2).expect("Could not format string");
 
 		descriptors.push((create_scene(angle, size), name));
 	}

@@ -3,6 +3,7 @@ use ray::*;
 use object::*;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct Sphere {
     centre: Vec3d,
     radius: f64,

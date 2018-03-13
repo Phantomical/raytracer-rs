@@ -3,6 +3,9 @@ extern crate gradient;
 extern crate image;
 extern crate raytracer;
 
+#[macro_use]
+extern crate runtime_fmt;
+
 use raytracer::*;
 use raytracer::colours;
 
@@ -199,16 +202,22 @@ fn main() {
         return;
     }
 
-    let angle = args[2].parse().expect("Error: Angle was not a number");
-
+	let mut descriptors = Vec::new();
     let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 1200,
-        height: 800,
-		samples: 2
-    };
-    let desc = create_scene(angle, size);
+        width: 1080,
+        height: 720,
 
-    trace_to_disk(vec![(desc, args[1].to_string())].into_iter());
+		samples: 10,
+    };
+	
+	for i in 2..args.len() {
+		let angle = args[i].parse().expect("Error: Angle was not a number");
+		let name = rt_format!(&args[1], i - 2).expect("Could not format string");
+
+		descriptors.push((create_scene(angle, size), name));
+	}
+
+	trace_to_disk(descriptors.into_iter());
 }

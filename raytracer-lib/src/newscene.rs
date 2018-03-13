@@ -234,9 +234,9 @@ fn trace_image_future<T>(
 					}
 				}
 
-				pb.lock()
-					.expect("Unable to unlock progress bar!")
-					.finish_print(&format!("done image {}", image_idx));
+				//pb.lock()
+				//	.expect("Unable to unlock progress bar!")
+				//	.finish_print(&format!("done image {}", image_idx));
 
 				let res : Result<_, ()> = Ok(imagebuf);
 				res
@@ -250,12 +250,13 @@ pub fn trace_to_disk<I>(descs: I)
 	where I: Iterator<Item = (ImageDesc, String)>
 {
 	let pool = CpuPool::new_num_cpus();
-	let mut pb = pbr::MultiBar::new();
+	let mut pb =  Arc::new(Mutex::new(ProgressBar::new(0)));
 	
 	let mut futures = Vec::new();
 
 	for (i, (desc, name)) in descs.enumerate() {
-		let pb = Arc::new(Mutex::new(pb.create_bar(desc.size.height as u64)));
+		let pb = Arc::clone(&pb);
+		pb.lock().unwrap().total += desc.size.height as u64;
 		futures.push(trace_image_future(i, &desc, &pool, pb)
 			.then(move |result| {
 				let imagebuf = result.ok().unwrap();
@@ -271,10 +272,17 @@ pub fn trace_to_disk<I>(descs: I)
 		);
 	}
 
-	let handle = thread::spawn(move || {
-		pb.listen();
-	});
+	//let handle = thread::spawn({
+	//	let pb = Arc::clone(&pb);
+	//	move || {
+	//		pb.listen();
+	//	}
+	//});
 
-	join_all(futures).wait().unwrap();
-	handle.join().unwrap();
+	join_all(futures).then(move |_| {
+		pb.lock().unwrap().finish();
+		let res : Result<(), ()> = Ok(());
+		res
+	}).wait().unwrap();
+	//handle.join().unwrap();
 }

@@ -1,8 +1,10 @@
 use lib::*;
 use lib::object::*;
+use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
-pub struct Translate<T: Raymarchable + Sized> {
+#[derive(Serialize, Deserialize)]
+pub struct Translate<T: Raymarchable> {
     position: Vec3d,
     subobj: T,
 }
@@ -16,9 +18,9 @@ impl<T: Raymarchable + Sized> Translate<T> {
     }
 }
 
-impl<T> Raymarchable for Translate<T>
+impl<'de, T> Raymarchable for Translate<T>
 where
-    T: Raymarchable + Sized,
+    T: Raymarchable + Sized + Serialize + Deserialize<'de>,
 {
     fn normal_at(&self, point: Vec3d, dir: Vec3d) -> Vec3d {
         return self.subobj.normal_at(point - self.position, dir);

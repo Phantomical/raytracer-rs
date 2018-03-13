@@ -2,6 +2,7 @@ use lib::*;
 use lib::object::*;
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct BoxObj {
     pub bounds: Vec3d,
 }

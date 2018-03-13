@@ -10,6 +10,11 @@ extern crate image;
 extern crate futures;
 extern crate futures_cpupool;
 
+#[macro_use]
+extern crate serde;
+#[macro_use]
+extern crate erased_serde;
+
 pub mod object;
 pub mod material;
 pub mod colours;
@@ -27,6 +32,7 @@ mod cacheable;
 mod scenebuilder;
 mod newscene;
 mod scripting;
+mod serialize;
 
 pub use vec::*;
 pub use ray::*;

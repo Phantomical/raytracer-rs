@@ -6,7 +6,8 @@ use functions::dot;
 use std::ops::*;
 
 #[derive(Copy, Clone, Default, Debug)]
-pub struct Mat3<T: Sized> {
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+pub struct Mat3<T: Sized + Clone> {
 	pub rows: [Vec3<T>; 3]
 }
 
@@ -76,7 +77,7 @@ impl<T> Mat3<T>
 }
 
 impl<T> Index<usize> for Mat3<T>
-	where T: Sized
+	where T: Sized+Clone
 {
 	type Output = Vec3<T>;
 

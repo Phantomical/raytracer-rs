@@ -17,7 +17,11 @@ image        = "0.18.0"
 gradient     = { path = "../gradient" }
 pbr          = "1.0"
 rhai         = "0.8"
-glslvec      = { path = "../glslvec" }
+glslvec      = { path = "../glslvec", features=["serde"] }
 runtime-fmt  = "*"
 futures      = "*"
 futures-cpupool = "*"
+
+serde        = { version="1.0", features=["derive", "rc"] }
+serde_json   = "*"
+erased-serde = "*"

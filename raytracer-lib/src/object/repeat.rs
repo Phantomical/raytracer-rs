@@ -1,7 +1,9 @@
 use lib::*;
 use lib::object::*;
+use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct Repeat<T: Raymarchable> {
     modulus: Vec3d,
     obj: T,
@@ -21,7 +23,9 @@ fn modulus(v: Vec3d, m: Vec3d) -> Vec3d {
     )
 }
 
-impl<T: Raymarchable> Raymarchable for Repeat<T> {
+impl<'de, T: Raymarchable> Raymarchable for Repeat<T>
+	where T: Serialize + Deserialize<'de>
+{
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj
             .distance(modulus(point, self.modulus) - (self.modulus * 0.5))

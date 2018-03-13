@@ -1,7 +1,9 @@
 use lib::*;
 use lib::object::*;
+use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct Hollow<T: Raymarchable> {
     obj: T,
 }
@@ -12,7 +14,9 @@ impl<T: Raymarchable> Hollow<T> {
     }
 }
 
-impl<T: Raymarchable> Raymarchable for Hollow<T> {
+impl<'de, T: Raymarchable> Raymarchable for Hollow<T>
+	where T: Serialize + Deserialize<'de>
+{
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj.distance(point).abs()
     }

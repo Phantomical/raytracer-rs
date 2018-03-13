@@ -1,23 +1,25 @@
 
 use lib::*;
 use lib::object::Raymarchable;
+use serde::{Serialize, Deserialize};
 
 #[derive(Clone)]
-pub struct BoundSphere<T: Raymarchable + Clone> {
+#[derive(Serialize, Deserialize)]
+pub struct BoundSphere<T: Raymarchable> {
 	radius: f64,
 	object: T
 }
 
 impl<T> BoundSphere<T>
-	where T: Raymarchable + Clone
+	where T: Raymarchable
 {
 	pub fn new(radius: f64, object: T) -> Self {
 		Self { radius, object }
 	}
 }
 
-impl<T> Raymarchable for BoundSphere<T>
-	where T: Raymarchable + Clone 
+impl<'de, T> Raymarchable for BoundSphere<T>
+	where T: Raymarchable + Serialize + Deserialize<'de>
 {
 	fn distance(&self, point: Vec3d) -> f64 {
 		let dist = length(point);

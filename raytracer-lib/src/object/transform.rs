@@ -1,8 +1,11 @@
 use lib::*;
 use lib::object::Raymarchable;
+use serde::{Serialize, Deserialize};
 
 #[derive(Copy, Clone)]
-pub struct Transform<T: Raymarchable + Sized> {
+#[derive(Serialize, Deserialize)]
+pub struct Transform<T: Raymarchable> 
+{
     mat: Mat3d,
     inv: Mat3d,
     obj: T,
@@ -18,7 +21,9 @@ impl<T: Raymarchable + Sized> Transform<T> {
     }
 }
 
-impl<T: Raymarchable + Sized> Raymarchable for Transform<T> {
+impl<'de, T: Raymarchable> Raymarchable for Transform<T>
+	where T: Serialize + Deserialize<'de>
+{
     fn distance(&self, point: Vec3d) -> f64 {
         self.obj.distance(self.inv * point)
     }

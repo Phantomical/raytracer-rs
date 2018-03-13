@@ -4,6 +4,8 @@ use std::iter::Iterator;
 use cacheable::Cacheable;
 use std::rc::Rc;
 
+use erased_serde::Serialize;
+
 fn yxx(v: Vec2d) -> Vec3d {
     return v.yxx();
 }
@@ -27,7 +29,7 @@ pub fn normal_finite_difference<T>(me: &T, point: Vec3d) -> Vec3d
     ).normalize();
 }
 
-pub trait Raymarchable {
+pub trait Raymarchable: Serialize {
     fn epsilon(&self, _point: Vec3d) -> f64 {
         0.000001
     }
@@ -75,3 +77,5 @@ impl<T> Cacheable<Rc<IFS>> for T
 		Rc::new(self.cached())
 	}
 }
+
+serialize_trait_object!(Raymarchable);

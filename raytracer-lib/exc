@@ -1,0 +1,1 @@
+cargo run --bin ifs3 --release -- output/img{:02}.png $(seq -60 60)

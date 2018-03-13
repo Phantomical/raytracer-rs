@@ -10,6 +10,13 @@
 
 #![feature(slice_patterns)]
 
+#[cfg(feature = "serde")]
+#[cfg_attr(feature = "serde", macro_use)]
+extern crate serde;
+
+#[cfg(feature = "serde")]
+mod serialize;
+
 mod traits;
 mod vec2;
 mod vec3;
