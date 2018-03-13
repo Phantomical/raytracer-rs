@@ -14,9 +14,7 @@ use std::ops::Deref;
 use std::rc::Rc;
 use std::io::Write;
 use std::fs::File;
-use std::thread;
 
-use pbr;
 use pbr::ProgressBar;
 
 use rand::{random, Closed01};
@@ -168,7 +166,7 @@ pub fn render_pixel(
 type ImageBufferType = ImageBuffer<Rgb<u8>, Vec<u8>>;
 
 fn trace_image_future<T>(
-    image_idx: usize,
+    _image_idx: usize,
     desc: &ImageDesc,
     pool: &CpuPool,
     pb: Arc<Mutex<ProgressBar<T>>>,
@@ -210,7 +208,7 @@ where
 
     let new_fut = join_all(futures.into_iter()).then({
         let size = desc.size;
-        let pb = Arc::clone(&pb);
+        //let pb = Arc::clone(&pb);
         move |rows| {
             let mut imagebuf = ImageBufferType::new(size.width, size.height);
 
@@ -237,7 +235,7 @@ where
     I: Iterator<Item = (ImageDesc, String)>,
 {
     let pool = CpuPool::new_num_cpus();
-    let mut pb = Arc::new(Mutex::new(ProgressBar::new(0)));
+    let pb = Arc::new(Mutex::new(ProgressBar::new(0)));
 
     let mut futures = Vec::new();
 
