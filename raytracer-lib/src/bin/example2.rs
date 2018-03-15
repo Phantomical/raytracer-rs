@@ -19,8 +19,15 @@ mod add_objects {
                 sphere([0.0, -100001.0, 0.0], 100000.0),
                 solid_colour(colours::WHITE),
             )
-            .add_object(sphere([2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
-            .add_object(sphere([-2.0, 0.0, 2.0], 1.0), solid_colour(colours::GREEN))
+            .add_object(
+				sphere([2.0, 0.0, 2.0], 1.0),
+				mirror())//solid_colour(colours::GREEN))
+            .add_object(
+				sphere([-2.0, 0.0, 2.0], 1.0), 
+				mirror())//solid_colour(colours::GREEN))
+			.add_object(
+				sphere([0.0, 2.0, 2.0], 1.0),
+				solid_colour(colours::RED))
     }
 
     pub fn add_lights(scene: SceneBuilder) -> SceneBuilder {

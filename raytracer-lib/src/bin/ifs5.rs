@@ -221,8 +221,8 @@ fn main() {
     let size = ImageSize {
         //width: 3840,
         //height: 2160,
-        width: 1200 / 2,
-        height: 800 / 2,
+        width: 1200/3,
+        height: 900/3,
 
         samples: 10,
     };

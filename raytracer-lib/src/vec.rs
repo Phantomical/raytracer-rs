@@ -8,7 +8,7 @@ pub type Colour = glslvec::Vec3<f32>;
 pub type Mat3d = glslvec::Mat3<f64>;
 
 pub use glslvec::{abs, clamp, cross, distance, dot, length, max, min, mix, normalize, sqrt,
-                  distance2, length2, vec2, vec3, vec4};
+                  distance2, length2, vec2, vec3, vec4, reflect};
 
 pub use glslvec::prelude::{HasLength, HasMinMax, HasNormalize};
 

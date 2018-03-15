@@ -188,3 +188,14 @@ where
         self.apply_bin_op(b, move |ref a, b| a.mix(b, f.clone()))
     }
 }
+
+impl<T> HasReflect for T
+where T: Sub<Output=T> + Mul<<T as HasDot>::Output, Output=T> + HasDot + Clone,
+      <T as HasDot>::Output: Add<Output=<T as HasDot>::Output> + Clone
+{
+	fn reflect(&self, normal: Self) -> Self {
+		let dot = self.dot(normal.clone());
+
+		self.clone() - normal * (dot.clone() + dot)
+	}
+}
