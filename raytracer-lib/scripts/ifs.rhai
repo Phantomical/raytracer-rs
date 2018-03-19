@@ -1,4 +1,0 @@
-
-fn distance(point) {
-    
-}

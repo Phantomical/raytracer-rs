@@ -33,7 +33,7 @@ where
             lazy(move || {
                 let mut values = Vec::new();
                 for x in 0..desc.size.width {
-                    let colour = tracer::trace_pixel(
+                    let colour = trace_pixel(
 						&desc,
 						Vec2u { x: x, y: y });
 

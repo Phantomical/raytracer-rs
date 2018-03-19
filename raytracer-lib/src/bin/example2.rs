@@ -26,7 +26,7 @@ mod add_objects {
 				sphere([-2.0, 0.0, 2.0], 1.0), 
 				mirror())//solid_colour(colours::GREEN))
 			.add_object(
-				sphere([0.0, 2.0, 2.0], 1.0),
+				sphere([0.0, 2.0, 1.0], 1.0),
 				solid_colour(colours::RED))
     }
 
@@ -34,9 +34,9 @@ mod add_objects {
         scene
             .add_light(tint(
                 fuzzy_directional([0.0, -1.0, 1.0], deg2rad(5.0), 20),
-                [0.3; 3],
+                [1.0; 3],
             ))
-            .add_light(point_light([0.0, 1.0, 0.0], 3.0))
+            .add_light(point_light([0.0, 0.9, 4.0], 3.0))
     }
 }
 
@@ -73,8 +73,8 @@ fn main() {
     }
 
     let size = ImageSize {
-        width: 1000,
-        height: 750,
+        width: 3840,
+        height: 2160,
         samples: 5,
     };
     let desc = create_scene(size);
